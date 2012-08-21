@@ -22,9 +22,9 @@ module Mamertes
         when 0 then ""
         when 1 then array[0]
         when 2 then
-          array[0] + last_separator.ensure_string + array[1]
+          array[0].ensure_string + last_separator.ensure_string + array[1].ensure_string
         else
-          array[1, array.length - 1].join(separator.ensure_string) + last_separator.ensure_string + array[-1]
+          array[0, array.length - 1].collect {|e| e.ensure_string}.join(separator.ensure_string) + last_separator.ensure_string + array[-1].ensure_string
       end
     end
 
@@ -35,11 +35,12 @@ module Mamertes
     # @param args [String] The completed list of arguments passed.
     # @param separator [String] The separator for joined syntax commands.
     def self.find_command(arg, command, args, separator = ":")
+      args = args.ensure_array.dup
       rv = nil
 
       if command.commands.present? then
-        if arg.index(":") then
-          tokens = arg.split(":", 2)
+        if arg.index(separator) then
+          tokens = arg.split(separator, 2)
           arg = tokens[0]
           args.insert(0, tokens[1])
         end
@@ -139,9 +140,6 @@ module Mamertes
       rescue OptionParser::MissingArgument => e
         option = forms[e.args.first]
         raise ::Mamertes::Error.new(option, :missing_argument, "Option #{option.label} expects an argument.")
-      rescue OptionParser::NeedlessArgument => e
-        option = forms[e.args.first]
-        raise ::Mamertes::Error.new(option, :needless_argument, "Option #{option.label} expects no arguments.")
       rescue OptionParser::InvalidOption => e
         raise ::Mamertes::Error.new(option, :invalid_option, "Invalid option #{e.args}.")
       rescue Exception => e

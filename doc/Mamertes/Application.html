@@ -1,0 +1,1230 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Class: Mamertes::Application
+  
+    &mdash; Documentation by YARD 0.8.2.1
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Mamertes.html" title="Mamertes (module)">Mamertes</a></span></span>
+     &raquo; 
+    <span class="title">Application</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Class: Mamertes::Application
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName"><span class='object_link'><a href="Command.html" title="Mamertes::Command (class)">Command</a></span></span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next"><span class='object_link'><a href="Command.html" title="Mamertes::Command (class)">Command</a></span></li>
+          
+            <li class="next">Mamertes::Application</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/mamertes/application.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>This is the main class for a Mamertes application.</p>
+
+<p>Basically is the same of a command, but it adds support for application version.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#console-instance_method" title="#console (instance method)">- (Object) <strong>console</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A console helper.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#output_commands-instance_method" title="#output_commands (instance method)">- (Object) <strong>output_commands</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>It to show the output of the commands run via #run.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#shell-instance_method" title="#shell (instance method)">- (Object) <strong>shell</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A shell helper.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#show_commands-instance_method" title="#show_commands (instance method)">- (Object) <strong>show_commands</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>If to show command lines run via #run.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#skip_commands-instance_method" title="#skip_commands (instance method)">- (Object) <strong>skip_commands</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>If to skip commands run via #run.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#version-instance_method" title="#version (instance method)">- (String) <strong>version</strong>(value = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Reads and optionally sets the version of the application.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+  
+  
+  <h3 class="inherited">Attributes inherited from <span class='object_link'><a href="Command.html" title="Mamertes::Command (class)">Command</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Command.html#action-instance_method" title="Mamertes::Command#action (method)">#action</a></span>, <span class='object_link'><a href="Command.html#after-instance_method" title="Mamertes::Command#after (method)">#after</a></span>, <span class='object_link'><a href="Command.html#application-instance_method" title="Mamertes::Command#application (method)">#application</a></span>, <span class='object_link'><a href="Command.html#arguments-instance_method" title="Mamertes::Command#arguments (method)">#arguments</a></span>, <span class='object_link'><a href="Command.html#banner-instance_method" title="Mamertes::Command#banner (method)">#banner</a></span>, <span class='object_link'><a href="Command.html#before-instance_method" title="Mamertes::Command#before (method)">#before</a></span>, <span class='object_link'><a href="Command.html#commands-instance_method" title="Mamertes::Command#commands (method)">#commands</a></span>, <span class='object_link'><a href="Command.html#description-instance_method" title="Mamertes::Command#description (method)">#description</a></span>, <span class='object_link'><a href="Command.html#name-instance_method" title="Mamertes::Command#name (method)">#name</a></span>, <span class='object_link'><a href="Command.html#options-instance_method" title="Mamertes::Command#options (method)">#options</a></span>, <span class='object_link'><a href="Command.html#parent-instance_method" title="Mamertes::Command#parent (method)">#parent</a></span>, <span class='object_link'><a href="Command.html#synopsis-instance_method" title="Mamertes::Command#synopsis (method)">#synopsis</a></span></p>
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#command_help-instance_method" title="#command_help (instance method)">- (Object) <strong>command_help</strong>(command) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Shows a help about a command.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#executable_name-instance_method" title="#executable_name (instance method)">- (String) <strong>executable_name</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The name of the current executable.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#execute-instance_method" title="#execute (instance method)">- (Object) <strong>execute</strong>(args = nil) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Executes the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#help_option-instance_method" title="#help_option (instance method)">- (Object) <strong>help_option</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Adds an help command to the application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Application) <strong>initialize</strong>(options = {}, &amp;block) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Creates a new application.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#run-instance_method" title="#run (instance method)">- (Hash) <strong>run</strong>(command, message = nil, show_exit = true, fatal = true) </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Runs a command into the shell.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  <h3 class="inherited">Methods inherited from <span class='object_link'><a href="Command.html" title="Mamertes::Command (class)">Command</a></span></h3>
+  <p class="inherited"><span class='object_link'><a href="Command.html#argument-instance_method" title="Mamertes::Command#argument (method)">#argument</a></span>, <span class='object_link'><a href="Command.html#clear_commands-instance_method" title="Mamertes::Command#clear_commands (method)">#clear_commands</a></span>, <span class='object_link'><a href="Command.html#clear_options-instance_method" title="Mamertes::Command#clear_options (method)">#clear_options</a></span>, <span class='object_link'><a href="Command.html#command-instance_method" title="Mamertes::Command#command (method)">#command</a></span>, <span class='object_link'><a href="Command.html#full_name-instance_method" title="Mamertes::Command#full_name (method)">#full_name</a></span>, <span class='object_link'><a href="Command.html#has_banner%3F-instance_method" title="Mamertes::Command#has_banner? (method)">#has_banner?</a></span>, <span class='object_link'><a href="Command.html#has_commands%3F-instance_method" title="Mamertes::Command#has_commands? (method)">#has_commands?</a></span>, <span class='object_link'><a href="Command.html#has_description%3F-instance_method" title="Mamertes::Command#has_description? (method)">#has_description?</a></span>, <span class='object_link'><a href="Command.html#has_options%3F-instance_method" title="Mamertes::Command#has_options? (method)">#has_options?</a></span>, <span class='object_link'><a href="Command.html#is_application%3F-instance_method" title="Mamertes::Command#is_application? (method)">#is_application?</a></span>, <span class='object_link'><a href="Command.html#option-instance_method" title="Mamertes::Command#option (method)">#option</a></span>, <span class='object_link'><a href="Command.html#setup_with-instance_method" title="Mamertes::Command#setup_with (method)">#setup_with</a></span>, <span class='object_link'><a href="Command.html#show_help-instance_method" title="Mamertes::Command#show_help (method)">#show_help</a></span></p>
+<div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Mamertes::Application (class)">Application</a></span></tt>) <strong>initialize</strong>(options = {}, &amp;block) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Creates a new application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>{}</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The new options to initialize the application with.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 59</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+
+  <span class='ivar'>@shell</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span>
+  <span class='ivar'>@console</span> <span class='op'>=</span> <span class='ivar'>@shell</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span>
+  <span class='ivar'>@skip_commands</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@show_commands</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@output_commands</span> <span class='op'>=</span> <span class='kw'>false</span>
+
+  <span class='id identifier rubyid_help_option'>help_option</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id="console=-instance_method"></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="console-instance_method">
+  
+    - (<tt>Object</tt>) <strong>console</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>A console helper.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+45
+46
+47</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 45</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_console'>console</span>
+  <span class='ivar'>@console</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="output_commands=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="output_commands-instance_method">
+  
+    - (<tt>Object</tt>) <strong>output_commands</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>It to show the output of the commands run via #run.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+54
+55
+56</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 54</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_output_commands'>output_commands</span>
+  <span class='ivar'>@output_commands</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="shell=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="shell-instance_method">
+  
+    - (<tt>Object</tt>) <strong>shell</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>A shell helper.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+42
+43
+44</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 42</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_shell'>shell</span>
+  <span class='ivar'>@shell</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="show_commands=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="show_commands-instance_method">
+  
+    - (<tt>Object</tt>) <strong>show_commands</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>If to show command lines run via #run.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+51
+52
+53</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 51</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_show_commands'>show_commands</span>
+  <span class='ivar'>@show_commands</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="skip_commands=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="skip_commands-instance_method">
+  
+    - (<tt>Object</tt>) <strong>skip_commands</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>If to skip commands run via #run.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+48
+49
+50</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 48</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_commands'>skip_commands</span>
+  <span class='ivar'>@skip_commands</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id="version=-instance_method"></span>
+      <div class="method_details ">
+  <h3 class="signature " id="version-instance_method">
+  
+    - (<tt>String</tt>) <strong>version</strong>(value = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Reads and optionally sets the version of the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>value</span>
+      
+      
+        <span class='type'>(<tt>NilClass|Object</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The new version of the application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The version of the application.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+39
+40
+41</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 39</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_version'>version</span>
+  <span class='ivar'>@version</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="command_help-instance_method">
+  
+    - (<tt>Object</tt>) <strong>command_help</strong>(command) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Shows a help about a command.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>command</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Command.html" title="Mamertes::Command (class)">Command</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The command to show help for.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+110
+111
+112
+113
+114
+115
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 110</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_command_help'>command_help</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_arguments'>arguments</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>self</span>
+
+  <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_arg'>arg</span><span class='op'>|</span>
+    <span class='id identifier rubyid_next_command'>next_command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_commands'>commands</span><span class='period'>.</span><span class='id identifier rubyid_fetch'>fetch</span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='period'>.</span><span class='id identifier rubyid_ensure_string'>ensure_string</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+
+    <span class='kw'>if</span> <span class='id identifier rubyid_next_command'>next_command</span> <span class='kw'>then</span>
+      <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_next_command'>next_command</span>
+    <span class='kw'>else</span>
+      <span class='kw'>break</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_show_help'>show_help</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="executable_name-instance_method">
+  
+    - (<tt>String</tt>) <strong>executable_name</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The name of the current executable.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The name of the current executable.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+103
+104
+105</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 103</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_executable_name'>executable_name</span>
+  <span class='gvar'>$0</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="execute-instance_method">
+  
+    - (<tt>Object</tt>) <strong>execute</strong>(args = nil) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Executes the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>args</span>
+      
+      
+        <span class='type'>(<tt>Array</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>The command line to pass to the application. Defaults to <code>ARGV</code>.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+83
+84
+85</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>||</span> <span class='const'>ARGV</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="help_option-instance_method">
+  
+    - (<tt>Object</tt>) <strong>help_option</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Adds an help command to the application.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+88
+89
+90
+91
+92
+93
+94
+95
+96
+97
+98</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 88</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_help_option'>help_option</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:help</span><span class='comma'>,</span> <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Shows a help about a command.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
+      <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_command_help'>command_help</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_option'>option</span> <span class='symbol'>:help</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-h</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--help</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:help</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Shows this message.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_application'>application</span><span class='comma'>,</span> <span class='id identifier rubyid_option'>option</span><span class='op'>|</span>
+    <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_show_help'>show_help</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="run-instance_method">
+  
+    - (<tt>Hash</tt>) <strong>run</strong>(command, message = nil, show_exit = true, fatal = true) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Runs a command into the shell.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>command</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The string to run.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>nil</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>A message to show before running.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>show_exit</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If show the exit status.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>fatal</span>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>true</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'><p>If quit in case of fatal errors.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Hash</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>An hash with <code>status</code> and <code>output</code> keys.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+134
+135
+136</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 134</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_show_exit'>show_exit</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='id identifier rubyid_fatal'>fatal</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='ivar'>@shell</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='op'>!</span><span class='ivar'>@skip_commands</span><span class='comma'>,</span> <span class='id identifier rubyid_show_exit'>show_exit</span><span class='comma'>,</span> <span class='ivar'>@output_commands</span><span class='comma'>,</span> <span class='ivar'>@show_commands</span><span class='comma'>,</span> <span class='id identifier rubyid_fatal'>fatal</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+    <div id="footer">
+  Generated on Tue Aug 21 16:04:32 2012 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.2.1 (ruby-1.9.2).
+</div>
+
+  </body>
+</html>

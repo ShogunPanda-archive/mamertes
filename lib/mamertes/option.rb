@@ -11,25 +11,25 @@ module Mamertes
 
   # This class represents an option for a command.
   class Option
-    # The name of the option.
+    # The name of this option.
     attr_accessor :name
 
-    # The short form (i.e.: -h) for the option.
+    # The short form (i.e.: -h) for this option.
     attr_accessor :short
 
-    # The long form (i.e.: --help) for the option.
+    # The long form (i.e.: --help) for this option.
     attr_accessor :long
 
-    # The type of the option.
+    # The type of this option.
     attr_accessor :type
 
-    # If the option is required.
+    # If this option is required.
     attr_accessor :required
 
-    # The default value of the option.
+    # The default value of this option.
     attr_accessor :default
 
-    # The META argument for the option, used only when showing the help.
+    # The META argument for this option, used only when showing the help.
     attr_accessor :meta
 
     # An help message for this option.
@@ -49,10 +49,10 @@ module Mamertes
 
     # Creates a new option.
     #
-    # @param name [String] The name of the option. Must be unique.
+    # @param name [String] The name of this option. Must be unique.
     # @param forms [Array] An array of short and long forms for this option.
     # @param options [Hash] A set of options for this option.
-    # @param action [Proc] The action of the option.
+    # @param action [Proc] The action of this option.
     def initialize(name, forms = [], options = {}, &action)
       name = name.to_s
       forms = forms.ensure_array
@@ -73,10 +73,12 @@ module Mamertes
       @action = action if action.present? && action.respond_to?(:call) && action.try(:arity) == 2
     end
 
-    # Sets the short form of the option.
+    # Sets the short form of this option.
     #
-    # @param value [String] The short form of the option.
+    # @param value [String] The short form of this option.
     def short=(value)
+      value = self.name[0, 1] if !value.present?
+
       # Clean value
       mo = value.to_s.match(/^-{0,2}([a-z0-9])(.*)$/i)
       final_value = mo[1]
@@ -84,10 +86,12 @@ module Mamertes
       @short = final_value if final_value.present?
     end
 
-    # Sets the long form of the option.
+    # Sets the long form of this option.
     #
-    # @param value [String] The short form of the option.
+    # @param value [String] The short form of this option.
     def long=(value)
+      value = self.name if !value.present?
+
       # Clean value
       mo = value.to_s.match(/^-{0,2}(.+)$/)
       final_value = mo[1]
@@ -95,29 +99,28 @@ module Mamertes
       @long = final_value if final_value.present?
     end
 
-    # Sets the long form of the option. Can be a Object, an Array or a Regexp.
+    # Sets the long form of this option. Can be a Object, an Array or a Regexp.
     #
-    # @param value [String] The validator of the option.
+    # @param value [String] The validator of this option.
     def validator=(value)
-      # Clean value
-      value = value.ensure_string if value.nil?
-      value = value.ensure_array if !value.is_a?(Regexp)
-
+      value = nil if value.blank?
+      value = nil if value.is_a?(Regexp) && value.source.blank?
+      value = value.ensure_array.collect {|v| v.ensure_string} if !value.nil? && !value.is_a?(Regexp)
       @validator = value
     end
 
     # Returns the short form with dash prepended.
     #
-    # @return [String] The short form with dash prepended or `nil`, if the option has no short form.
+    # @return [String] The short form with dash prepended.
     def complete_short
-      self.short.present? ? "-#{self.short}" : nil
+      "-#{self.short}"
     end
 
     # Returns the long form with dash prepended.
     #
-    # @return [String] The short form with dash prepended or `nil`, if the option has no long form.
+    # @return [String] The short form with dash prepended.
     def complete_long
-      self.long.present? ? "--#{self.long}" : nil
+      "--#{self.long}"
     end
 
     # Returns a label for this option, combining short and long forms.
@@ -127,9 +130,16 @@ module Mamertes
       [self.complete_short,self.complete_long].compact.join("/")
     end
 
-    # Sets the value of the option and also make sure that it is validated.
+    # Returns the meta argument for an option
     #
-    # @param value [Object] The new value of the option.
+    # @return [String|NilClass] Returns the current meta argument for an option (`ARGUMENT` is the default value) or `nil`, if this option doesn't require a meta argument.
+    def meta
+      self.requires_argument? ? (@meta.present? ? @meta : "ARGUMENT") : nil
+    end
+
+    # Sets the value of this option and also make sure that it is validated.
+    #
+    # @param value [Object] The new value of this option.
     # @param raise_error [Boolean] If raise an ArgumentError in case of validation errors.
     # @return [Boolean] `true` if operation succeeded, `false` otherwise.
     def set(value, raise_error = true)
@@ -143,7 +153,7 @@ module Mamertes
         if vs == :array then
           raise ::Mamertes::Error.new(self, :validation_failed, "Value of option #{self.label} must be one of these values: #{::Mamertes::Parser.smart_join(validator)}.")
         else
-          raise ::Mamertes::Error.new(self, :validation_failed, "Value of option #{self.label} must be match the regular expression: #{@validator.inspect}.")
+          raise ::Mamertes::Error.new(self, :validation_failed, "Value of option #{self.label} must match the regular expression: #{@validator.inspect}.")
         end
       else
         false
@@ -158,18 +168,32 @@ module Mamertes
       end
     end
 
-    # If the option was provided.
+    # Checks if this option requires an argument.
     #
-    # @return [Boolean] `true` if the option was provided, false otherwise.
+    # @return [Boolean] `true` if this option requires an argument, `false` otherwise.
+    def requires_argument?
+      [String, Integer, Float, Array].include?(self.type) && self.action.blank?
+    end
+
+    # If this option was provided.
+    #
+    # @return [Boolean] `true` if this option was provided, `false` otherwise.
     def provided?
       @provided
     end
 
-    # Get the current value for the option
+    # Check if this command has a help.
     #
-    # @return [Object] The current value of the option.
+    # @return [Boolean] `true` if this command has a help, `false` otherwise.
+    def has_help?
+      self.help.present?
+    end
+
+    # Get the current value for this option
+    #
+    # @return [Object] The current value of this option.
     def value
-      self.provided? ? @value : ::Mamertes::Option::Types[@type]
+      self.provided? ? @value : ::Mamertes::OPTION_TYPES[@type]
     end
   end
 end

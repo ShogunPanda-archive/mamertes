@@ -6,8 +6,6 @@
 
 # Yet another command line manager.
 module Mamertes
-  # TODO: help command feature.
-
   # This exception is raised when something goes wrong.
   class Error < ArgumentError
     # The target of this error.
@@ -40,11 +38,33 @@ module Mamertes
     # The version of the application.
     attr_accessor :version
 
+    # A shell helper.
+    attr_accessor :shell
+
+    # A console helper.
+    attr_accessor :console
+
+    # If to skip commands run via #run.
+    attr_accessor :skip_commands
+
+    # If to show command lines run via #run.
+    attr_accessor :show_commands
+
+    # It to show the output of the commands run via #run.
+    attr_accessor :output_commands
+
     # Creates a new application.
     #
     # @param options [Hash] The new options to initialize the application with.
-    def initialize(options, &block)
+    def initialize(options = {}, &block)
       super(options, &block)
+
+      @shell = ::Bovem::Shell.instance
+      @console = @shell.console
+      @skip_commands = false
+      @show_commands = false
+      @output_commands = false
+
       help_option
     end
 
@@ -66,27 +86,67 @@ module Mamertes
 
     # Adds an help command to the application.
     def help_option
-      option :help, ["-h", "--help"], :help => "Shows this message." do |option, command|
-        raise "USE BOVEM"
-        buffer = PrettyPrint.new
-
-        # Print the name
-        buffer.format("[NAME]")
-        buffer.nest(2) do
-          buffer.format("%s %s - %s", command.name, command.version, command.description)
+      command :help, :description => "Shows a help about a command." do
+        action do |command|
+          application.command_help(command)
         end
-
-        exit(0)
       end
+
+      option :help, ["-h", "--help"], :help => "Shows this message." do |application, option|
+        application.show_help
+      end
+    end
+
+    # The name of the current executable.
+    #
+    # @return [String] The name of the current executable.
+    def executable_name
+      $0
+    end
+
+    # Shows a help about a command.
+    #
+    # @param command [Command] The command to show help for.
+    def command_help(command)
+      args = command.arguments
+      command = self
+
+      args.each do |arg|
+        next_command = command.commands.fetch(arg.ensure_string, nil)
+
+        if next_command then
+          command = next_command
+        else
+          break
+        end
+      end
+
+      command.show_help
+    end
+
+    # Runs a command into the shell.
+    #
+    # @param command [String] The string to run.
+    # @param message [String] A message to show before running.
+    # @param show_exit [Boolean] If show the exit status.
+    # @param fatal [Boolean] If quit in case of fatal errors.
+    # @return [Hash] An hash with `status` and `output` keys.
+    def run(command, message = nil, show_exit = true, fatal = true)
+      @shell.run(command, message, !@skip_commands, show_exit, @output_commands, @show_commands, fatal)
     end
   end
 
   # Initializes a new Mamertes application.
+  # @param options [Hash] The new options to initialize the application with.
+  # @return [Application] The created application.
   def self.App(options = {}, &block)
     raise Mamertes::Error.new(Mamertes::Application, :missing_block, "You have to provide a block to Mamertes::App!") if !block_given?
 
     options = {} if !options.is_a?(::Hash)
     options = {:name => "__APPLICATION__", :parent => nil, :application => nil}.merge(options)
-    ::Mamertes::Application.new(options, &block).execute(options.delete(:__args__))
+
+    application = ::Mamertes::Application.new(options, &block)
+    application.execute(options.delete(:__args__)) if application
+    application
   end
 end

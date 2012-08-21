@@ -10,10 +10,10 @@ module Mamertes
   # @see http://semver.org
   module Version
     # The major version.
-    MAJOR = 0
+    MAJOR = 1
 
     # The minor version.
-    MINOR = 1
+    MINOR = 0
 
     # The patch version.
     PATCH = 0

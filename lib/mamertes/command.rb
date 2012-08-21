@@ -50,7 +50,7 @@ module Mamertes
     # Creates a new command.
     #
     # @param options [Hash] The new options to initialize the command with.
-    def initialize(options, &block)
+    def initialize(options = {}, &block)
       self.setup_with(options)
       self.instance_eval(&block) if block_given?
     end
@@ -73,7 +73,7 @@ module Mamertes
       if self.is_application? then
         nil
       else
-        [self.parent ? self.parent.full_name(nil, separator) : nil, !self.is_application? ? self.name : nil, suffix].compact.join(":")
+        [self.parent ? self.parent.full_name(nil, separator) : nil, !self.is_application? ? self.name : nil, suffix].compact.join(separator)
       end
     end
 
@@ -134,10 +134,25 @@ module Mamertes
       @after
     end
 
+    # Check if this command has a description.
+    #
+    # @return [Boolean] `true` if this command has a description, `false` otherwise.
+    def has_description?
+      self.description.present?
+    end
+
+    # Check if this command has a banner.
+    #
+    # @return [Boolean] `true` if this command has a banner, `false` otherwise.
+    def has_banner?
+      self.banner.present?
+    end
+
     # Adds a new subcommand to this command.
     #
     # @param name [String] The name of the command. Must be unique.
-    # @param options [Hash] A set of options for this command
+    # @param options [Hash] A set of options for this command.
+    # @return [Command] The newly added command.
     def command(name, options = {}, &block)
       @commands ||= {}
 
@@ -145,7 +160,10 @@ module Mamertes
       options = {:name => name.to_s, :parent => self, :application => self.application}.merge(options)
 
       raise Mamertes::Error.new(self, :duplicate_command, "The command \"#{self.full_name(name)}\" already exists.") if @commands[name.to_s]
-      @commands[name.to_s] = ::Mamertes::Command.new(options, &block)
+
+      command = ::Mamertes::Command.new(options, &block)
+      @commands[name.to_s] = command
+      command
     end
 
     # Adds a new option to this command.
@@ -154,7 +172,9 @@ module Mamertes
     # @param forms [Array] An array of short and long forms for this option.
     # @param options [Hash] A set of options for this option.
     # @param action [Proc] An optional action to pass to the option.
+    # @return [Option] The newly added option.
     def option(name, forms = [], options = {}, &action)
+      name = name.ensure_string
       @options ||= {}
 
       if @options[name] then
@@ -168,6 +188,27 @@ module Mamertes
       option = ::Mamertes::Option.new(name, forms, options, &action)
       option.parent = self
       @options[name] = option
+      option
+    end
+
+    # Returns the list of subcommands of this command.
+    #
+    # @return [Hash] The list of subcommands of this command.
+    def commands
+      @commands || {}
+    end
+
+    # Clear all subcommands of this commands.
+    # @return [Hash] The new (empty )list of subcommands of this command.
+    def clear_commands
+      @commands = {}
+    end
+
+    # Check if this command has subcommands.
+    #
+    # @return [Boolean] `true` if this command has subcommands, `false` otherwise.
+    def has_commands?
+      self.commands.length > 0
     end
 
     # Returns the list of options of this command.
@@ -175,6 +216,19 @@ module Mamertes
     # @return [Hash] The list of options of this command.
     def options
       @options || {}
+    end
+
+    # Clear all the options of this commands.
+    # @return [Hash] The new (empty )list of the options of this command.
+    def clear_options
+      @options = {}
+    end
+
+    # Check if this command has options.
+    #
+    # @return [Boolean] `true` if this command has options, `false` otherwise.
+    def has_options?
+      self.options.length > 0
     end
 
     # Adds a new argument to this command.
@@ -199,7 +253,7 @@ module Mamertes
       self.is_application? ? self : @application
     end
 
-    # Checks if the command is an application
+    # Checks if the command is an application.
     #
     # @return [Boolean] `true` if command is an application, `false` otherwise.
     def is_application?
@@ -216,9 +270,9 @@ module Mamertes
       options.each_pair do |option, value|
         method = option.to_s
 
-        if self.respond_to?(method) && self.method(method).arity == 1 then
+        if self.respond_to?(method) && self.method(method).arity != 0 then
           self.send(method, value)
-        elsif self.respond_to?(method + "=")
+        elsif self.respond_to?(method + "=") then
           self.send(method + "=", value)
         end
       end
@@ -227,6 +281,8 @@ module Mamertes
     end
 
     # Execute the command, running its action or a subcommand.
+    #
+    # @param args [Array] The arguments to pass to the command.
     def execute(args)
       subcommand = Mamertes::Parser.parse(self, args)
 
@@ -238,10 +294,79 @@ module Mamertes
         self.action.call(self) if self.action
 
         # Run the after hook
-        self.before.call(self) if self.after
-      else
+        self.after.call(self) if self.after
+      elsif subcommand.present? then
         self.commands[subcommand[:name]].execute(subcommand[:args])
       end
+    end
+
+    # Shows an help about this command.
+    def show_help
+      console = self.is_application? ? self.console : self.application.console
+
+      if self.is_application? then
+        # Application
+        console.write("[NAME]")
+        console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
+        console.write("")
+        console.write("[SYNOPSIS]")
+        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s[command-options] [arguments] " % [self.executable_name, self.has_commands? ? "[command [subcommand ...]]" : ""], "\n", 4, true)
+      else
+        console.write("[SYNOPSIS]")
+        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s [subcommand ...]] [command-options] [arguments] " % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? "[command [subcommand ...]]" : ""], "\n", 4, true)
+      end
+
+      if self.has_banner? then
+        console.write("")
+        console.write("[DESCRIPTION]")
+        console.write(self.banner, "\n", 4, true)
+      end
+
+      # Global options
+      if self.has_options? then
+        console.write("")
+        console.write(self.is_application? ? "[GLOBAL OPTIONS]" : "[OPTIONS]")
+
+        # First of all, grab all options and construct labels
+        lefts = {}
+        self.options.each_value do |option|
+          left = [option.complete_short, option.complete_long]
+
+          if option.requires_argument? then
+            left[0] += " " + option.meta
+            left[1] += " " + option.meta
+          end
+
+          lefts[left.join(", ")] = option.has_help? ? option.help : "*NO DESCRIPTION PROVIDED*"
+        end
+
+        alignment = lefts.keys.collect(&:length).max
+
+        console.with_indentation(4) do
+          lefts.keys.sort.each do |head|
+            help = lefts[head]
+            console.write("%s - %s" % [head.rjust(alignment, " "), help], "\n", true, true)
+          end
+        end
+      end
+
+      # Commands
+      if self.has_commands? then
+        console.write("")
+        console.write(self.is_application? ? "[COMMANDS]" : "[SUBCOMMANDS]")
+
+        # Find the maximum lenght of the commands
+        alignment = self.commands.keys.collect(&:length).max
+
+        console.with_indentation(4) do
+          self.commands.keys.sort.each do |name|
+            command = self.commands[name]
+            console.write("%s - %s" % [name.rjust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
+          end
+        end
+      end
+
+      Kernel.exit(0)
     end
   end
 end

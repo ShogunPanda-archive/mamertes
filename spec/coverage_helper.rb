@@ -8,6 +8,7 @@ require "pathname"
 
 if ENV["MAMERTES_COVERAGE"] == "TRUE" && RUBY_VERSION >= "1.9" then
   require "simplecov"
+
   root = Pathname.new(File.dirname(__FILE__)) + ".."
 
   SimpleCov.start do

@@ -7,7 +7,7 @@
 require "rubygems"
 require "optparse"
 require "prettyprint"
-require "lazier"
+require "bovem"
 
 Lazier.load!(:object)
 
