@@ -141,6 +141,12 @@ module Mamertes
       self.requires_argument? ? (@meta.present? ? @meta : @name.upcase) : nil
     end
 
+    # Get the current default value for this option.
+    # @return [Object] The default value for this option.
+    def default
+      @default || ::Mamertes::OPTION_TYPES[@type]
+    end
+
     # Sets the value of this option and also make sure that it is validated.
     #
     # @param value [Object] The new value of this option.
@@ -193,11 +199,12 @@ module Mamertes
       self.help.present?
     end
 
-    # Get the current value for this option
+
+    # Get the current value for this option.
     #
     # @return [Object] The current value of this option.
     def value
-      self.provided? ? @value : ::Mamertes::OPTION_TYPES[@type]
+      self.provided? ? @value : self.default
     end
   end
 end

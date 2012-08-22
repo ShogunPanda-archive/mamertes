@@ -233,8 +233,15 @@ describe Mamertes::Option do
 
   describe "#value" do
     it "should return the set value" do
+      option.default = "DEFAULT VALUE"
+      expect(option.value).to eq("DEFAULT VALUE")
+
+      option.default = nil
+      expect(option.value).to be_false
+
       option.set(true)
       expect(option.value).to be_true
+
       option.set("VALUE")
       expect(option.value).to eq("VALUE")
     end

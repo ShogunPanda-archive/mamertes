@@ -162,7 +162,7 @@
   
 
   
-    <span class="summary_desc"><div class='inline'><p>The default value of this option.</p>
+    <span class="summary_desc"><div class='inline'><p>Get the current default value for this option.</p>
 </div></span>
   
 </li>
@@ -772,26 +772,25 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 60</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_name identifier id'>name</span><span class='comma token'>,</span> <span class='rubyid_forms identifier id'>forms</span> <span class='assign token'>=</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_action identifier id'>action</span><span class='rparen token'>)</span>
-  <span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span>
-  <span class='rubyid_forms identifier id'>forms</span> <span class='assign token'>=</span> <span class='rubyid_forms identifier id'>forms</span><span class='dot token'>.</span><span class='rubyid_ensure_array identifier id'>ensure_array</span>
-  <span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span> <span class='rubyid_if if_mod kw'>if</span> <span class='notop op'>!</span><span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='colon3 op'>::</span><span class='rubyid_Hash constant id'>Hash</span><span class='rparen token'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_forms'>forms</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span>
+  <span class='id identifier rubyid_forms'>forms</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_ensure_array'>ensure_array</span>
+  <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
 
-  <span class='comment val'># Set values</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_name identifier id'>name</span> <span class='assign token'>=</span> <span class='rubyid_name identifier id'>name</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_short identifier id'>short</span> <span class='assign token'>=</span> <span class='rubyid_forms identifier id'>forms</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='gt op'>&gt;</span> <span class='integer val'>0</span> <span class='question op'>?</span> <span class='rubyid_forms identifier id'>forms</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_name identifier id'>name</span><span class='lbrack token'>[</span><span class='integer val'>0</span><span class='comma token'>,</span> <span class='integer val'>1</span><span class='rbrack token'>]</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_long identifier id'>long</span> <span class='assign token'>=</span> <span class='rubyid_forms identifier id'>forms</span><span class='dot token'>.</span><span class='rubyid_length identifier id'>length</span> <span class='eq op'>==</span> <span class='integer val'>2</span> <span class='question op'>?</span> <span class='rubyid_forms identifier id'>forms</span><span class='lbrack token'>[</span><span class='integer val'>1</span><span class='rbrack token'>]</span> <span class='colon op'>:</span> <span class='rubyid_name identifier id'>name</span>
-  <span class='rubyid_@provided ivar id'>@provided</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  <span class='comment'># Set values
+</span>  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span> <span class='op'>=</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_name'>name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_long'>long</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>2</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>1</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>false</span>
 
-  <span class='comment val'># Set options</span>
-  <span class='rubyid_options identifier id'>options</span><span class='dot token'>.</span><span class='rubyid_each_pair identifier id'>each_pair</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_option identifier id'>option</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='bitor op'>|</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_option identifier id'>option</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='plus op'>+</span> <span class='string val'>&quot;=&quot;</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='rubyid_option identifier id'>option</span><span class='dot token'>.</span><span class='rubyid_to_s identifier id'>to_s</span> <span class='plus op'>+</span> <span class='string val'>&quot;=&quot;</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
+  <span class='comment'># Set options
+</span>  <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_option'>option</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='id identifier rubyid_option'>option</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>=</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
 
-  <span class='comment val'># Associate action</span>
-  <span class='rubyid_@action ivar id'>@action</span> <span class='assign token'>=</span> <span class='rubyid_action identifier id'>action</span> <span class='rubyid_if if_mod kw'>if</span> <span class='rubyid_action identifier id'>action</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_action identifier id'>action</span><span class='dot token'>.</span><span class='rubyid_respond_to? fid id'>respond_to?</span><span class='lparen token'>(</span><span class='symbol val'>:call</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_action identifier id'>action</span><span class='dot token'>.</span><span class='rubyid_try identifier id'>try</span><span class='lparen token'>(</span><span class='symbol val'>:arity</span><span class='rparen token'>)</span> <span class='eq op'>==</span> <span class='integer val'>2</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+  <span class='comment'># Associate action
+</span>  <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -836,10 +835,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 46</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_action identifier id'>action</span>
-  <span class='rubyid_@action ivar id'>@action</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_action'>action</span>
+  <span class='ivar'>@action</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -858,13 +856,30 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>The default value of this option.</p>
+    <p>Get the current default value for this option.</p>
 
 
   </div>
 </div>
 <div class="tags">
   
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The default value for this option.</p>
+</div>
+      
+    </li>
+  
+</ul>
 
 </div><table class="source_code">
   <tr>
@@ -879,10 +894,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 34</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_default identifier id'>default</span>
-  <span class='rubyid_@default ivar id'>@default</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
+  <span class='ivar'>@default</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -922,10 +936,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 40</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_help identifier id'>help</span>
-  <span class='rubyid_@help ivar id'>@help</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_help'>help</span>
+  <span class='ivar'>@help</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -965,10 +978,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 25</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_long identifier id'>long</span>
-  <span class='rubyid_@long ivar id'>@long</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_long'>long</span>
+  <span class='ivar'>@long</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1025,10 +1037,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 37</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_meta identifier id'>meta</span>
-  <span class='rubyid_@meta ivar id'>@meta</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_meta'>meta</span>
+  <span class='ivar'>@meta</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1068,10 +1079,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 19</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_name identifier id'>name</span>
-  <span class='rubyid_@name ivar id'>@name</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_name'>name</span>
+  <span class='ivar'>@name</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1111,10 +1121,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 52</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_parent identifier id'>parent</span>
-  <span class='rubyid_@parent ivar id'>@parent</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_parent'>parent</span>
+  <span class='ivar'>@parent</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1154,10 +1163,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 31</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_required identifier id'>required</span>
-  <span class='rubyid_@required ivar id'>@required</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_required'>required</span>
+  <span class='ivar'>@required</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1197,10 +1205,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 22</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_short identifier id'>short</span>
-  <span class='rubyid_@short ivar id'>@short</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_short'>short</span>
+  <span class='ivar'>@short</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1240,10 +1247,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 28</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_type identifier id'>type</span>
-  <span class='rubyid_@type ivar id'>@type</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_type'>type</span>
+  <span class='ivar'>@type</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1283,10 +1289,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 49</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_validator identifier id'>validator</span>
-  <span class='rubyid_@validator ivar id'>@validator</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_validator'>validator</span>
+  <span class='ivar'>@validator</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1305,7 +1310,7 @@
   
 </h3><div class="docstring">
   <div class="discussion">
-    <p>Get the current value for this option</p>
+    <p>Get the current value for this option.</p>
 
 
   </div>
@@ -1343,10 +1348,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 43</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_value identifier id'>value</span>
-  <span class='rubyid_@value ivar id'>@value</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_value'>value</span>
+  <span class='ivar'>@value</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1408,10 +1412,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 126</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_complete_long identifier id'>complete_long</span>
-  <span class='dstring node'>&quot;--#{self.long}&quot;</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_complete_long'>complete_long</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_long'>long</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1466,10 +1469,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 119</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_complete_short identifier id'>complete_short</span>
-  <span class='dstring node'>&quot;-#{self.short}&quot;</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_complete_short'>complete_short</span>
+  <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span><span class='rbrace'>}</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1500,23 +1502,22 @@
       <pre class="lines">
 
 
-168
-169
-170
-171
-172
-173</pre>
+174
+175
+176
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 168</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 174</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_execute_action identifier id'>execute_action</span>
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_action identifier id'>action</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span> <span class='rubyid_then then kw'>then</span>
-    <span class='rubyid_@provided ivar id'>@provided</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-    <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_action identifier id'>action</span><span class='dot token'>.</span><span class='rubyid_call identifier id'>call</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_parent identifier id'>parent</span><span class='comma token'>,</span> <span class='rubyid_self self kw'>self</span><span class='rparen token'>)</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_execute_action'>execute_action</span>
+  <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='kw'>then</span>
+    <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
+    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1564,17 +1565,16 @@
       <pre class="lines">
 
 
-192
-193
-194</pre>
+198
+199
+200</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 192</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 198</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_has_help? fid id'>has_help?</span>
-  <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_help identifier id'>help</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_has_help?'>has_help?</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_help'>help</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1629,10 +1629,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 133</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_label identifier id'>label</span>
-  <span class='lbrack token'>[</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_complete_short identifier id'>complete_short</span><span class='comma token'>,</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_complete_long identifier id'>complete_long</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_compact identifier id'>compact</span><span class='dot token'>.</span><span class='rubyid_join identifier id'>join</span><span class='lparen token'>(</span><span class='string val'>&quot;/&quot;</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_label'>label</span>
+  <span class='lbracket'>[</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_complete_short'>complete_short</span><span class='comma'>,</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_complete_long'>complete_long</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1680,17 +1679,16 @@
       <pre class="lines">
 
 
-185
-186
-187</pre>
+191
+192
+193</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 185</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 191</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_provided? fid id'>provided?</span>
-  <span class='rubyid_@provided ivar id'>@provided</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_provided?'>provided?</span>
+  <span class='ivar'>@provided</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1738,17 +1736,16 @@
       <pre class="lines">
 
 
-178
-179
-180</pre>
+184
+185
+186</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 178</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 184</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_requires_argument? fid id'>requires_argument?</span>
-  <span class='lbrack token'>[</span><span class='rubyid_String constant id'>String</span><span class='comma token'>,</span> <span class='rubyid_Integer constant id'>Integer</span><span class='comma token'>,</span> <span class='rubyid_Float constant id'>Float</span><span class='comma token'>,</span> <span class='rubyid_Array constant id'>Array</span><span class='rbrack token'>]</span><span class='dot token'>.</span><span class='rubyid_include? fid id'>include?</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_type identifier id'>type</span><span class='rparen token'>)</span> <span class='andop op'>&amp;&amp;</span> <span class='rubyid_self self kw'>self</span><span class='dot token'>.</span><span class='rubyid_action identifier id'>action</span><span class='dot token'>.</span><span class='rubyid_blank? fid id'>blank?</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_requires_argument?'>requires_argument?</span>
+  <span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>Integer</span><span class='comma'>,</span> <span class='const'>Float</span><span class='comma'>,</span> <span class='const'>Array</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1832,12 +1829,6 @@
       <pre class="lines">
 
 
-149
-150
-151
-152
-153
-154
 155
 156
 157
@@ -1848,29 +1839,34 @@
 162
 163
 164
-165</pre>
+165
+166
+167
+168
+169
+170
+171</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 149</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 155</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_set identifier id'>set</span><span class='lparen token'>(</span><span class='rubyid_value identifier id'>value</span><span class='comma token'>,</span> <span class='rubyid_raise_error identifier id'>raise_error</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
-  <span class='rubyid_vs identifier id'>vs</span> <span class='assign token'>=</span> <span class='rubyid_@validator ivar id'>@validator</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span> <span class='integer val'>? </span><span class='lparen token'>(</span><span class='rubyid_@validator ivar id'>@validator</span><span class='dot token'>.</span><span class='rubyid_is_a? fid id'>is_a?</span><span class='lparen token'>(</span><span class='rubyid_Array constant id'>Array</span><span class='rparen token'>)</span> <span class='question op'>?</span> <span class='symbol val'>:array</span> <span class='colon op'>:</span> <span class='symbol val'>:regexp</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_false false kw'>false</span> <span class='comment val'># Check we have a validator</span>
-  <span class='rubyid_rv identifier id'>rv</span> <span class='assign token'>=</span> <span class='rubyid_vs identifier id'>vs</span> <span class='integer val'>? </span><span class='rubyid_@validator ivar id'>@validator</span><span class='dot token'>.</span><span class='rubyid_send identifier id'>send</span><span class='lparen token'>(</span><span class='rubyid_vs identifier id'>vs</span> <span class='eq op'>==</span> <span class='symbol val'>:array</span> <span class='question op'>?</span> <span class='string val'>&quot;include?&quot;</span> <span class='colon op'>:</span> <span class='string val'>&quot;match&quot;</span><span class='comma token'>,</span> <span class='rubyid_value identifier id'>value</span><span class='rparen token'>)</span> <span class='colon op'>:</span> <span class='rubyid_true true kw'>true</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_vs'>vs</span> <span class='op'>=</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:array</span> <span class='op'>:</span> <span class='symbol'>:regexp</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>false</span> <span class='comment'># Check we have a validator
+</span>  <span class='id identifier rubyid_rv'>rv</span> <span class='op'>=</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>?</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_send'>send</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>include?</span><span class='tstring_end'>&quot;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>match</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>true</span>
 
-  <span class='rubyid_if if kw'>if</span> <span class='rubyid_rv identifier id'>rv</span> <span class='rubyid_then then kw'>then</span>
-    <span class='rubyid_@value ivar id'>@value</span> <span class='assign token'>=</span> <span class='rubyid_value identifier id'>value</span>
-    <span class='rubyid_@provided ivar id'>@provided</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span>
-  <span class='rubyid_elsif elsif kw'>elsif</span> <span class='rubyid_raise_error identifier id'>raise_error</span> <span class='rubyid_then then kw'>then</span> <span class='comment val'># Validation failed</span>
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_vs identifier id'>vs</span> <span class='eq op'>==</span> <span class='symbol val'>:array</span> <span class='rubyid_then then kw'>then</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='colon3 op'>::</span><span class='rubyid_Mamertes constant id'>Mamertes</span><span class='colon2 op'>::</span><span class='rubyid_Error constant id'>Error</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:validation_failed</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Value of option #{self.label} must be one of these values: #{::Mamertes::Parser.smart_join(validator)}.&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_raise identifier id'>raise</span> <span class='colon3 op'>::</span><span class='rubyid_Mamertes constant id'>Mamertes</span><span class='colon2 op'>::</span><span class='rubyid_Error constant id'>Error</span><span class='dot token'>.</span><span class='rubyid_new identifier id'>new</span><span class='lparen token'>(</span><span class='rubyid_self self kw'>self</span><span class='comma token'>,</span> <span class='symbol val'>:validation_failed</span><span class='comma token'>,</span> <span class='dstring node'>&quot;Value of option #{self.label} must match the regular expression: #{@validator.inspect}.&quot;</span><span class='rparen token'>)</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_else else kw'>else</span>
-    <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+  <span class='kw'>if</span> <span class='id identifier rubyid_rv'>rv</span> <span class='kw'>then</span>
+    <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
+    <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
+  <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
+</span>    <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Value of option </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='rbrace'>}</span><span class='tstring_content'> must be one of these values: </span><span class='embexpr_beg'>#{</span><span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Value of option </span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='rbrace'>}</span><span class='tstring_content'> must match the regular expression: </span><span class='embexpr_beg'>#{</span><span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rbrace'>}</span><span class='tstring_content'>.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>else</span>
+    <span class='kw'>false</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1881,9 +1877,9 @@
 </div>
 
     <div id="footer">
-  Generated on Wed Aug 22 09:34:15 2012 by
+  Generated on Wed Aug 22 09:39:04 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.8.7).
+  0.8.2.1 (ruby-1.9.2).
 </div>
 
   </body>
