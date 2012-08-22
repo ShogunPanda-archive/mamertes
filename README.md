@@ -79,8 +79,8 @@ $ ./test -h
     -h, --help - Shows this message.
 
 [COMMANDS]
-      help - Shows a help about a command.
-      list - List all TODOs.
+    help   - Shows a help about a command.
+    list   - List all TODOs.
     manage - Manage existing TODO.
 ```
 
@@ -95,7 +95,7 @@ $ ./test help manage
     -v, --verbose - Be verbose.
 
 [SUBCOMMANDS]
-       add - Add a TODO.
+    add    - Add a TODO.
     remove - Removes a TODO.
 ```
 
