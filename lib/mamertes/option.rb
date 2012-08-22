@@ -5,7 +5,11 @@
 #
 
 module Mamertes
-  # List of valid option types. Values are the default values for that type.
+  # List of valid option types.
+  #
+  # Values are the default values for that type.
+  #
+  # For any unknown type, the default value is `false`, it means that any unknown type is managed as a Boolean value with no argument.
   OPTION_TYPES = {String => "", Integer => 0, Float => 0.0, Array => []}
   OPTION_TYPES.default = false
 
@@ -14,10 +18,10 @@ module Mamertes
     # The name of this option.
     attr_accessor :name
 
-    # The short form (i.e.: -h) for this option.
+    # The short form (i.e.: `-h`) for this option.
     attr_accessor :short
 
-    # The long form (i.e.: --help) for this option.
+    # The long form (i.e.: `--help`) for this option.
     attr_accessor :long
 
     # The type of this option.
@@ -41,17 +45,17 @@ module Mamertes
     # The action associated to this option.
     attr_accessor :action
 
-    # A constraint for valid values. Can be an Array or a Regexp.
+    # A constraint for valid values. Can be an Array of valid values or a Regexp.
     attr_accessor :validator
 
-    # The parent of this command.
+    # The parent of this option.
     attr_accessor :parent
 
     # Creates a new option.
     #
     # @param name [String] The name of this option. Must be unique.
-    # @param forms [Array] An array of short and long forms for this option.
-    # @param options [Hash] A set of options for this option.
+    # @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
+    # @param options [Hash] The settings for this option.
     # @param action [Proc] The action of this option.
     def initialize(name, forms = [], options = {}, &action)
       name = name.to_s
@@ -109,16 +113,16 @@ module Mamertes
       @validator = value
     end
 
-    # Returns the short form with dash prepended.
+    # Returns the short form with a dash prepended.
     #
-    # @return [String] The short form with dash prepended.
+    # @return [String] The short form with a dash prepended.
     def complete_short
       "-#{self.short}"
     end
 
-    # Returns the long form with dash prepended.
+    # Returns the long form with two dashes prepended.
     #
-    # @return [String] The short form with dash prepended.
+    # @return [String] The short form with two dashes prepended.
     def complete_long
       "--#{self.long}"
     end
@@ -130,9 +134,9 @@ module Mamertes
       [self.complete_short,self.complete_long].compact.join("/")
     end
 
-    # Returns the meta argument for an option
+    # Returns the meta argument for this option.
     #
-    # @return [String|NilClass] Returns the current meta argument for an option (`ARGUMENT` is the default value) or `nil`, if this option doesn't require a meta argument.
+    # @return [String|NilClass] Returns the current meta argument for this option (`ARGUMENT` is the default value) or `nil`, if this option doesn't require a meta argument.
     def meta
       self.requires_argument? ? (@meta.present? ? @meta : "ARGUMENT") : nil
     end

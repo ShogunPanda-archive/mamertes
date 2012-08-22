@@ -9,7 +9,7 @@ module Mamertes
   #
   # Every command has the execution block and a set of option. Optionally, it also has before and after hooks.
   class Command
-    # The name of the command.
+    # The name of this command.
     #
     # At runtime you can invoke it using the minimum number of letters to uniquely distinguish it from others.
     attr_accessor :name
@@ -17,7 +17,7 @@ module Mamertes
     # A very short description of what this command does.
     attr_accessor :description
 
-    # A long description of the command.
+    # A long description of this command.
     attr_accessor :banner
 
     # A synopsis of the typical command line usage.
@@ -26,7 +26,7 @@ module Mamertes
     # A hook to execute before the command's action. It is executed only if no subcommand is executed.
     attr_accessor :before
 
-    # The action of the command. It is executed only if no subcommand is executed.
+    # The action of this command. It is executed only if no subcommand is executed.
     attr_accessor :action
 
     # A hook to execute after the command's action. It is executed only if no subcommand is executed.
@@ -49,22 +49,22 @@ module Mamertes
 
     # Creates a new command.
     #
-    # @param options [Hash] The new options to initialize the command with.
+    # @param options [Hash] The settings to initialize the command with.
     def initialize(options = {}, &block)
       self.setup_with(options)
       self.instance_eval(&block) if block_given?
     end
 
-    # Reads and optionally sets the name of the command.
+    # Reads and optionally sets the name of this command.
     #
-    # @param value [NilClass|Object] The new name of the command.
-    # @return [String] The name of the command.
+    # @param value [NilClass|Object] The new name of this command.
+    # @return [String] The name of this command.
     def name(value = nil)
       @name = value if !value.nil?
       @name
     end
 
-    # Gets a full name, that is the name of the command and its ancestor. Optionally it also appends a suffix
+    # Gets a full name, that is the name of this command and its ancestor. Optionally it also appends a suffix
     #
     # @param suffix [String] A suffix to append.
     # @param separator [String] The separator to use for components.
@@ -77,58 +77,58 @@ module Mamertes
       end
     end
 
-    # Reads and optionally sets the short description of the command.
+    # Reads and optionally sets the short description of this command.
     #
-    # @param value [NilClass|Object] The new short description of the command.
-    # @return [String] The short description of the command.
+    # @param value [NilClass|Object] The new short description of this command.
+    # @return [String] The short description of this command.
     def description(value = nil)
       @description = value if !value.nil?
       @description
     end
 
-    # Reads and optionally sets the description of the command.
+    # Reads and optionally sets the description of this command.
     #
-    # @param value [NilClass|Object] The new description of the command.
-    # @return [String] The description of the command.
+    # @param value [NilClass|Object] The new description of this command.
+    # @return [String] The description of this command.
     def banner(value = nil)
       @banner = value if !value.nil?
       @banner
     end
 
-    # Reads and optionally sets the synopsis of the command.
+    # Reads and optionally sets the synopsis of this command.
     #
-    # @param value [NilClass|Object] The new synopsis of the command.
-    # @return [String] The synopsis of the command.
+    # @param value [NilClass|Object] The new synopsis of this command.
+    # @return [String] The synopsis of this command.
     def synopsis(value = nil)
       @synopsis = value if !value.nil?
       @synopsis
     end
 
-    # Sets the before hook, that is a block executed before the action of the command.
+    # Reads and optionally sets the before hook, that is a block executed before the action of this command.
     #
-    # It is executed only if no subcommand is executed.
+    # This hook is only executed if no subcommand is executed.
     #
-    # @return [Proc|NilClass] The before hook of the command.
+    # @return [Proc|NilClass] The before hook of this command.
     def before(&hook)
       @before = hook if block_given? && hook.arity == 1
       @before
     end
 
-    # Sets the action of the command.
+    # Reads and optionally sets the action of this command.
     #
-    # It is executed only if no subcommand is executed.
+    # A command action is only executed if no subcommand is executed.
     #
-    # @return [Proc|NilClass] The action of the command.
+    # @return [Proc|NilClass] The action of this command.
     def action(&hook)
       @action = hook if block_given? && hook.arity == 1
       @action
     end
 
-    # Sets the after hook, that is a block executed after the action of the command.
+    # Sets the after hook, that is a block executed after the action of this command.
     #
-    # It is executed only if no subcommand is executed.
+    # This hook is only executed if no subcommand is executed.
     #
-    # @return [Proc|NilClass] The after hook of the command.
+    # @return [Proc|NilClass] The after hook of this command.
     def after(&hook)
       @after = hook if block_given? && hook.arity == 1
       @after
@@ -150,7 +150,7 @@ module Mamertes
 
     # Adds a new subcommand to this command.
     #
-    # @param name [String] The name of the command. Must be unique.
+    # @param name [String] The name of this command. Must be unique.
     # @param options [Hash] A set of options for this command.
     # @return [Command] The newly added command.
     def command(name, options = {}, &block)
@@ -168,9 +168,11 @@ module Mamertes
 
     # Adds a new option to this command.
     #
+    # @see Option#initialize
+    #
     # @param name [String] The name of the option. Must be unique.
     # @param forms [Array] An array of short and long forms for this option.
-    # @param options [Hash] A set of options for this option.
+    # @param options [Hash] The settings for the option.
     # @param action [Proc] An optional action to pass to the option.
     # @return [Option] The newly added option.
     def option(name, forms = [], options = {}, &action)
@@ -199,7 +201,7 @@ module Mamertes
     end
 
     # Clear all subcommands of this commands.
-    # @return [Hash] The new (empty )list of subcommands of this command.
+    # @return [Hash] The new (empty) list of subcommands of this command.
     def clear_commands
       @commands = {}
     end
@@ -219,7 +221,7 @@ module Mamertes
     end
 
     # Clear all the options of this commands.
-    # @return [Hash] The new (empty )list of the options of this command.
+    # @return [Hash] The new (empty) list of the options of this command.
     def clear_options
       @options = {}
     end
@@ -262,7 +264,7 @@ module Mamertes
 
     # Setups the command.
     #
-    # @param options [Hash] A set of options to set for the command
+    # @param options [Hash] The setttings for this command.
     # @return [Command] The command.
     def setup_with(options = {})
       options = {} if !options.is_a?(::Hash)
@@ -280,7 +282,7 @@ module Mamertes
       self
     end
 
-    # Execute the command, running its action or a subcommand.
+    # Execute this command, running its action or a subcommand.
     #
     # @param args [Array] The arguments to pass to the command.
     def execute(args)
@@ -300,7 +302,7 @@ module Mamertes
       end
     end
 
-    # Shows an help about this command.
+    # Shows a help about this command.
     def show_help
       console = self.is_application? ? self.console : self.application.console
 

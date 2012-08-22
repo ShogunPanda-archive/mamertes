@@ -44,18 +44,18 @@ module Mamertes
     # A console helper.
     attr_accessor :console
 
-    # If to skip commands run via #run.
+    # If to skip commands run via {#run}.
     attr_accessor :skip_commands
 
-    # If to show command lines run via #run.
+    # If to show command lines run via {#run}.
     attr_accessor :show_commands
 
-    # It to show the output of the commands run via #run.
+    # If to show the output of the commands run via {#run}.
     attr_accessor :output_commands
 
     # Creates a new application.
     #
-    # @param options [Hash] The new options to initialize the application with.
+    # @param options [Hash] The settings to initialize the application with.
     def initialize(options = {}, &block)
       super(options, &block)
 
@@ -68,23 +68,23 @@ module Mamertes
       help_option
     end
 
-    # Reads and optionally sets the version of the application.
+    # Reads and optionally sets the version of this application.
     #
-    # @param value [NilClass|Object] The new version of the application.
-    # @return [String] The version of the application.
+    # @param value [NilClass|Object] The new version of this application.
+    # @return [String] The version of this application.
     def version(value = nil)
       @version = value if !value.nil?
       @version
     end
 
-    # Executes the application.
+    # Executes this application.
     #
-    # @param args [Array] The command line to pass to the application. Defaults to `ARGV`.
+    # @param args [Array] The command line to pass to this application. Defaults to `ARGV`.
     def execute(args = nil)
       super(args || ARGV)
     end
 
-    # Adds an help command to the application.
+    # Adds a help command and a help option to this application.
     def help_option
       command :help, :description => "Shows a help about a command." do
         action do |command|
@@ -137,16 +137,24 @@ module Mamertes
   end
 
   # Initializes a new Mamertes application.
-  # @param options [Hash] The new options to initialize the application with.
+  #
+  # In options, you can override the command line arguments with `:__args__`, and you can skip execution by specifying `:run => false`.
+  #
+  # @see Command#setup_with
+  #
+  # @param options [Hash] The settings to initialize the application with.
   # @return [Application] The created application.
   def self.App(options = {}, &block)
     raise Mamertes::Error.new(Mamertes::Application, :missing_block, "You have to provide a block to Mamertes::App!") if !block_given?
 
     options = {} if !options.is_a?(::Hash)
     options = {:name => "__APPLICATION__", :parent => nil, :application => nil}.merge(options)
+    args = options.delete(:__args__)
+    run = options.delete(:run)
+    run = (!run.nil? ? run : true).to_boolean
 
     application = ::Mamertes::Application.new(options, &block)
-    application.execute(options.delete(:__args__)) if application
+    application.execute(args) if application && run
     application
   end
 end

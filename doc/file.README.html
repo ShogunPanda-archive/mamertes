@@ -70,9 +70,99 @@
 
 <p><a href="http://github.com/ShogunPanda/mamertes">http://github.com/ShogunPanda/mamertes</a></p>
 
-<h2>Description</h2>
+<h2>Basic usage.</h2>
 
-<p><em>TODO</em></p>
+<p>As ever, talking by example is always better.
+This application:</p>
+
+<pre class="code ruby"><code><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rubygems</span><span class='tstring_end'>&quot;</span></span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>mamertes</span><span class='tstring_end'>&quot;</span></span>
+
+<span class='const'>Mamertes</span><span class='period'>.</span><span class='const'>App</span><span class='lparen'>(</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Mamertes Usage Test</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:version</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1.0.0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An example modelled like a TODO application</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:banner</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Do you like Mamertes?</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_option'>option</span><span class='lparen'>(</span><span class='symbol'>:storage</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:help</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The file where store TODOs to.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:meta</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FILE</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:list</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_description'>description</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>List all TODOs.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
+      <span class='comment'># You should implement this.
+</span>    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
+  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:manage</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Manage existing TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_option'>option</span><span class='lparen'>(</span><span class='symbol'>:verbose</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:help</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Be verbose.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+
+    <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
+      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Please use \&quot;add\&quot; or \&quot;remove\&quot; subcommands.</span><span class='tstring_end'>&quot;</span></span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:add</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Add a TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
+        <span class='comment'># You should implement this.
+</span>      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:remove</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Removes a TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
+        <span class='comment'># You should implement this.
+</span>      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Will create a complete (at least at the interface model) TODO application which support commands <code>list</code> and <code>manage</code>.</p>
+
+<p>The <code>manage</code> command supports subcommands <code>add</code> and <code>remove</code>. You can invoke it via syntax <code>manage add</code> or <code>manage:add</code>. <strong>If there is no conflict, just <code>m:r</code> is sufficient!</strong></p>
+
+<p>To provide (sub)commands, both hash-style or block-style method style are supported (except for the <code>action</code> option), as you can see in the example.</p>
+
+<p>You can use the <code>--help</code> switch or the <code>help command</code> syntax to navigate through commands details.</p>
+
+<p>After setting up the skeleton, you will just need to write the action bodies and you&#39;re done. <strong>Happy coding!</strong></p>
+
+<h3>Wrapping up the example</h3>
+
+<p>Here&#39;s the help screen of the application above for the global application and for the <code>manage</code> command.</p>
+
+<h4>General help</h4>
+
+<pre class="code ruby"><code>$ ./test -h
+[NAME]
+    Mamertes Usage Test 1.0.0 - An example modelled like a TODO application
+
+[SYNOPSIS]
+    test [options] [command [subcommand ...]][command-options] [arguments]
+
+[DESCRIPTION]
+    Do you like Mamertes?
+
+[GLOBAL OPTIONS]
+    -f, --file - The file where store TODOs to.
+    -h, --help - Shows this message.
+
+[COMMANDS]
+      help - Shows a help about a command.
+      list - List all TODOs.
+    manage - Manage existing TODO.
+</code></pre>
+
+<h4>The <code>manage</code> command help</h4>
+
+<pre class="code ruby"><code>$ ./test help manage
+[SYNOPSIS]
+    test [options] manage [subcommand ...]] [command-options] [arguments]
+
+[OPTIONS]
+    -v, --verbose - Be verbose.
+
+[SUBCOMMANDS]
+       add - Add a TODO.
+    remove - Removes a TODO.
+</code></pre>
+
+<h2>Advanced usage</h2>
+
+<p>See documentation for more information.</p>
 
 <h2>Contributing to mamertes</h2>
 
@@ -93,7 +183,7 @@ Licensed under the MIT license, which can be found at <a href="http://www.openso
 </div></div>
 
     <div id="footer">
-  Generated on Tue Aug 21 16:04:31 2012 by
+  Generated on Wed Aug 22 09:26:25 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>

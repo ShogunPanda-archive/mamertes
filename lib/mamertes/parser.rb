@@ -28,12 +28,13 @@ module Mamertes
       end
     end
 
-    # Finds a command which corresponds to arg.
+    # Finds a command which corresponds to an argument.
     #
     # @param arg [String] The string to match.
-    # @param command [Command] The command which holds all valid commands.
-    # @param args [String] The completed list of arguments passed.
+    # @param command [Command] The command to search subcommand in.
+    # @param args [String] The complet list of arguments passed.
     # @param separator [String] The separator for joined syntax commands.
+    # @return [Hash|NilClass] An hash with `name` and `args` keys if a valid subcommand is found, `nil` otherwise.
     def self.find_command(arg, command, args, separator = ":")
       args = args.ensure_array.dup
       rv = nil
@@ -60,7 +61,7 @@ module Mamertes
     #
     # @param command [Command] The command or application to parse.
     # @param args [Array] The arguments to parse.
-    # @return [Hash|NilClass] The name and arguments of subcommand to execute or `nil`.
+    # @return [Hash|NilClass] An hash with `name` (of a subcommand to execute) and `args` keys if a valid subcommand is found, `nil` otherwise.
     def self.parse(command, args)
       rv = nil
       args = args.ensure_array.dup

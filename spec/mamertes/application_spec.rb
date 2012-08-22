@@ -142,6 +142,10 @@ describe "Mamertes::App" do
     end
 
     expect(args).to eq(ARGV.join("-"))
+  end
+
+  it "can override arguments" do
+    args = []
 
     application = ::Mamertes.App({:__args__ => ["C", "D"]}) do
       action do |command|
@@ -150,5 +154,17 @@ describe "Mamertes::App" do
     end
 
     expect(args).to eq("C-D")
+  end
+
+  it "should not execute the application if requested to" do
+    args = []
+
+    application = ::Mamertes.App(:run => false) do
+      action do |command|
+        args = command.arguments.join("-")
+      end
+    end
+
+    expect(args).to eq([])
   end
 end
