@@ -132,7 +132,8 @@ describe Mamertes::Option do
   describe "#meta" do
     it "should return the option meta" do
       expect(::Mamertes::Option.new("NAME", []).meta).to be_nil
-      expect(::Mamertes::Option.new("NAME", [], {:type => String}).meta).to eq("ARGUMENT")
+      expect(::Mamertes::Option.new("NAME", [], {:type => String}).meta).to eq("NAME")
+      expect(::Mamertes::Option.new("foo", [], {:type => String}).meta).to eq("FOO")
       expect(::Mamertes::Option.new("NAME", [], {:type => String, :meta => "STRING"}).meta).to eq("STRING")
     end
   end

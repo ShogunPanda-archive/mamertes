@@ -136,9 +136,9 @@ module Mamertes
 
     # Returns the meta argument for this option.
     #
-    # @return [String|NilClass] Returns the current meta argument for this option (`ARGUMENT` is the default value) or `nil`, if this option doesn't require a meta argument.
+    # @return [String|NilClass] Returns the current meta argument for this option (the default value is the option name uppercased) or `nil`, if this option doesn't require a meta argument.
     def meta
-      self.requires_argument? ? (@meta.present? ? @meta : "ARGUMENT") : nil
+      self.requires_argument? ? (@meta.present? ? @meta : @name.upcase) : nil
     end
 
     # Sets the value of this option and also make sure that it is validated.

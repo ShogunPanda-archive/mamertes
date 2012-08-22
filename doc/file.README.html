@@ -2,7 +2,7 @@
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
   <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <title>
   File: README
   
@@ -75,39 +75,39 @@
 <p>As ever, talking by example is always better.
 This application:</p>
 
-<pre class="code ruby"><code><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rubygems</span><span class='tstring_end'>&quot;</span></span>
-<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>mamertes</span><span class='tstring_end'>&quot;</span></span>
+<pre class="code ruby"><code><span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;rubygems&quot;</span>
+<span class='rubyid_require identifier id'>require</span> <span class='string val'>&quot;mamertes&quot;</span>
 
-<span class='const'>Mamertes</span><span class='period'>.</span><span class='const'>App</span><span class='lparen'>(</span><span class='symbol'>:name</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Mamertes Usage Test</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:version</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1.0.0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An example modelled like a TODO application</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:banner</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Do you like Mamertes?</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_option'>option</span><span class='lparen'>(</span><span class='symbol'>:storage</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:help</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The file where store TODOs to.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='symbol'>:meta</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FILE</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<span class='rubyid_Mamertes constant id'>Mamertes</span><span class='dot token'>.</span><span class='rubyid_App constant id'>App</span><span class='lparen token'>(</span><span class='symbol val'>:name</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Mamertes Usage Test&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:version</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;1.0.0&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;An example modelled like a TODO application&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:banner</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Do you like Mamertes?&quot;</span><span class='rparen token'>)</span> <span class='rubyid_do do kw'>do</span>
+  <span class='rubyid_option identifier id'>option</span><span class='lparen token'>(</span><span class='symbol val'>:storage</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;f&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;file&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:help</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;The file where store TODOs to.&quot;</span><span class='comma token'>,</span> <span class='symbol val'>:meta</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;FILE&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
-  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:list</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_description'>description</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>List all TODOs.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-      <span class='comment'># You should implement this.
-</span>    <span class='kw'>end</span>
-  <span class='kw'>end</span>
+  <span class='rubyid_command identifier id'>command</span> <span class='symbol val'>:list</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_description identifier id'>description</span> <span class='string val'>&quot;List all TODOs.&quot;</span>
+    <span class='rubyid_action identifier id'>action</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_command identifier id'>command</span><span class='bitor op'>|</span>
+      <span class='comment val'># You should implement this.</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
 
-  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:manage</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Manage existing TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_option'>option</span><span class='lparen'>(</span><span class='symbol'>:verbose</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:help</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Be verbose.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+  <span class='rubyid_command identifier id'>command</span> <span class='symbol val'>:manage</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Manage existing TODO.&quot;</span><span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span>
+    <span class='rubyid_option identifier id'>option</span><span class='lparen token'>(</span><span class='symbol val'>:verbose</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:help</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Be verbose.&quot;</span><span class='rbrace token'>}</span><span class='rparen token'>)</span>
 
-    <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Please use \&quot;add\&quot; or \&quot;remove\&quot; subcommands.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+    <span class='rubyid_action identifier id'>action</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_command identifier id'>command</span><span class='bitor op'>|</span>
+      <span class='rubyid_puts identifier id'>puts</span> <span class='string val'>&quot;Please use \&quot;add\&quot; or \&quot;remove\&quot; subcommands.&quot;</span>
+    <span class='rubyid_end end kw'>end</span>
 
-    <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:add</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Add a TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-        <span class='comment'># You should implement this.
-</span>      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+    <span class='rubyid_command identifier id'>command</span> <span class='symbol val'>:add</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Add a TODO.&quot;</span><span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_action identifier id'>action</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_command identifier id'>command</span><span class='bitor op'>|</span>
+        <span class='comment val'># You should implement this.</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
 
-    <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:remove</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Removes a TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-        <span class='comment'># You should implement this.
-</span>      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
+    <span class='rubyid_command identifier id'>command</span> <span class='symbol val'>:remove</span><span class='comma token'>,</span> <span class='lbrace token'>{</span><span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Removes a TODO.&quot;</span><span class='rbrace token'>}</span> <span class='rubyid_do do kw'>do</span>
+      <span class='rubyid_action identifier id'>action</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_command identifier id'>command</span><span class='bitor op'>|</span>
+        <span class='comment val'># You should implement this.</span>
+      <span class='rubyid_end end kw'>end</span>
+    <span class='rubyid_end end kw'>end</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
 </code></pre>
 
 <p>Will create a complete (at least at the interface model) TODO application which support commands <code>list</code> and <code>manage</code>.</p>
@@ -126,38 +126,38 @@ This application:</p>
 
 <h4>General help</h4>
 
-<pre class="code ruby"><code>$ ./test -h
-[NAME]
-    Mamertes Usage Test 1.0.0 - An example modelled like a TODO application
+<pre class="code ruby"><code>$ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_test identifier id'>test</span> <span class='minus op'>-</span><span class='rubyid_h identifier id'>h</span>
+<span class='lbrack token'>[</span><span class='rubyid_NAME constant id'>NAME</span><span class='rbrack token'>]</span>
+    <span class='rubyid_Mamertes constant id'>Mamertes</span> <span class='rubyid_Usage constant id'>Usage</span> <span class='rubyid_Test constant id'>Test</span> <span class='float val'>1.0</span><span class='integer val'>.0</span> <span class='minus op'>-</span> <span class='rubyid_An constant id'>An</span> <span class='rubyid_example identifier id'>example</span> <span class='rubyid_modelled identifier id'>modelled</span> <span class='rubyid_like identifier id'>like</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_TODO constant id'>TODO</span> <span class='rubyid_application identifier id'>application</span>
 
-[SYNOPSIS]
-    test [options] [command [subcommand ...]][command-options] [arguments]
+<span class='lbrack token'>[</span><span class='rubyid_SYNOPSIS constant id'>SYNOPSIS</span><span class='rbrack token'>]</span>
+    <span class='rubyid_test identifier id'>test</span> <span class='lbrack token'>[</span><span class='rubyid_options identifier id'>options</span><span class='rbrack token'>]</span> <span class='lbrack token'>[</span><span class='rubyid_command identifier id'>command</span> <span class='lbrack token'>[</span><span class='rubyid_subcommand identifier id'>subcommand</span> <span class='dot3 op'>...</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span><span class='lbrack token'>[</span><span class='rubyid_command identifier id'>command</span><span class='minus op'>-</span><span class='rubyid_options identifier id'>options</span><span class='rbrack token'>]</span> <span class='lbrack token'>[</span><span class='rubyid_arguments identifier id'>arguments</span><span class='rbrack token'>]</span>
 
-[DESCRIPTION]
-    Do you like Mamertes?
+<span class='lbrack token'>[</span><span class='rubyid_DESCRIPTION constant id'>DESCRIPTION</span><span class='rbrack token'>]</span>
+    <span class='rubyid_Do constant id'>Do</span> <span class='rubyid_you identifier id'>you</span> <span class='rubyid_like identifier id'>like</span> <span class='rubyid_Mamertes? constant id'>Mamertes?</span>
 
-[GLOBAL OPTIONS]
-    -f, --file - The file where store TODOs to.
-    -h, --help - Shows this message.
+<span class='lbrack token'>[</span><span class='rubyid_GLOBAL constant id'>GLOBAL</span> <span class='rubyid_OPTIONS constant id'>OPTIONS</span><span class='rbrack token'>]</span>
+    <span class='minus op'>-</span><span class='rubyid_f identifier id'>f</span><span class='comma token'>,</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_file identifier id'>file</span> <span class='minus op'>-</span> <span class='rubyid_The constant id'>The</span> <span class='rubyid_file identifier id'>file</span> <span class='rubyid_where identifier id'>where</span> <span class='rubyid_store identifier id'>store</span> <span class='rubyid_TODOs constant id'>TODOs</span> <span class='rubyid_to identifier id'>to</span><span class='dot token'>.</span>
+    <span class='minus op'>-</span><span class='rubyid_h identifier id'>h</span><span class='comma token'>,</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_help identifier id'>help</span> <span class='minus op'>-</span> <span class='rubyid_Shows constant id'>Shows</span> <span class='rubyid_this identifier id'>this</span> <span class='rubyid_message identifier id'>message</span><span class='dot token'>.</span>
 
-[COMMANDS]
-      help - Shows a help about a command.
-      list - List all TODOs.
-    manage - Manage existing TODO.
+<span class='lbrack token'>[</span><span class='rubyid_COMMANDS constant id'>COMMANDS</span><span class='rbrack token'>]</span>
+      <span class='rubyid_help identifier id'>help</span> <span class='minus op'>-</span> <span class='rubyid_Shows constant id'>Shows</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_help identifier id'>help</span> <span class='rubyid_about identifier id'>about</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_command identifier id'>command</span><span class='dot token'>.</span>
+      <span class='rubyid_list identifier id'>list</span> <span class='minus op'>-</span> <span class='rubyid_List constant id'>List</span> <span class='rubyid_all identifier id'>all</span> <span class='rubyid_TODOs constant id'>TODOs</span><span class='dot token'>.</span>
+    <span class='rubyid_manage identifier id'>manage</span> <span class='minus op'>-</span> <span class='rubyid_Manage constant id'>Manage</span> <span class='rubyid_existing identifier id'>existing</span> <span class='rubyid_TODO constant id'>TODO</span><span class='dot token'>.</span>
 </code></pre>
 
 <h4>The <code>manage</code> command help</h4>
 
-<pre class="code ruby"><code>$ ./test help manage
-[SYNOPSIS]
-    test [options] manage [subcommand ...]] [command-options] [arguments]
+<pre class="code ruby"><code>$ <span class='dot token'>.</span><span class='div op'>/</span><span class='rubyid_test identifier id'>test</span> <span class='rubyid_help identifier id'>help</span> <span class='rubyid_manage identifier id'>manage</span>
+<span class='lbrack token'>[</span><span class='rubyid_SYNOPSIS constant id'>SYNOPSIS</span><span class='rbrack token'>]</span>
+    <span class='rubyid_test identifier id'>test</span> <span class='lbrack token'>[</span><span class='rubyid_options identifier id'>options</span><span class='rbrack token'>]</span> <span class='rubyid_manage identifier id'>manage</span> <span class='lbrack token'>[</span><span class='rubyid_subcommand identifier id'>subcommand</span> <span class='dot3 op'>...</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span> <span class='lbrack token'>[</span><span class='rubyid_command identifier id'>command</span><span class='minus op'>-</span><span class='rubyid_options identifier id'>options</span><span class='rbrack token'>]</span> <span class='lbrack token'>[</span><span class='rubyid_arguments identifier id'>arguments</span><span class='rbrack token'>]</span>
 
-[OPTIONS]
-    -v, --verbose - Be verbose.
+<span class='lbrack token'>[</span><span class='rubyid_OPTIONS constant id'>OPTIONS</span><span class='rbrack token'>]</span>
+    <span class='minus op'>-</span><span class='rubyid_v identifier id'>v</span><span class='comma token'>,</span> <span class='minus op'>-</span><span class='minus op'>-</span><span class='rubyid_verbose identifier id'>verbose</span> <span class='minus op'>-</span> <span class='rubyid_Be constant id'>Be</span> <span class='rubyid_verbose identifier id'>verbose</span><span class='dot token'>.</span>
 
-[SUBCOMMANDS]
-       add - Add a TODO.
-    remove - Removes a TODO.
+<span class='lbrack token'>[</span><span class='rubyid_SUBCOMMANDS constant id'>SUBCOMMANDS</span><span class='rbrack token'>]</span>
+       <span class='rubyid_add identifier id'>add</span> <span class='minus op'>-</span> <span class='rubyid_Add constant id'>Add</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_TODO constant id'>TODO</span><span class='dot token'>.</span>
+    <span class='rubyid_remove identifier id'>remove</span> <span class='minus op'>-</span> <span class='rubyid_Removes constant id'>Removes</span> <span class='rubyid_a identifier id'>a</span> <span class='rubyid_TODO constant id'>TODO</span><span class='dot token'>.</span>
 </code></pre>
 
 <h2>Advanced usage</h2>
@@ -183,9 +183,9 @@ Licensed under the MIT license, which can be found at <a href="http://www.openso
 </div></div>
 
     <div id="footer">
-  Generated on Wed Aug 22 09:26:25 2012 by
+  Generated on Wed Aug 22 09:34:14 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.9.2).
+  0.8.2.1 (ruby-1.8.7).
 </div>
 
   </body>
