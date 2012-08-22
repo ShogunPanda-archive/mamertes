@@ -347,7 +347,7 @@ module Mamertes
         console.with_indentation(4) do
           lefts.keys.sort.each do |head|
             help = lefts[head]
-            console.write("%s - %s" % [head.rjust(alignment, " "), help], "\n", true, true)
+            console.write("%s - %s" % [head.ljust(alignment, " "), help], "\n", true, true)
           end
         end
       end
@@ -363,7 +363,7 @@ module Mamertes
         console.with_indentation(4) do
           self.commands.keys.sort.each do |name|
             command = self.commands[name]
-            console.write("%s - %s" % [name.rjust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
+            console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
           end
         end
       end
