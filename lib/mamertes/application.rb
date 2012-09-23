@@ -87,14 +87,10 @@ module Mamertes
     # Adds a help command and a help option to this application.
     def help_option
       command :help, :description => "Shows a help about a command." do
-        action do |command|
-          application.command_help(command)
-        end
+        action { |command| application.command_help(command) }
       end
 
-      option :help, ["-h", "--help"], :help => "Shows this message." do |application, option|
-        application.show_help
-      end
+      option(:help, ["-h", "--help"], :help => "Shows this message."){|application, option| application.show_help }
     end
 
     # The name of the current executable.
@@ -108,14 +104,15 @@ module Mamertes
     #
     # @param command [Command] The command to show help for.
     def command_help(command)
-      args = command.arguments
+      args = command.arguments.collect {|c| c.split(":") }.flatten.collect(&:strip).select{|c| c.present? }
       command = self
 
       args.each do |arg|
-        next_command = command.commands.fetch(arg.ensure_string, nil)
+        # Find the command across
+        next_command = ::Mamertes::Parser.find_command(arg, command, [])
 
         if next_command then
-          command = next_command
+          command = command.commands[next_command[:name]]
         else
           break
         end
