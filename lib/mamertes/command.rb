@@ -319,7 +319,7 @@ module Mamertes
         console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s[command-options] [arguments] " % [self.executable_name, self.has_commands? ? "[command [subcommand ...]]" : ""], "\n", 4, true)
       else
         console.write("[SYNOPSIS]")
-        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s [subcommand ...] [command-options] [arguments] " % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? "[command [subcommand ...]]" : ""], "\n", 4, true)
+        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s %s[command-options] [arguments] " % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? "[subcommand [sub-subcommand ...]]" : ""], "\n", 4, true)
       end
 
       if self.has_banner? then
