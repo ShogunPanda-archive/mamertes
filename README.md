@@ -2,6 +2,7 @@
 
 [![Build Status](https://secure.travis-ci.org/ShogunPanda/mamertes.png?branch=master)](http://travis-ci.org/ShogunPanda/mamertes)
 [![Dependency Status](https://gemnasium.com/ShogunPanda/mamertes.png?travis)](https://gemnasium.com/ShogunPanda/mamertes)
+[![Code Climate](https://codeclimate.com/badge.png)](https://codeclimate.com/github/ShogunPanda/mamertes)
 
 Yet another command line manager.
 
