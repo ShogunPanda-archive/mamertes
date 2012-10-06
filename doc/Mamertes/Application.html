@@ -512,18 +512,17 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 59</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_options identifier id'>options</span> <span class='assign token'>=</span> <span class='lbrace token'>{</span><span class='rbrace token'>}</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
-  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_options identifier id'>options</span><span class='comma token'>,</span> <span class='bitand op'>&amp;</span><span class='rubyid_block identifier id'>block</span><span class='rparen token'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
 
-  <span class='rubyid_@shell ivar id'>@shell</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='rubyid_Bovem constant id'>Bovem</span><span class='colon2 op'>::</span><span class='rubyid_Shell constant id'>Shell</span><span class='dot token'>.</span><span class='rubyid_instance identifier id'>instance</span>
-  <span class='rubyid_@console ivar id'>@console</span> <span class='assign token'>=</span> <span class='rubyid_@shell ivar id'>@shell</span><span class='dot token'>.</span><span class='rubyid_console identifier id'>console</span>
-  <span class='rubyid_@skip_commands ivar id'>@skip_commands</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_@show_commands ivar id'>@show_commands</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
-  <span class='rubyid_@output_commands ivar id'>@output_commands</span> <span class='assign token'>=</span> <span class='rubyid_false false kw'>false</span>
+  <span class='ivar'>@shell</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Bovem</span><span class='op'>::</span><span class='const'>Shell</span><span class='period'>.</span><span class='id identifier rubyid_instance'>instance</span>
+  <span class='ivar'>@console</span> <span class='op'>=</span> <span class='ivar'>@shell</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span>
+  <span class='ivar'>@skip_commands</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@show_commands</span> <span class='op'>=</span> <span class='kw'>false</span>
+  <span class='ivar'>@output_commands</span> <span class='op'>=</span> <span class='kw'>false</span>
 
-  <span class='rubyid_help_option identifier id'>help_option</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+  <span class='id identifier rubyid_help_option'>help_option</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -568,10 +567,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 45</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_console identifier id'>console</span>
-  <span class='rubyid_@console ivar id'>@console</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_console'>console</span>
+  <span class='ivar'>@console</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -611,10 +609,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 54</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_output_commands identifier id'>output_commands</span>
-  <span class='rubyid_@output_commands ivar id'>@output_commands</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_output_commands'>output_commands</span>
+  <span class='ivar'>@output_commands</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -654,10 +651,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 42</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_shell identifier id'>shell</span>
-  <span class='rubyid_@shell ivar id'>@shell</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_shell'>shell</span>
+  <span class='ivar'>@shell</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -697,10 +693,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 51</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_show_commands identifier id'>show_commands</span>
-  <span class='rubyid_@show_commands ivar id'>@show_commands</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_show_commands'>show_commands</span>
+  <span class='ivar'>@show_commands</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -740,10 +735,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 48</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_skip_commands identifier id'>skip_commands</span>
-  <span class='rubyid_@skip_commands ivar id'>@skip_commands</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_skip_commands'>skip_commands</span>
+  <span class='ivar'>@skip_commands</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -821,10 +815,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 39</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_version identifier id'>version</span>
-  <span class='rubyid_@version ivar id'>@version</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_version'>version</span>
+  <span class='ivar'>@version</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -902,24 +895,23 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 106</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_command_help identifier id'>command_help</span><span class='lparen token'>(</span><span class='rubyid_command identifier id'>command</span><span class='rparen token'>)</span>
-  <span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='rubyid_command identifier id'>command</span><span class='dot token'>.</span><span class='rubyid_arguments identifier id'>arguments</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span> <span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_c identifier id'>c</span><span class='dot token'>.</span><span class='rubyid_split identifier id'>split</span><span class='lparen token'>(</span><span class='string val'>&quot;:&quot;</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span><span class='dot token'>.</span><span class='rubyid_flatten identifier id'>flatten</span><span class='dot token'>.</span><span class='rubyid_collect identifier id'>collect</span><span class='lparen token'>(</span><span class='bitand op'>&amp;</span><span class='symbol val'>:strip</span><span class='rparen token'>)</span><span class='dot token'>.</span><span class='rubyid_select identifier id'>select</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_c identifier id'>c</span><span class='bitor op'>|</span> <span class='rubyid_c identifier id'>c</span><span class='dot token'>.</span><span class='rubyid_present? fid id'>present?</span> <span class='rbrace token'>}</span>
-  <span class='rubyid_command identifier id'>command</span> <span class='assign token'>=</span> <span class='rubyid_self self kw'>self</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_command_help'>command_help</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_arguments'>arguments</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_split'>split</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>:</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_collect'>collect</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:strip</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_select'>select</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_c'>c</span><span class='op'>|</span> <span class='id identifier rubyid_c'>c</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='kw'>self</span>
 
-  <span class='rubyid_args identifier id'>args</span><span class='dot token'>.</span><span class='rubyid_each identifier id'>each</span> <span class='rubyid_do do kw'>do</span> <span class='bitor op'>|</span><span class='rubyid_arg identifier id'>arg</span><span class='bitor op'>|</span>
-    <span class='comment val'># Find the command across</span>
-    <span class='rubyid_next_command identifier id'>next_command</span> <span class='assign token'>=</span> <span class='colon3 op'>::</span><span class='rubyid_Mamertes constant id'>Mamertes</span><span class='colon2 op'>::</span><span class='rubyid_Parser constant id'>Parser</span><span class='dot token'>.</span><span class='rubyid_find_command identifier id'>find_command</span><span class='lparen token'>(</span><span class='rubyid_arg identifier id'>arg</span><span class='comma token'>,</span> <span class='rubyid_command identifier id'>command</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='rbrack token'>]</span><span class='rparen token'>)</span>
+  <span class='id identifier rubyid_args'>args</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_arg'>arg</span><span class='op'>|</span>
+    <span class='comment'># Find the command across
+</span>    <span class='id identifier rubyid_next_command'>next_command</span> <span class='op'>=</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_find_command'>find_command</span><span class='lparen'>(</span><span class='id identifier rubyid_arg'>arg</span><span class='comma'>,</span> <span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
 
-    <span class='rubyid_if if kw'>if</span> <span class='rubyid_next_command identifier id'>next_command</span> <span class='rubyid_then then kw'>then</span>
-      <span class='rubyid_command identifier id'>command</span> <span class='assign token'>=</span> <span class='rubyid_command identifier id'>command</span><span class='dot token'>.</span><span class='rubyid_commands identifier id'>commands</span><span class='lbrack token'>[</span><span class='rubyid_next_command identifier id'>next_command</span><span class='lbrack token'>[</span><span class='symbol val'>:name</span><span class='rbrack token'>]</span><span class='rbrack token'>]</span>
-    <span class='rubyid_else else kw'>else</span>
-      <span class='rubyid_break break kw'>break</span>
-    <span class='rubyid_end end kw'>end</span>
-  <span class='rubyid_end end kw'>end</span>
+    <span class='kw'>if</span> <span class='id identifier rubyid_next_command'>next_command</span> <span class='kw'>then</span>
+      <span class='id identifier rubyid_command'>command</span> <span class='op'>=</span> <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_commands'>commands</span><span class='lbracket'>[</span><span class='id identifier rubyid_next_command'>next_command</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rbracket'>]</span>
+    <span class='kw'>else</span>
+      <span class='kw'>break</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
 
-  <span class='rubyid_command identifier id'>command</span><span class='dot token'>.</span><span class='rubyid_show_help identifier id'>show_help</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+  <span class='id identifier rubyid_command'>command</span><span class='period'>.</span><span class='id identifier rubyid_show_help'>show_help</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -974,10 +966,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 99</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_executable_name identifier id'>executable_name</span>
-  <span class='rubyid_$0 gvar id'>$0</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_executable_name'>executable_name</span>
+  <span class='gvar'>$0</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1036,10 +1027,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_execute identifier id'>execute</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='rparen token'>)</span>
-  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_args identifier id'>args</span> <span class='orop op'>||</span> <span class='rubyid_ARGV constant id'>ARGV</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>||</span> <span class='const'>ARGV</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1081,14 +1071,13 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 88</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_help_option identifier id'>help_option</span>
-  <span class='rubyid_command identifier id'>command</span> <span class='symbol val'>:help</span><span class='comma token'>,</span> <span class='symbol val'>:description</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Shows a help about a command.&quot;</span> <span class='rubyid_do do kw'>do</span>
-    <span class='rubyid_action identifier id'>action</span> <span class='lbrace token'>{</span> <span class='bitor op'>|</span><span class='rubyid_command identifier id'>command</span><span class='bitor op'>|</span> <span class='rubyid_application identifier id'>application</span><span class='dot token'>.</span><span class='rubyid_command_help identifier id'>command_help</span><span class='lparen token'>(</span><span class='rubyid_command identifier id'>command</span><span class='rparen token'>)</span> <span class='rbrace token'>}</span>
-  <span class='rubyid_end end kw'>end</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_help_option'>help_option</span>
+  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:help</span><span class='comma'>,</span> <span class='symbol'>:description</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Shows a help about a command.</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_action'>action</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span> <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_command_help'>command_help</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='kw'>end</span>
 
-  <span class='rubyid_option identifier id'>option</span><span class='lparen token'>(</span><span class='symbol val'>:help</span><span class='comma token'>,</span> <span class='lbrack token'>[</span><span class='string val'>&quot;-h&quot;</span><span class='comma token'>,</span> <span class='string val'>&quot;--help&quot;</span><span class='rbrack token'>]</span><span class='comma token'>,</span> <span class='symbol val'>:help</span> <span class='assign token'>=</span><span class='gt op'>&gt;</span> <span class='string val'>&quot;Shows this message.&quot;</span><span class='rparen token'>)</span><span class='lbrace token'>{</span><span class='bitor op'>|</span><span class='rubyid_application identifier id'>application</span><span class='comma token'>,</span> <span class='rubyid_option identifier id'>option</span><span class='bitor op'>|</span> <span class='rubyid_application identifier id'>application</span><span class='dot token'>.</span><span class='rubyid_show_help identifier id'>show_help</span> <span class='rbrace token'>}</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+  <span class='id identifier rubyid_option'>option</span><span class='lparen'>(</span><span class='symbol'>:help</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>-h</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>--help</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:help</span> <span class='op'>=&gt;</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Shows this message.</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_application'>application</span><span class='comma'>,</span> <span class='id identifier rubyid_option'>option</span><span class='op'>|</span> <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_show_help'>show_help</span> <span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1213,10 +1202,9 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 131</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_command identifier id'>command</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span> <span class='assign token'>=</span> <span class='rubyid_nil nil kw'>nil</span><span class='comma token'>,</span> <span class='rubyid_show_exit identifier id'>show_exit</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='comma token'>,</span> <span class='rubyid_fatal identifier id'>fatal</span> <span class='assign token'>=</span> <span class='rubyid_true true kw'>true</span><span class='rparen token'>)</span>
-  <span class='rubyid_@shell ivar id'>@shell</span><span class='dot token'>.</span><span class='rubyid_run identifier id'>run</span><span class='lparen token'>(</span><span class='rubyid_command identifier id'>command</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='comma token'>,</span> <span class='notop op'>!</span><span class='rubyid_@skip_commands ivar id'>@skip_commands</span><span class='comma token'>,</span> <span class='rubyid_show_exit identifier id'>show_exit</span><span class='comma token'>,</span> <span class='rubyid_@output_commands ivar id'>@output_commands</span><span class='comma token'>,</span> <span class='rubyid_@show_commands ivar id'>@show_commands</span><span class='comma token'>,</span> <span class='rubyid_fatal identifier id'>fatal</span><span class='rparen token'>)</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+<span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_show_exit'>show_exit</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='id identifier rubyid_fatal'>fatal</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='ivar'>@shell</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='op'>!</span><span class='ivar'>@skip_commands</span><span class='comma'>,</span> <span class='id identifier rubyid_show_exit'>show_exit</span><span class='comma'>,</span> <span class='ivar'>@output_commands</span><span class='comma'>,</span> <span class='ivar'>@show_commands</span><span class='comma'>,</span> <span class='id identifier rubyid_fatal'>fatal</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -1227,9 +1215,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Oct  6 08:50:46 2012 by
+  Generated on Sat Oct  6 09:11:33 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.2.1 (ruby-1.8.7).
+  0.8.2.1 (ruby-1.9.2).
 </div>
 
   </body>
