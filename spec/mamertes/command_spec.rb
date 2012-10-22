@@ -7,7 +7,12 @@
 require "spec_helper"
 
 describe Mamertes::Command do
-  let(:application) { ::Mamertes::Application.new }
+  let(:application) {
+    ::Mamertes::Application.new {
+      action {}
+    }
+  }
+
   let(:command) {
     c = ::Mamertes::Command.new
     c.application = application
@@ -256,6 +261,9 @@ describe Mamertes::Command do
 
   describe "#execute" do
     it "should parse command line" do
+      Kernel.stub(:exit)
+      ::Bovem::Console.any_instance.stub(:write)
+
       args = ["command"]
       ::Mamertes::Parser.should_receive(:parse).with(command, args)
       command.execute(args)
@@ -335,7 +343,7 @@ describe Mamertes::Command do
       expect(check).to eq(["D", "E", "F"])
     end
 
-    it "should do nothing is action is not defined and no subcommand is found" do
+    it "should show help if action is not defined and no subcommand is found" do
       check = []
       child = []
       args = ["command"]
@@ -355,50 +363,59 @@ describe Mamertes::Command do
       end
 
       ::Mamertes::Parser.stub(:parse).and_return(nil)
+      command.should_receive(:show_help)
       command.execute(args)
       expect(check).to eq([])
     end
   end
 
   describe "#show_help" do
-    before(:each) do
-      Kernel.stub(:exit).and_return(0)
-      application.console.stub(:write).and_return("")
-    end
-
     it "should behave differently for application" do
-      application.console.should_receive(:write).with("[NAME]").exactly(1)
+      Kernel.stub(:exit).and_return(0)
+
+      application.console.should_receive(:write).with("[NAME]")
+      application.console.should_receive(:write).at_least(0)
       application.show_help
-      command.show_help
     end
 
     it "should print a banner" do
+      Kernel.stub(:exit).and_return(0)
+
       command.banner = "BANNER"
       application.console.should_receive(:write).with("[DESCRIPTION]")
+      application.console.should_receive(:write).at_least(0)
       command.show_help
     end
 
     it "should print options" do
+      Kernel.stub(:exit).and_return(0)
+
       application.option("global", [], {:type => String})
       command.option("local")
+
       application.console.should_receive(:write).with("[GLOBAL OPTIONS]")
       application.console.should_receive(:write).with("[OPTIONS]")
+      application.console.should_receive(:write).at_least(0)
       application.show_help
       command.show_help
     end
 
     it "should print subcommands" do
+      Kernel.stub(:exit).and_return(0)
+
       command.command("subcommand")
       application.console.should_receive(:write).with("[COMMANDS]")
       application.console.should_receive(:write).with("[SUBCOMMANDS]")
+      application.console.should_receive(:write).at_least(0)
       application.show_help
       command.show_help
     end
 
     it "should exit" do
-      Kernel.should_receive(:exit).with(0).exactly(2)
+      ::Bovem::Console.any_instance.stub(:write)
+
+      Kernel.should_receive(:exit).with(0).exactly(1)
       application.show_help
-      command.show_help
     end
   end
 end

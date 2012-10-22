@@ -54,10 +54,10 @@ describe Mamertes::Application do
     end
 
     it "should execute associated actions" do
+      application.should_receive(:show_help).exactly(2)
       application.should_receive(:command_help)
-      application.execute(["help", "command"])
 
-      application.should_receive(:show_help)
+      application.execute(["help", "command"])
       application.execute("-h")
     end
   end
@@ -111,9 +111,7 @@ describe "Mamertes::App" do
 
   it "should create a default application" do
     ::Mamertes::Application.should_receive(:new).with({:name => "__APPLICATION__", :parent => nil, :application => nil})
-    ::Mamertes.App() do
-
-    end
+    ::Mamertes.App() {}
   end
 
   it "should create an application with given options and block" do
@@ -123,7 +121,9 @@ describe "Mamertes::App" do
     application = ::Mamertes.App(options) {}
   end
 
-  it "should create an application with given options and block" do
+  it "should execute the block" do
+    ::Bovem::Console.any_instance.stub(:write)
+    Kernel.stub(:exit)
     options = {:name => "OK"}
     check = false
 

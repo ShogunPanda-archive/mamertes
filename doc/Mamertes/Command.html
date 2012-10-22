@@ -2028,7 +2028,9 @@
 304
 305
 306
-307</pre>
+307
+308
+309</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/command.rb', line 292</span>
@@ -2036,7 +2038,9 @@
 <span class='kw'>def</span> <span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_subcommand'>subcommand</span> <span class='op'>=</span> <span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='id identifier rubyid_args'>args</span><span class='rparen'>)</span>
 
-  <span class='kw'>if</span> <span class='id identifier rubyid_subcommand'>subcommand</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>&amp;&amp;</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span> <span class='kw'>then</span> <span class='comment'># We have an action, we won't call subcommand.
+  <span class='kw'>if</span> <span class='id identifier rubyid_subcommand'>subcommand</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='kw'>then</span> <span class='comment'># We have a subcommand to call
+</span>    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_commands'>commands</span><span class='lbracket'>[</span><span class='id identifier rubyid_subcommand'>subcommand</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_subcommand'>subcommand</span><span class='lbracket'>[</span><span class='symbol'>:args</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>elsif</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_action'>action</span> <span class='kw'>then</span> <span class='comment'># Run our action
 </span>    <span class='comment'># Run the before hook
 </span>    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_before'>before</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_before'>before</span>
 
@@ -2045,8 +2049,8 @@
 
     <span class='comment'># Run the after hook
 </span>    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_after'>after</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='kw'>self</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_after'>after</span>
-  <span class='kw'>elsif</span> <span class='id identifier rubyid_subcommand'>subcommand</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='kw'>then</span>
-    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_commands'>commands</span><span class='lbracket'>[</span><span class='id identifier rubyid_subcommand'>subcommand</span><span class='lbracket'>[</span><span class='symbol'>:name</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_subcommand'>subcommand</span><span class='lbracket'>[</span><span class='symbol'>:args</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+  <span class='kw'>else</span> <span class='comment'># Show the help
+</span>    <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_show_help'>show_help</span>
   <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2729,8 +2733,6 @@
       <pre class="lines">
 
 
-310
-311
 312
 313
 314
@@ -2795,10 +2797,12 @@
 373
 374
 375
-376</pre>
+376
+377
+378</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/command.rb', line 310</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/command.rb', line 312</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show_help'>show_help</span>
   <span class='id identifier rubyid_console'>console</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_application?'>is_application?</span> <span class='op'>?</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span> <span class='op'>:</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span>
@@ -2877,7 +2881,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Oct 19 09:09:49 2012 by
+  Generated on Mon Oct 22 09:19:24 2012 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.2.1 (ruby-1.9.2).
 </div>

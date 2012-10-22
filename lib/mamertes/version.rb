@@ -13,10 +13,10 @@ module Mamertes
     MAJOR = 1
 
     # The minor version.
-    MINOR = 1
+    MINOR = 2
 
     # The patch version.
-    PATCH = 9
+    PATCH = 0
 
     # The current version number of Mamertes.
     STRING = [MAJOR, MINOR, PATCH].compact.join(".")

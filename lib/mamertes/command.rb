@@ -292,7 +292,9 @@ module Mamertes
     def execute(args)
       subcommand = Mamertes::Parser.parse(self, args)
 
-      if subcommand.nil? && self.action then # We have an action, we won't call subcommand.
+      if subcommand.present? then # We have a subcommand to call
+        self.commands[subcommand[:name]].execute(subcommand[:args])
+      elsif self.action then # Run our action
         # Run the before hook
         self.before.call(self) if self.before
 
@@ -301,8 +303,8 @@ module Mamertes
 
         # Run the after hook
         self.after.call(self) if self.after
-      elsif subcommand.present? then
-        self.commands[subcommand[:name]].execute(subcommand[:args])
+      else # Show the help
+        self.show_help
       end
     end
 
