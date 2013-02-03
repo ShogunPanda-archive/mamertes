@@ -39,11 +39,7 @@ module Mamertes
       rv = nil
 
       if command.commands.present? then
-        if arg.index(separator) then
-          tokens = arg.split(separator, 2)
-          arg = tokens[0]
-          args.insert(0, tokens[1])
-        end
+        arg, args = adjust_command(arg, args, separator)
 
         matching = command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
         if matching.length == 1 # Found a command
@@ -148,5 +144,22 @@ module Mamertes
 
       rv
     end
+
+    private
+      # Adjust a command so that it only specify a single command.
+      #
+      # @param arg [String] The string to match.
+      # @param args [String] The complet list of arguments passed.
+      # @param separator [String] The separator for joined syntax commands.
+      # @return [Array] Adjust command and arguments.
+      def self.adjust_command(arg, args, separator)
+        if arg.index(separator) then
+          tokens = arg.split(separator, 2)
+          arg = tokens[0]
+          args.insert(0, tokens[1])
+        end
+
+        [arg, args]
+      end
   end
 end
