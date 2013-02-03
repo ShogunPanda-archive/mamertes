@@ -15,18 +15,15 @@ module Mamertes
     # @param quote [String] If not nil, elements are quoted with that element.
     # @return [String] The joined array.
     def self.smart_join(array, separator = ", ", last_separator = " and ", quote = "\"")
-      array = array.ensure_array
       separator = separator.ensure_string
       last_separator = last_separator.ensure_string
 
-      array = array.collect {|a| quote.present? ? "#{quote}#{a}#{quote}" : a.ensure_string }
-      case array.length
-        when 0 then ""
-        when 1 then array[0]
-        when 2 then
-          array[0] + last_separator + array[1]
-        else
-          array[0, array.length - 1].join(separator) + last_separator + array[-1]
+      array = array.ensure_array.collect {|a| quote.present? ? "#{quote}#{a}#{quote}" : a.ensure_string }
+
+      if array.length < 2 then
+        array[0] || ""
+      else
+        array[0, array.length - 1].join(separator) + last_separator + array[-1]
       end
     end
 
