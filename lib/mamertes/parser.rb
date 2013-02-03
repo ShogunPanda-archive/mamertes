@@ -86,22 +86,8 @@ module Mamertes
 
       begin
         if command.options.present? then
-          # Parse options
-          parser.order!(args) do |arg|
-            fc = ::Mamertes::Parser.find_command(arg, command, args)
-
-            if fc.present? then
-              rv = fc
-              parser.terminate
-            else
-              command.argument(arg)
-            end
-          end
-
-          # Check if any required option is missing.
-          command.options.each_pair  do |name, option|
-            raise ::Mamertes::Error.new(option, :missing_option, "Required option #{option.label} is missing.") if option.required && !option.provided?
-          end
+          rv = parse_options(parser, command, args)
+          check_required_options(command)
         elsif args.present? then
           # Try to find a command into the first argument
           fc = ::Mamertes::Parser.find_command(args[0], command, args[1, args.length - 1])
@@ -225,6 +211,39 @@ module Mamertes
       def self.parse_boolean(opts, option)
         opts.on("-#{option.short}", "--#{option.long}") do |value|
           option.set(value.to_boolean)
+        end
+      end
+
+      # Parses options of a command.
+      #
+      # @param parser [OptionParser] The option parser.
+      # @param command [Command] The command or application to parse.
+      # @param args [Array] The arguments to parse.
+      def self.parse_options(parser, command, args)
+        rv = nil
+
+        # Parse options
+        parser.order!(args) do |arg|
+          fc = ::Mamertes::Parser.find_command(arg, command, args)
+
+          if fc.present? then
+            rv = fc
+            parser.terminate
+          else
+            command.argument(arg)
+          end
+        end
+
+        rv
+      end
+
+      # Check if all options of a command are present.
+      #
+      # @param command [Command] The command or application to parse.
+      def self.check_required_options(command)
+        # Check if any required option is missing.
+        command.options.each_pair  do |name, option|
+          raise ::Mamertes::Error.new(option, :missing_option, "Required option #{option.label} is missing.") if option.required && !option.provided?
         end
       end
   end
