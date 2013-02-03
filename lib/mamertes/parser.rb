@@ -166,6 +166,16 @@ module Mamertes
         end
       end
 
+      # Parses an action option. A block must be provided to deal with the value.
+      #
+      # @param opts [Object] The current set options.
+      # @param option [Option] The option to set.
+      def self.parse_option(opts, option)
+        opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
+          yield(value)
+        end
+      end
+
       # Parses an action option.
       #
       # @param opts [Object] The current set options.
@@ -181,9 +191,7 @@ module Mamertes
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
       def self.parse_string(opts, option)
-        opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
-          option.set(value)
-        end
+        parse_option(opts, option) { |value| option.set(value) }
       end
 
       # Parses a number option.
@@ -194,7 +202,7 @@ module Mamertes
       # @param convert_method [Symbol] The method to execute to convert option.
       # @param invalid_message [String] The string to send in case of invalid arguments.
       def self.parse_number(opts, option, check_method, convert_method, invalid_message)
-        opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
+        parse_option(opts, option) do |value|
           raise ::Mamertes::Error.new(option, :invalid_argument, invalid_message) if !value.send(check_method)
           option.set(value.send(convert_method))
         end
