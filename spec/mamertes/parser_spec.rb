@@ -69,6 +69,14 @@ describe Mamertes::Parser do
   end
 
   describe ".parse" do
+    it "should instantiate a parser and then parse" do
+      ::Mamertes::Parser.should_receive(:new).and_call_original
+      ::Mamertes::Parser.any_instance.should_receive(:parse).with("COMMAND", "ARGS")
+      ::Mamertes::Parser.parse("COMMAND", "ARGS")
+    end
+  end
+
+  describe "#parse" do
     it "should iterate options" do
       application.options.should_receive(:each_pair).exactly(2)
       ::Mamertes::Parser.parse(application, [])

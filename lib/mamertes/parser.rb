@@ -17,14 +17,8 @@ module Mamertes
     def self.smart_join(array, separator = ", ", last_separator = " and ", quote = "\"")
       separator = separator.ensure_string
       last_separator = last_separator.ensure_string
-
       array = array.ensure_array.collect {|a| quote.present? ? "#{quote}#{a}#{quote}" : a.ensure_string }
-
-      if array.length < 2 then
-        array[0] || ""
-      else
-        array[0, array.length - 1].join(separator) + last_separator + array[-1]
-      end
+      array.length < 2 ? (array[0] || "") : (array[0, array.length - 1].join(separator) + last_separator + array[-1])
     end
 
     # Finds a command which corresponds to an argument.
@@ -58,6 +52,15 @@ module Mamertes
     # @param args [Array] The arguments to parse.
     # @return [Hash|NilClass] An hash with `name` (of a subcommand to execute) and `args` keys if a valid subcommand is found, `nil` otherwise.
     def self.parse(command, args)
+      ::Mamertes::Parser.new.parse(command, args)
+    end
+
+    # Parses a command/application.
+    #
+    # @param command [Command] The command or application to parse.
+    # @param args [Array] The arguments to parse.
+    # @return [Hash|NilClass] An hash with `name` (of a subcommand to execute) and `args` keys if a valid subcommand is found, `nil` otherwise.
+    def parse(command, args)
       rv = nil
       args = args.ensure_array.dup
       forms = {}
@@ -143,7 +146,7 @@ module Mamertes
       # @param command [Command] The command or application to parse.
       # @param forms [Hash] The current forms.
       # @param option [Option] The option to set.
-      def self.check_unique(command, forms, option)
+      def check_unique(command, forms, option)
         if forms[option.complete_short] || forms[option.complete_long] then
           raise ::Mamertes::Error.new(command, :ambiguous_form, "Options #{option.label} and #{forms[option.complete_short].label} have conflicting forms.")
         else
@@ -156,7 +159,7 @@ module Mamertes
       #
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
-      def self.parse_option(opts, option)
+      def parse_option(opts, option)
         opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
           yield(value)
         end
@@ -166,7 +169,7 @@ module Mamertes
       #
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
-      def self.parse_action(opts, option)
+      def parse_action(opts, option)
         opts.on("-#{option.short}", "--#{option.long}") do |value|
           option.execute_action
         end
@@ -176,7 +179,7 @@ module Mamertes
       #
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
-      def self.parse_string(opts, option)
+      def parse_string(opts, option)
         parse_option(opts, option) { |value| option.set(value) }
       end
 
@@ -187,7 +190,7 @@ module Mamertes
       # @param check_method [Symbol] The method to execute to check option validity. Must return a boolean.
       # @param convert_method [Symbol] The method to execute to convert option.
       # @param invalid_message [String] The string to send in case of invalid arguments.
-      def self.parse_number(opts, option, check_method, convert_method, invalid_message)
+      def parse_number(opts, option, check_method, convert_method, invalid_message)
         parse_option(opts, option) do |value|
           raise ::Mamertes::Error.new(option, :invalid_argument, invalid_message) if !value.send(check_method)
           option.set(value.send(convert_method))
@@ -198,7 +201,7 @@ module Mamertes
       #
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
-      def self.parse_array(opts, option)
+      def parse_array(opts, option)
         opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}", Array) do |value|
           option.set(value.ensure_array)
         end
@@ -208,7 +211,7 @@ module Mamertes
       #
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
-      def self.parse_boolean(opts, option)
+      def parse_boolean(opts, option)
         opts.on("-#{option.short}", "--#{option.long}") do |value|
           option.set(value.to_boolean)
         end
@@ -219,7 +222,7 @@ module Mamertes
       # @param parser [OptionParser] The option parser.
       # @param command [Command] The command or application to parse.
       # @param args [Array] The arguments to parse.
-      def self.parse_options(parser, command, args)
+      def parse_options(parser, command, args)
         rv = nil
 
         # Parse options
@@ -240,7 +243,7 @@ module Mamertes
       # Check if all options of a command are present.
       #
       # @param command [Command] The command or application to parse.
-      def self.check_required_options(command)
+      def check_required_options(command)
         # Check if any required option is missing.
         command.options.each_pair  do |name, option|
           raise ::Mamertes::Error.new(option, :missing_option, "Required option #{option.label} is missing.") if option.required && !option.provided?
