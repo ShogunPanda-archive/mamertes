@@ -65,7 +65,7 @@ module Mamertes
       options = {} if !options.is_a?(::Hash)
 
       # Set values
-      self.name = name
+      @name = name
       self.short = forms.length > 0 ? forms[0] : name[0, 1]
       self.long = forms.length == 2 ? forms[1] : name
       @provided = false
@@ -83,7 +83,7 @@ module Mamertes
     #
     # @param value [String] The short form of this option.
     def short=(value)
-      value = self.name[0, 1] if !value.present?
+      value = @name[0, 1] if !value.present?
 
       # Clean value
       mo = value.to_s.match(/^-{0,2}([a-z0-9])(.*)$/i)
@@ -96,7 +96,7 @@ module Mamertes
     #
     # @param value [String] The short form of this option.
     def long=(value)
-      value = self.name if !value.present?
+      value = @name if !value.present?
 
       # Clean value
       mo = value.to_s.match(/^-{0,2}(.+)$/)
@@ -119,21 +119,21 @@ module Mamertes
     #
     # @return [String] The short form with a dash prepended.
     def complete_short
-      "-#{self.short}"
+      "-#{@short}"
     end
 
     # Returns the long form with two dashes prepended.
     #
     # @return [String] The short form with two dashes prepended.
     def complete_long
-      "--#{self.long}"
+      "--#{@long}"
     end
 
     # Returns a label for this option, combining short and long forms.
     #
     # @return [String] A label for this option.
     def label
-      [self.complete_short,self.complete_long].compact.join("/")
+      [self.complete_short, self.complete_long].compact.join("/")
     end
 
     # Returns the meta argument for this option.
@@ -174,9 +174,9 @@ module Mamertes
 
     # Executes the action associated to this option.
     def execute_action
-      if self.action.present? then
+      if @action.present? then
         @provided = true
-        self.action.call(self.parent, self)
+        @action.call(self.parent, self)
       end
     end
 
@@ -184,7 +184,7 @@ module Mamertes
     #
     # @return [Boolean] `true` if this option requires an argument, `false` otherwise.
     def requires_argument?
-      [String, Integer, Float, Array].include?(self.type) && self.action.blank?
+      [String, Integer, Float, Array].include?(@type) && @action.blank?
     end
 
     # If this option was provided.
@@ -198,9 +198,8 @@ module Mamertes
     #
     # @return [Boolean] `true` if this command has a help, `false` otherwise.
     def has_help?
-      self.help.present?
+      @help.present?
     end
-
 
     # Get the current value for this option.
     #

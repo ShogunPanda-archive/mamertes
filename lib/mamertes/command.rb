@@ -73,7 +73,7 @@ module Mamertes
       if self.is_application? then
         nil
       else
-        [self.parent ? self.parent.full_name(nil, separator) : nil, !self.is_application? ? self.name : nil, suffix].compact.join(separator)
+        [@parent ? @parent.full_name(nil, separator) : nil, !self.is_application? ? self.name : nil, suffix].compact.join(separator)
       end
     end
 
