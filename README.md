@@ -19,8 +19,8 @@ This application:
 require "rubygems"
 require "mamertes"
 
-Mamertes.App(:name => "Mamertes Usage Test", :version => "1.0.0", :description => "An example modelled like a TODO application", :banner => "Do you like Mamertes?") do
-  option(:storage, ["f", "file"], {:help => "The file where store TODOs to.", :meta => "FILE"})
+Mamertes.App(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
+  option(:storage, ["f", "file"], {help: "The file where store TODOs to.", meta: "FILE"})
 
   command :list do
     description "List all TODOs."
@@ -29,20 +29,20 @@ Mamertes.App(:name => "Mamertes Usage Test", :version => "1.0.0", :description =
     end
   end
 
-  command :manage, {:description => "Manage existing TODO."} do
-    option(:verbose, [], {:help => "Be verbose."})
+  command :manage, {description: "Manage existing TODO."} do
+    option(:verbose, [], {help: "Be verbose."})
 
     action do |command|
       puts "Please use \"add\" or \"remove\" subcommands."
     end
 
-    command :add, {:description => "Add a TODO."} do
+    command :add, {description: "Add a TODO."} do
       action do |command|
         # You should implement this.
       end
     end
 
-    command :remove, {:description => "Removes a TODO."} do
+    command :remove, {description: "Removes a TODO."} do
       action do |command|
         # You should implement this.
       end
@@ -102,6 +102,7 @@ $ ./test help manage
     remove - Removes a TODO.
 ```
 
+
 ## Advanced usage
 
 See documentation for more information.
@@ -120,4 +121,4 @@ See documentation for more information.
 
 Copyright (C) 2013 and above Shogun (shogun_panda@me.com).
 
-Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
+Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php).

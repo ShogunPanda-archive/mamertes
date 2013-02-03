@@ -91,11 +91,11 @@ class Error < ArgumentError
 
     # Adds a help command and a help option to this application.
     def help_option
-      command :help, :description => "Shows a help about a command." do
+      command :help, description: "Shows a help about a command." do
         action { |command| application.command_help(command) }
       end
 
-      option(:help, ["-h", "--help"], :help => "Shows this message."){|application, option| application.show_help }
+      option(:help, ["-h", "--help"], help: "Shows this message."){|application, option| application.show_help }
     end
 
     # The name of the current executable.
@@ -140,7 +140,7 @@ class Error < ArgumentError
 
   # Initializes a new Mamertes application.
   #
-  # In options, you can override the command line arguments with `:__args__`, and you can skip execution by specifying `:run => false`.
+  # In options, you can override the command line arguments with `:__args__`, and you can skip execution by specifying `run: false`.
   #
   # @see Command#setup_with
   #
@@ -150,7 +150,7 @@ class Error < ArgumentError
     raise Mamertes::Error.new(Mamertes::Application, :missing_block, "You have to provide a block to Mamertes::App!") if !block_given?
 
     options = {} if !options.is_a?(::Hash)
-    options = {:name => "__APPLICATION__", :parent => nil, :application => nil}.merge(options)
+    options = {name: "__APPLICATION__", parent: nil, application: nil}.merge(options)
     args = options.delete(:__args__)
     run = options.delete(:run)
     run = (!run.nil? ? run : true).to_boolean

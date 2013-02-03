@@ -20,13 +20,13 @@ describe Mamertes::Parser do
         end
       end
 
-      option :boolean, ["b", "boolean"], :help => "BOOLEAN"
-      option :string, [nil, "string"], :type => String, :meta => "STRING", :help => "STRING"
-      option :integer, ["i", nil], :type => Integer, :help => "INTEGER"
-      option :float, [nil, nil], :type => Float, :help => "FLOAT"
-      option :array, ["a", "array"], :type => Array, :help => "ARRAY"
-      option :choice, ["c", "choice"], :type => String, :help => "ARRAY", :validator => ["yes", "no"]
-      option :regexp, ["r", "regexp"], :type => String, :help => "REGEXP", :validator => /yes|no/i
+      option :boolean, ["b", "boolean"], help: "BOOLEAN"
+      option :string, [nil, "string"], type: String, meta: "STRING", help: "STRING"
+      option :integer, ["i", nil], type: Integer, help: "INTEGER"
+      option :float, [nil, nil], type: Float, help: "FLOAT"
+      option :array, ["a", "array"], type: Array, help: "ARRAY"
+      option :choice, ["c", "choice"], type: String, help: "ARRAY", validator: ["yes", "no"]
+      option :regexp, ["r", "regexp"], type: String, help: "REGEXP", validator: /yes|no/i
       option :action, ["A"] do |option, command|
         p "[OPTION] BLOCK"
       end
@@ -59,10 +59,10 @@ describe Mamertes::Parser do
       s2 = command.command("abd")
       s1.command("def")
 
-      expect(::Mamertes::Parser.find_command("abc", command, args)).to eq({:name => "abc", :args => args})
-      expect(::Mamertes::Parser.find_command("abc:def", command, args)).to eq({:name => "abc", :args => ["def"] + args})
-      expect(::Mamertes::Parser.find_command("abc def", command, args, " ")).to eq({:name => "abc", :args => ["def"] + args})
-      expect(::Mamertes::Parser.find_command("d", s1, args)).to eq({:name => "def", :args => args})
+      expect(::Mamertes::Parser.find_command("abc", command, args)).to eq({name: "abc", args: args})
+      expect(::Mamertes::Parser.find_command("abc:def", command, args)).to eq({name: "abc", args: ["def"] + args})
+      expect(::Mamertes::Parser.find_command("abc def", command, args, " ")).to eq({name: "abc", args: ["def"] + args})
+      expect(::Mamertes::Parser.find_command("d", s1, args)).to eq({name: "def", args: args})
       expect{ ::Mamertes::Parser.find_command("ab", command, args) }.to raise_error(::Mamertes::Error)
       expect(::Mamertes::Parser.find_command("abc", s2, args)).to be_nil
     end
@@ -94,7 +94,7 @@ describe Mamertes::Parser do
       expect { ::Mamertes::Parser.parse(application, ["-c", "B"]) }.to raise_error(::Mamertes::Error)
       expect { ::Mamertes::Parser.parse(application, ["-r", "C"]) }.to raise_error(::Mamertes::Error)
       expect { ::Mamertes::Parser.parse(application, ["-R", "C"]) }.to raise_error(::Mamertes::Error)
-      application.option("R", [], {:required => true})
+      application.option("R", [], {required: true})
       expect { ::Mamertes::Parser.parse(application, ["-b"]) }.to raise_error(::Mamertes::Error) # Because we're missing a required option
     end
 
@@ -104,13 +104,13 @@ describe Mamertes::Parser do
     end
 
     it "should return the command to execute" do
-      expect(::Mamertes::Parser.parse(application, ["a", "OTHER"])).to eq({:name => "abc", :args => ["OTHER"]})
-      expect(::Mamertes::Parser.parse(application, ["ab:d", "OTHER"])).to eq({:name => "abc", :args => ["d", "OTHER"]})
-      expect(::Mamertes::Parser.parse(application, ["abc", "d", "OTHER"])).to eq({:name => "abc", :args => ["d", "OTHER"]})
+      expect(::Mamertes::Parser.parse(application, ["a", "OTHER"])).to eq({name: "abc", args: ["OTHER"]})
+      expect(::Mamertes::Parser.parse(application, ["ab:d", "OTHER"])).to eq({name: "abc", args: ["d", "OTHER"]})
+      expect(::Mamertes::Parser.parse(application, ["abc", "d", "OTHER"])).to eq({name: "abc", args: ["d", "OTHER"]})
       expect(::Mamertes::Parser.parse(application, ["d", "OTHER"])).to eq(nil)
 
       application.clear_options
-      expect(::Mamertes::Parser.parse(application, ["a", "OTHER"])).to eq({:name => "abc", :args => ["OTHER"]})
+      expect(::Mamertes::Parser.parse(application, ["a", "OTHER"])).to eq({name: "abc", args: ["OTHER"]})
       expect(::Mamertes::Parser.parse(application, ["d:d", "OTHER"])).to eq(nil)
       expect(::Mamertes::Parser.parse(application, ["d d", "OTHER"])).to eq(nil)
       expect(::Mamertes::Parser.parse(application, ["d", "d", "OTHER"])).to eq(nil)

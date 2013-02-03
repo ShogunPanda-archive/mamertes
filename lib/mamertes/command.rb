@@ -157,14 +157,14 @@ module Mamertes
       @commands ||= {}
 
       options = {} if !options.is_a?(::Hash)
-      options = {:name => name.to_s, :parent => self, :application => self.application}.merge(options)
+      options = {name: name.to_s, parent: self, application: self.application}.merge(options)
 
       raise Mamertes::Error.new(self, :duplicate_command, "The command \"#{self.full_name(name)}\" already exists.") if @commands[name.to_s]
 
       command = ::Mamertes::Command.new(options, &block)
 
       # Add the help option
-      command.option(:help, ["-h", "--help"], :help => "Shows this message."){|command, option| command.show_help }
+      command.option(:help, ["-h", "--help"], help: "Shows this message."){|command, option| command.show_help }
 
       @commands[name.to_s] = command
       command

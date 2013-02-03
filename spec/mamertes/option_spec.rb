@@ -29,7 +29,7 @@ describe Mamertes::Option do
     end
 
     it "should set options" do
-      option = ::Mamertes::Option.new("NAME", ["O", "OPTION"], {:required => true, :help => "HELP", :unused => "UNUSED"})
+      option = ::Mamertes::Option.new("NAME", ["O", "OPTION"], {required: true, help: "HELP", unused: "UNUSED"})
       expect(option.help).to be_true
       expect(option.help).to eq("HELP")
     end
@@ -132,9 +132,9 @@ describe Mamertes::Option do
   describe "#meta" do
     it "should return the option meta" do
       expect(::Mamertes::Option.new("NAME", []).meta).to be_nil
-      expect(::Mamertes::Option.new("NAME", [], {:type => String}).meta).to eq("NAME")
-      expect(::Mamertes::Option.new("foo", [], {:type => String}).meta).to eq("FOO")
-      expect(::Mamertes::Option.new("NAME", [], {:type => String, :meta => "STRING"}).meta).to eq("STRING")
+      expect(::Mamertes::Option.new("NAME", [], {type: String}).meta).to eq("NAME")
+      expect(::Mamertes::Option.new("foo", [], {type: String}).meta).to eq("FOO")
+      expect(::Mamertes::Option.new("NAME", [], {type: String, meta: "STRING"}).meta).to eq("STRING")
     end
   end
 
@@ -208,10 +208,10 @@ describe Mamertes::Option do
   describe "#requires_argument?" do
     it "should check if the option requires argument" do
       expect(::Mamertes::Option.new("NAME", []).requires_argument?).to be_false
-      expect(::Mamertes::Option.new("NAME", [], {:type => String}).requires_argument?).to be_true
-      expect(::Mamertes::Option.new("NAME", [], {:type => Integer}).requires_argument?).to be_true
-      expect(::Mamertes::Option.new("NAME", [], {:type => Float}).requires_argument?).to be_true
-      expect(::Mamertes::Option.new("NAME", [], {:type => Array}).requires_argument?).to be_true
+      expect(::Mamertes::Option.new("NAME", [], {type: String}).requires_argument?).to be_true
+      expect(::Mamertes::Option.new("NAME", [], {type: Integer}).requires_argument?).to be_true
+      expect(::Mamertes::Option.new("NAME", [], {type: Float}).requires_argument?).to be_true
+      expect(::Mamertes::Option.new("NAME", [], {type: Array}).requires_argument?).to be_true
       expect(::Mamertes::Option.new("NAME").requires_argument?).to be_false
     end
   end
@@ -227,7 +227,7 @@ describe Mamertes::Option do
   describe "#has_help?" do
     it "should check if the option has a help" do
       expect(::Mamertes::Option.new("NAME").has_help?).to be_false
-      expect(::Mamertes::Option.new("NAME", [], :help => "HELP").has_help?).to be_true
+      expect(::Mamertes::Option.new("NAME", [], help: "HELP").has_help?).to be_true
     end
   end
 
@@ -248,11 +248,11 @@ describe Mamertes::Option do
 
     it "should return good defaults" do
       expect(::Mamertes::Option.new("NAME").value).to be_false
-      expect(::Mamertes::Option.new("NAME", [], {:type => Regexp}).value).to be_false
-      expect(::Mamertes::Option.new("NAME", [], {:type => String}).value).to eq("")
-      expect(::Mamertes::Option.new("NAME", [], {:type => Integer}).value).to eq(0)
-      expect(::Mamertes::Option.new("NAME", [], {:type => Float}).value).to eq(0.0)
-      expect(::Mamertes::Option.new("NAME", [], {:type => Array}).value).to eq([])
+      expect(::Mamertes::Option.new("NAME", [], {type: Regexp}).value).to be_false
+      expect(::Mamertes::Option.new("NAME", [], {type: String}).value).to eq("")
+      expect(::Mamertes::Option.new("NAME", [], {type: Integer}).value).to eq(0)
+      expect(::Mamertes::Option.new("NAME", [], {type: Float}).value).to eq(0.0)
+      expect(::Mamertes::Option.new("NAME", [], {type: Array}).value).to eq([])
     end
   end
 end

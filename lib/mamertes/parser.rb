@@ -48,7 +48,7 @@ module Mamertes
 
         matching = command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
         if matching.length == 1 # Found a command
-          rv = {:name => matching[0], :args => args}
+          rv = {name: matching[0], args: args}
         elsif matching.length > 1 # Ambiguous match
           raise ::Mamertes::Error.new(command, :ambiguous_command, "Command shortcut \"#{arg}\" is ambiguous across commands #{::Mamertes::Parser.smart_join(matching)}. Please add some other characters.")
         end

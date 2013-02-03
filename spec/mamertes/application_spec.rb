@@ -22,7 +22,7 @@ describe Mamertes::Application do
 
   describe "#initialize" do
     it "should call the parent constructor" do
-      options = {:a => :b}
+      options = {a: :b}
       block = Proc.new {}
 
       ::Mamertes::Command.should_receive(:new).with(options, &block)
@@ -110,21 +110,21 @@ describe "Mamertes::App" do
   end
 
   it "should create a default application" do
-    ::Mamertes::Application.should_receive(:new).with({:name => "__APPLICATION__", :parent => nil, :application => nil})
+    ::Mamertes::Application.should_receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil})
     ::Mamertes.App() {}
   end
 
   it "should create an application with given options and block" do
-    options = {:name => "OK"}
+    options = {name: "OK"}
 
-    ::Mamertes::Application.should_receive(:new).with({:name => "OK", :parent => nil, :application => nil})
+    ::Mamertes::Application.should_receive(:new).with({name: "OK", parent: nil, application: nil})
     application = ::Mamertes.App(options) {}
   end
 
   it "should execute the block" do
     ::Bovem::Console.any_instance.stub(:write)
     Kernel.stub(:exit)
-    options = {:name => "OK"}
+    options = {name: "OK"}
     check = false
 
     application = ::Mamertes.App(options) { check = true }
@@ -147,7 +147,7 @@ describe "Mamertes::App" do
   it "can override arguments" do
     args = []
 
-    application = ::Mamertes.App({:__args__ => ["C", "D"]}) do
+    application = ::Mamertes.App({__args__: ["C", "D"]}) do
       action do |command|
         args = command.arguments.join("-")
       end
@@ -159,7 +159,7 @@ describe "Mamertes::App" do
   it "should not execute the application if requested to" do
     args = []
 
-    application = ::Mamertes.App(:run => false) do
+    application = ::Mamertes.App(run: false) do
       action do |command|
         args = command.arguments.join("-")
       end

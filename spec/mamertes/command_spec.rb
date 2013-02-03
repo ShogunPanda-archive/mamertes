@@ -21,12 +21,12 @@ describe Mamertes::Command do
 
   describe "#initialize" do
     it "should forward to #setup_with" do
-      expect(::Mamertes::Command.new(:name => "command").name).to eq("command")
+      expect(::Mamertes::Command.new(name: "command").name).to eq("command")
     end
 
     it "should call the block" do
       count = 0
-      ::Mamertes::Command.new(:name => "command") { count += 1 }
+      ::Mamertes::Command.new(name: "command") { count += 1 }
       expect(count).to eq(1)
     end
   end
@@ -44,7 +44,7 @@ describe Mamertes::Command do
       command.name = "root"
       expect(command.full_name).to eq("root")
 
-      subcommand = ::Mamertes::Command.new(:name => "child")
+      subcommand = ::Mamertes::Command.new(name: "child")
       subcommand.parent = command
       expect(subcommand.full_name).to eq("root:child")
       expect(subcommand.full_name(nil, " ")).to eq("root child")
@@ -113,20 +113,20 @@ describe Mamertes::Command do
   describe "#has_description?" do
     it "should check if the command has a description" do
       expect(::Mamertes::Command.new.has_description?).to be_false
-      expect(::Mamertes::Command.new({:description => "DESCRIPTION"}).has_description?).to be_true
+      expect(::Mamertes::Command.new({description: "DESCRIPTION"}).has_description?).to be_true
     end
   end
 
   describe "#has_banner?" do
     it "should check if the command has a banner" do
       expect(::Mamertes::Command.new.has_banner?).to be_false
-      expect(::Mamertes::Command.new({:banner => "BANNER"}).has_banner?).to be_true
+      expect(::Mamertes::Command.new({banner: "BANNER"}).has_banner?).to be_true
     end
   end
 
   describe "#command" do
     it "should add a subcommand" do
-      command.command("subcommand", {:banner => "BANNER"}) do |option|
+      command.command("subcommand", {banner: "BANNER"}) do |option|
         description "DESCRIPTION"
       end
 
@@ -147,7 +147,7 @@ describe Mamertes::Command do
 
   describe "#option" do
     it "should add a subcommand" do
-      command.option("option", ["short", "long"], {:type => String, :help => "HELP"})
+      command.option("option", ["short", "long"], {type: String, help: "HELP"})
 
       option = command.options["option"]
 
@@ -255,7 +255,7 @@ describe Mamertes::Command do
     it "should setup required option by calling proper methods" do
       command.should_receive("name").with("new-command")
       command.should_receive("application=").with(nil)
-      command.setup_with({:name => "new-command", :application => nil, :invalid => false})
+      command.setup_with({name: "new-command", application: nil, invalid: false})
     end
   end
 
@@ -337,7 +337,7 @@ describe Mamertes::Command do
       end
 
       ::Mamertes::Parser.stub(:parse) do |cmd, args|
-        cmd == command ? {:name => "subcommand", :args => args} : nil
+        cmd == command ? {name: "subcommand", args: args} : nil
       end
       command.execute(args)
       expect(check).to eq(["D", "E", "F"])
@@ -390,7 +390,7 @@ describe Mamertes::Command do
     it "should print options" do
       Kernel.stub(:exit).and_return(0)
 
-      application.option("global", [], {:type => String})
+      application.option("global", [], {type: String})
       command.option("local")
 
       application.console.should_receive(:write).with("[GLOBAL OPTIONS]")
