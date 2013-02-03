@@ -311,27 +311,47 @@ module Mamertes
     # Shows a help about this command.
     def show_help
       console = self.is_application? ? self.console : self.application.console
+      self.is_application? ? show_help_application_summary(console) : show_help_command_summary(console)
+      show_help_banner(console) if self.has_banner?
+      show_help_options(console) if self.has_options?
+      show_help_commands(console) if self.has_commands?
+      Kernel.exit(0)
+    end
 
-      if self.is_application? then
+    private
+      # Prints a help summary about the application.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_application_summary(console)
         # Application
         console.write("[NAME]")
         console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
         console.write("")
         console.write("[SYNOPSIS]")
         console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s[command-options] [arguments] " % [self.executable_name, self.has_commands? ? "[command [sub-command ...]] " : ""], "\n", 4, true)
-      else
+      end
+
+      # Prints a help summary about the command.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_command_summary(console)
         console.write("[SYNOPSIS]")
         console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s %s[command-options] [arguments] " % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? "[sub-command [sub-sub-command ...]] " : ""], "\n", 4, true)
       end
 
-      if self.has_banner? then
+      # Prints the description of the command.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_banner(console)
         console.write("")
         console.write("[DESCRIPTION]")
         console.write(self.banner, "\n", 4, true)
       end
 
-      # Global options
-      if self.has_options? then
+      # Prints information about the command's options.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_options(console)
         console.write("")
         console.write(self.is_application? ? "[GLOBAL OPTIONS]" : "[OPTIONS]")
 
@@ -358,8 +378,10 @@ module Mamertes
         end
       end
 
-      # Commands
-      if self.has_commands? then
+      # Prints information about the command's subcommands.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_commands(console)
         console.write("")
         console.write(self.is_application? ? "[COMMANDS]" : "[SUBCOMMANDS]")
 
@@ -373,8 +395,5 @@ module Mamertes
           end
         end
       end
-
-      Kernel.exit(0)
-    end
   end
 end
