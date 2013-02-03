@@ -109,10 +109,7 @@ class Error < ArgumentError
     #
     # @param command [Command] The command to show help for.
     def command_help(command)
-      args = command.arguments.collect {|c| c.split(":") }.flatten.collect(&:strip).select{|c| c.present? }
-      command = self
-
-      args.each do |arg|
+      command.arguments.collect {|c| c.split(":") }.flatten.collect(&:strip).select(&:present?).each do |arg|
         # Find the command across
         next_command = ::Mamertes::Parser.find_command(arg, command, [])
 
