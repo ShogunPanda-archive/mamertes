@@ -1,0 +1,635 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<title>
+  Exception: Mamertes::Error
+  
+    &mdash; Documentation by YARD 0.8.3
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" media="screen" charset="utf-8" />
+
+<script type="text/javascript" charset="utf-8">
+  hasFrames = window.top.frames.main ? true : false;
+  relpath = '../';
+  framesUrl = "../frames.html#!" + escape(window.location.href);
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div id="header">
+      <div id="menu">
+  
+    <a href="../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../Mamertes.html" title="Mamertes (module)">Mamertes</a></span></span>
+     &raquo; 
+    <span class="title">Error</span>
+  
+
+  <div class="noframes"><span class="title">(</span><a href="." target="_top">no frames</a><span class="title">)</span></div>
+</div>
+
+      <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+      Class List
+    </a>
+  
+    <a class="full_list_link" id="method_list_link"
+        href="../method_list.html">
+      Method List
+    </a>
+  
+    <a class="full_list_link" id="file_list_link"
+        href="../file_list.html">
+      File List
+    </a>
+  
+</div>
+      <div class="clear"></div>
+    </div>
+
+    <iframe id="search_frame"></iframe>
+
+    <div id="content"><h1>Exception: Mamertes::Error
+  
+  
+  
+</h1>
+
+<dl class="box">
+  
+    <dt class="r1">Inherits:</dt>
+    <dd class="r1">
+      <span class="inheritName">ArgumentError</span>
+      
+        <ul class="fullTree">
+          <li>Object</li>
+          
+            <li class="next">ArgumentError</li>
+          
+            <li class="next">Mamertes::Error</li>
+          
+        </ul>
+        <a href="#" class="inheritanceTree">show all</a>
+      
+      </dd>
+    
+  
+  
+    
+  
+    
+  
+  
+  
+    <dt class="r2 last">Defined in:</dt>
+    <dd class="r2 last">lib/mamertes/application.rb</dd>
+  
+</dl>
+<div class="clear"></div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <p>This exception is raised when something goes wrong.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+  <h2>Instance Attribute Summary <small>(<a href="#" class="summary_toggle">collapse</a>)</small></h2>
+  <ul class="summary">
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#message-instance_method" title="#message (instance method)">- (String) <strong>message</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>A human readable message.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#reason-instance_method" title="#reason (instance method)">- (Symbol) <strong>reason</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The reason of failure.</p>
+</div></span>
+  
+</li>
+
+    
+      <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#target-instance_method" title="#target (instance method)">- (Object) <strong>target</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+    
+      <span class="note title readonly">readonly</span>
+    
+    
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>The target of this error.</p>
+</div></span>
+  
+</li>
+
+    
+  </ul>
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small>(<a href="#" class="summary_toggle">collapse</a>)</small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#initialize-instance_method" title="#initialize (instance method)">- (Error) <strong>initialize</strong>(target, reason, message) </a>
+    
+
+    
+  </span>
+  
+  
+    <span class="note title constructor">constructor</span>
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Initializes a new error.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  <div id="constructor_details" class="method_details_list">
+  <h2>Constructor Details</h2>
+  
+    <div class="method_details first">
+  <h3 class="signature first" id="initialize-instance_method">
+  
+    - (<tt><span class='object_link'><a href="" title="Mamertes::Error (class)">Error</a></span></tt>) <strong>initialize</strong>(target, reason, message) 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Initializes a new error</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>target</span>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The target of this error.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>reason</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The reason of failure.</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>message</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>A human readable message.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+28
+29
+30
+31
+32
+33
+34</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 28</span>
+
+<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+
+  <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
+  <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
+  <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+  
+</div>
+
+  <div id="instance_attr_details" class="attr_details">
+    <h2>Instance Attribute Details</h2>
+    
+      
+      <span id=""></span>
+      <div class="method_details first">
+  <h3 class="signature first" id="message-instance_method">
+  
+    - (<tt>String</tt>) <strong>message</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>A human readable message.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>A human readable message.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 18</span>
+
+<span class='rubyid_class class kw'>class</span> <span class='rubyid_Error constant id'>Error</span> <span class='lt op'>&lt;</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:target</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:reason</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:message</span>
+
+  <span class='comment val'># Initializes a new error</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># @param target [Object] The target of this error.</span>
+  <span class='comment val'># @param reason [Symbol] The reason of failure.</span>
+  <span class='comment val'># @param message [String] A human readable message.</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
+    <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
+    <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="reason-instance_method">
+  
+    - (<tt>Symbol</tt>) <strong>reason</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The reason of failure.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The reason of failure.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 18</span>
+
+<span class='rubyid_class class kw'>class</span> <span class='rubyid_Error constant id'>Error</span> <span class='lt op'>&lt;</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:target</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:reason</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:message</span>
+
+  <span class='comment val'># Initializes a new error</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># @param target [Object] The target of this error.</span>
+  <span class='comment val'># @param reason [Symbol] The reason of failure.</span>
+  <span class='comment val'># @param message [String] A human readable message.</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
+    <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
+    <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      
+      <span id=""></span>
+      <div class="method_details ">
+  <h3 class="signature " id="target-instance_method">
+  
+    - (<tt>Object</tt>) <strong>target</strong>  <span class="extras">(readonly)</span>
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>The target of this error.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Object</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>The target of this error.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 18</span>
+
+<span class='rubyid_class class kw'>class</span> <span class='rubyid_Error constant id'>Error</span> <span class='lt op'>&lt;</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:target</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:reason</span>
+  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:message</span>
+
+  <span class='comment val'># Initializes a new error</span>
+  <span class='comment val'>#</span>
+  <span class='comment val'># @param target [Object] The target of this error.</span>
+  <span class='comment val'># @param reason [Symbol] The reason of failure.</span>
+  <span class='comment val'># @param message [String] A human readable message.</span>
+  <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+
+    <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
+    <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
+    <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
+  <span class='rubyid_end end kw'>end</span>
+<span class='rubyid_end end kw'>end</span>
+</pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+
+</div>
+
+    <div id="footer">
+  Generated on Sun Feb  3 11:59:53 2013 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.8.3 (ruby-1.8.7).
+</div>
+
+  </body>
+</html>
