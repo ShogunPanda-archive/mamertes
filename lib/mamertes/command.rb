@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This file is part of the mamertes gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the mamertes gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -8,43 +8,43 @@ module Mamertes
   # This class represent a command (action) for Mamertes.
   #
   # Every command has the execution block and a set of option. Optionally, it also has before and after hooks.
+  #
+  # @attribute name
+  #   @return [String] The name of this command. At runtime you can invoke it using the minimum number of letters to uniquely distinguish it from others.
+  # @attribute description
+  #   @return [String] A very short description of what this command does.
+  # @attribute banner
+  #   @return [String] A long description of this command.
+  # @attribute synopsis
+  #   @return [String] A synopsis of the typical command line usage.
+  # @attribute before
+  #   @return [Proc] A hook to execute before the command's action. It is executed only if no subcommand is executed.
+  # @attribute action
+  #   @return [Proc] The action of this command. It is executed only if no subcommand is executed.
+  # @attribute after
+  #   @return [Proc] A hook to execute after the command's action. It is executed only if no subcommand is executed.
+  # @attribute application
+  #   @return [Application] The application this command belongs to.
+  # @attribute parent
+  #   @return [Command] The parent of this command.
+  # @attribute [r] commands
+  #   @return [Array] The subcommands associated to this command.
+  # @attribute [r] options
+  #   @return [Array] The options available for this command.
+  # @attribute [r] arguments
+  #   @return [Array] The arguments provided to this command.
   class Command
-    # The name of this command.
-    #
-    # At runtime you can invoke it using the minimum number of letters to uniquely distinguish it from others.
     attr_accessor :name
-
-    # A very short description of what this command does.
     attr_accessor :description
-
-    # A long description of this command.
     attr_accessor :banner
-
-    # A synopsis of the typical command line usage.
     attr_accessor :synopsis
-
-    # A hook to execute before the command's action. It is executed only if no subcommand is executed.
     attr_accessor :before
-
-    # The action of this command. It is executed only if no subcommand is executed.
     attr_accessor :action
-
-    # A hook to execute after the command's action. It is executed only if no subcommand is executed.
     attr_accessor :after
-
-    # The application this command belongs to.
     attr_accessor :application
-
-    # The parent of this command.
     attr_accessor :parent
-
-    # The subcommands associated to this command.
     attr_reader :commands
-
-    # The options available for this command.
     attr_reader :options
-
-    # The arguments provided to this command.
     attr_reader :arguments
 
     # Creates a new command.

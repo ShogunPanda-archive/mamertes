@@ -1,20 +1,23 @@
 # encoding: utf-8
 #
-# This file is part of the mamertes gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the mamertes gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
 # Yet another command line manager.
 module Mamertes
   # This exception is raised when something goes wrong.
-  class Error < ArgumentError
-    # The target of this error.
+  #
+  # @attribute [r] target
+  #   @return [Object] The target of this error.
+  # @attribute [r] reason
+  #   @return [Symbol] The reason of failure.
+  # @attribute [r] message
+  #   @return [String] A human readable message.
+
+class Error < ArgumentError
     attr_reader :target
-
-    # The reason of failure.
     attr_reader :reason
-
-    # A human readable message.
     attr_reader :message
 
     # Initializes a new error
@@ -34,23 +37,25 @@ module Mamertes
   # This is the main class for a Mamertes application.
   #
   # Basically is the same of a command, but it adds support for application version.
+  #
+  # @attribute version
+  #   @return [String] The version of the application.
+  # @attribute shell
+  #   @return [::Bovem::Shell] A shell helper.
+  # @attribute console
+  #   @return [::Bovem::Console] A console helper.
+  # @attribute skip_commands
+  #   @return [Boolean] If to skip commands run via {#run}.
+  # @attribute show_commands
+  #   @return [Boolean] If to show command lines run via {#run}.
+  # @attribute output_commands
+  #   @return [Boolean] If to show the output of the commands run via {#run}.
   class Application < ::Mamertes::Command
-    # The version of the application.
     attr_accessor :version
-
-    # A shell helper.
     attr_accessor :shell
-
-    # A console helper.
     attr_accessor :console
-
-    # If to skip commands run via {#run}.
     attr_accessor :skip_commands
-
-    # If to show command lines run via {#run}.
     attr_accessor :show_commands
-
-    # If to show the output of the commands run via {#run}.
     attr_accessor :output_commands
 
     # Creates a new application.
@@ -70,10 +75,10 @@ module Mamertes
 
     # Reads and optionally sets the version of this application.
     #
-    # @param value [NilClass|Object] The new version of this application.
-    # @return [String] The version of this application.
+    # @param value [String|nil] The new version of this application.
+    # @return [String|nil] The version of this application.
     def version(value = nil)
-      @version = value if !value.nil?
+      @version = value.ensure_string if !value.nil?
       @version
     end
 

@@ -1,6 +1,6 @@
 # encoding: utf-8
 #
-# This file is part of the mamertes gem. Copyright (C) 2012 and above Shogun <shogun_panda@me.com>.
+# This file is part of the mamertes gem. Copyright (C) 2013 and above Shogun <shogun_panda@me.com>.
 # Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php.
 #
 
@@ -14,41 +14,43 @@ module Mamertes
   OPTION_TYPES.default = false
 
   # This class represents an option for a command.
+  #
+  # @attribute name
+  #   @return [String] The name of this option.
+  # @attribute short
+  #   @return [String] The short form (i.e.: `-h`) for this option.
+  # @attribute long
+  #   @return [String] The long form (i.e.: `--help`) for this option.
+  # @attribute type
+  #   @return [Class] The type of this option.
+  # @attribute required
+  #   @return [Boolean] If this option is required.
+  # @attribute default
+  #   @return [Object] The default value of this option.
+  # @attribute meta
+  #   @return [String] The META argument for this option, used only when showing the help.
+  # @attribute help
+  #   @return [String] An help message for this option.
+  # @attribute value
+  #   @return [Object] The current value of this option.
+  # @attribute action
+  #   @return [Proc] The action associated to this option.
+  # @attribute validat
+  #   @return [Array|Regexp] or A constraint for valid values. Can be an Array of valid values or a Regexp.
+  # @attribute parent
+  #   @return [Command] The parent of this option.
   class Option
-    # The name of this option.
     attr_accessor :name
-
-    # The short form (i.e.: `-h`) for this option.
     attr_accessor :short
-
-    # The long form (i.e.: `--help`) for this option.
     attr_accessor :long
-
-    # The type of this option.
     attr_accessor :type
-
-    # If this option is required.
     attr_accessor :required
-
-    # The default value of this option.
     attr_accessor :default
-
-    # The META argument for this option, used only when showing the help.
     attr_accessor :meta
-
-    # An help message for this option.
     attr_accessor :help
-
-    # The current value of this option.
     attr_accessor :value
-
-    # The action associated to this option.
     attr_accessor :action
-
-    # A constraint for valid values. Can be an Array of valid values or a Regexp.
     attr_accessor :validator
-
-    # The parent of this option.
     attr_accessor :parent
 
     # Creates a new option.
