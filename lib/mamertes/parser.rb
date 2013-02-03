@@ -5,55 +5,94 @@
 #
 
 module Mamertes
+  # Methods for the {Parser Parser} class.
+  module ParserMethods
+    # General methods.
+    module General
+      extend ActiveSupport::Concern
+
+      # Class methods
+      module ClassMethods
+        # Joins an array using multiple separators.
+        #
+        # @param array [Array] The array to join.
+        # @param separator [String] The separator to use for all but last join.
+        # @param last_separator [String] The separator to use for the last join.
+        # @param quote [String] If not nil, elements are quoted with that element.
+        # @return [String] The joined array.
+        def smart_join(array, separator = ", ", last_separator = " and ", quote = "\"")
+          separator = separator.ensure_string
+          last_separator = last_separator.ensure_string
+          array = array.ensure_array.collect {|a| quote.present? ? "#{quote}#{a}#{quote}" : a.ensure_string }
+          array.length < 2 ? (array[0] || "") : (array[0, array.length - 1].join(separator) + last_separator + array[-1])
+        end
+
+        # Finds a command which corresponds to an argument.
+        #
+        # @param arg [String] The string to match.
+        # @param command [Command] The command to search subcommand in.
+        # @param args [String] The complet list of arguments passed.
+        # @param separator [String] The separator for joined syntax commands.
+        # @return [Hash|NilClass] An hash with `name` and `args` keys if a valid subcommand is found, `nil` otherwise.
+        def find_command(arg, command, args, separator = ":")
+          args = args.ensure_array.dup
+          rv = nil
+
+          if command.commands.present? then
+            arg, args = adjust_command(arg, args, separator)
+
+            matching = match_subcommands(arg, command)
+            if matching.length == 1 # Found a command
+              rv = {name: matching[0], args: args}
+            elsif matching.length > 1 # Ambiguous match
+              raise ::Mamertes::Error.new(command, :ambiguous_command, "Command shortcut \"#{arg}\" is ambiguous across commands #{::Mamertes::Parser.smart_join(matching)}. Please add some other characters.")
+            end
+          end
+
+          rv
+        end
+
+        # Parses a command/application.
+        #
+        # @param command [Command] The command or application to parse.
+        # @param args [Array] The arguments to parse.
+        # @return [Hash|NilClass] An hash with `name` (of a subcommand to execute) and `args` keys if a valid subcommand is found, `nil` otherwise.
+        def parse(command, args)
+          ::Mamertes::Parser.new.parse(command, args)
+        end
+
+        private
+          # Adjusts a command so that it only specify a single command.
+          #
+          # @param arg [String] The string to match.
+          # @param args [String] The complet list of arguments passed.
+          # @param separator [String] The separator for joined syntax commands.
+          # @return [Array] Adjust command and arguments.
+          def adjust_command(arg, args, separator)
+            if arg.index(separator) then
+              tokens = arg.split(separator, 2)
+              arg = tokens[0]
+              args.insert(0, tokens[1])
+            end
+
+            [arg, args]
+          end
+
+          # Matches a string against a command's subcommands.
+          #
+          # @param arg [String] The string to match.
+          # @param command [Command] The command to search subcommand in.
+          # @return [Array] The matching subcommands.
+          def match_subcommands(arg, command)
+            command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
+          end
+      end
+    end
+  end
+
   # The parser for the command line.
   class Parser
-    # Joins an array using multiple separators.
-    #
-    # @param array [Array] The array to join.
-    # @param separator [String] The separator to use for all but last join.
-    # @param last_separator [String] The separator to use for the last join.
-    # @param quote [String] If not nil, elements are quoted with that element.
-    # @return [String] The joined array.
-    def self.smart_join(array, separator = ", ", last_separator = " and ", quote = "\"")
-      separator = separator.ensure_string
-      last_separator = last_separator.ensure_string
-      array = array.ensure_array.collect {|a| quote.present? ? "#{quote}#{a}#{quote}" : a.ensure_string }
-      array.length < 2 ? (array[0] || "") : (array[0, array.length - 1].join(separator) + last_separator + array[-1])
-    end
-
-    # Finds a command which corresponds to an argument.
-    #
-    # @param arg [String] The string to match.
-    # @param command [Command] The command to search subcommand in.
-    # @param args [String] The complet list of arguments passed.
-    # @param separator [String] The separator for joined syntax commands.
-    # @return [Hash|NilClass] An hash with `name` and `args` keys if a valid subcommand is found, `nil` otherwise.
-    def self.find_command(arg, command, args, separator = ":")
-      args = args.ensure_array.dup
-      rv = nil
-
-      if command.commands.present? then
-        arg, args = adjust_command(arg, args, separator)
-
-        matching = match_subcommands(arg, command)
-        if matching.length == 1 # Found a command
-          rv = {name: matching[0], args: args}
-        elsif matching.length > 1 # Ambiguous match
-          raise ::Mamertes::Error.new(command, :ambiguous_command, "Command shortcut \"#{arg}\" is ambiguous across commands #{::Mamertes::Parser.smart_join(matching)}. Please add some other characters.")
-        end
-      end
-
-      rv
-    end
-
-    # Parses a command/application.
-    #
-    # @param command [Command] The command or application to parse.
-    # @param args [Array] The arguments to parse.
-    # @return [Hash|NilClass] An hash with `name` (of a subcommand to execute) and `args` keys if a valid subcommand is found, `nil` otherwise.
-    def self.parse(command, args)
-      ::Mamertes::Parser.new.parse(command, args)
-    end
+    include ::Mamertes::ParserMethods::General
 
     # Parses a command/application.
     #
@@ -74,12 +113,7 @@ module Mamertes
       end
 
       begin
-        if command.options.present? then
-          rv = parse_options(parser, command, args)
-          check_required_options(command)
-        elsif args.present? then
-          rv = find_command_to_execute(command, args)
-        end
+        rv = execute_parsing(parser, command, args)
       rescue OptionParser::MissingArgument => e
         option = forms[e.args.first]
         raise ::Mamertes::Error.new(option, :missing_argument, "Option #{option.label} expects an argument.")
@@ -93,32 +127,26 @@ module Mamertes
     end
 
     private
-      # Adjust a command so that it only specify a single command.
+      # Executes the parsing.
       #
-      # @param arg [String] The string to match.
-      # @param args [String] The complet list of arguments passed.
-      # @param separator [String] The separator for joined syntax commands.
-      # @return [Array] Adjust command and arguments.
-      def self.adjust_command(arg, args, separator)
-        if arg.index(separator) then
-          tokens = arg.split(separator, 2)
-          arg = tokens[0]
-          args.insert(0, tokens[1])
+      # @param parser [OptionParser] The option parser.
+      # @param command [Command] The command or application to parse.
+      # @param args [Array] The arguments to parse.
+      # @return [Command|nil] A command to execute or `nil` if no valid command was found.
+      def execute_parsing(parser, command, args)
+        rv = nil
+
+        if command.options.present? then
+          rv = parse_options(parser, command, args)
+          check_required_options(command)
+        elsif args.present? then
+          rv = find_command_to_execute(command, args)
         end
 
-        [arg, args]
+        rv
       end
 
-      # Match a string against a command's subcommands.
-      #
-      # @param arg [String] The string to match.
-      # @param command [Command] The command to search subcommand in.
-      # @return [Array] The matching subcommands.
-      def self.match_subcommands(arg, command)
-        command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
-      end
-
-      # Setup an option for a command.
+      # Setups an option for a command.
       #
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
@@ -139,7 +167,7 @@ module Mamertes
         end
       end
 
-      # Check if a option is unique.
+      # Checks if a option is unique.
       #
       # @param command [Command] The command or application to parse.
       # @param forms [Hash] The current forms.
@@ -239,7 +267,7 @@ module Mamertes
         rv
       end
 
-      # Check if all options of a command are present.
+      # Checks if all options of a command are present.
       #
       # @param command [Command] The command or application to parse.
       def check_required_options(command)
@@ -249,7 +277,7 @@ module Mamertes
         end
       end
 
-      # Find a command to execute
+      # Finds a command to execute
       #
       # @param command [Command] The command or application to parse.
       # @param args [Array] The arguments to parse.
