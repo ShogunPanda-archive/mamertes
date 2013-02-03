@@ -66,39 +66,20 @@ module Mamertes
         # Add every option
         command.options.each_pair do |name, option|
           # Check that the option is unique
-          if forms[option.complete_short] || forms[option.complete_long] then
-            raise ::Mamertes::Error.new(command, :ambiguous_form, "Options #{option.label} and #{forms[option.complete_short].label} have conflicting forms.")
-          else
-            forms[option.complete_short] = option.dup
-            forms[option.complete_long] = option.dup
-          end
+          check_unique(command, forms, option)
 
           if option.action.present? then
-            opts.on("-#{option.short}", "--#{option.long}") do |value|
-              option.execute_action
-            end
+            parse_action(opts, option)
           elsif option.type == String then # String arguments
-            opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
-              option.set(value)
-            end
+            parse_string(opts, option)
           elsif option.type == Integer then # Integer arguments
-            opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
-              raise ::Mamertes::Error.new(option, :invalid_argument, "Option #{option.label} expects a valid integer as argument.") if !value.is_integer?
-              option.set(value.to_integer)
-            end
+            parse_number(opts, option, :is_integer?, :to_integer, "Option #{option.label} expects a valid integer as argument.")
           elsif option.type == Float then # Floating point arguments
-            opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
-              raise ::Mamertes::Error.new(option, :invalid_argument, "Option #{option.label} expects a valid floating number as argument.") if !value.is_float?
-              option.set(value.to_float)
-            end
+            parse_number(opts, option, :is_float?, :to_float, "Option #{option.label} expects a valid floating number as argument.")
           elsif option.type == Array then # Array/List arguments
-            opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}", Array) do |value|
-              option.set(value.ensure_array)
-            end
+            parse_array(opts, option)
           else # Boolean (argument-less) type by default
-            opts.on("-#{option.short}", "--#{option.long}") do |value|
-              option.set(value.to_boolean)
-            end
+            parse_boolean(opts, option)
           end
         end
       end
@@ -163,11 +144,80 @@ module Mamertes
       end
 
       # Match a string against a command's subcommands.
+      #
       # @param arg [String] The string to match.
       # @param command [Command] The command to search subcommand in.
       # @return [Array] The matching subcommands.
       def self.match_subcommands(arg, command)
         command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
+      end
+
+      # Check if a option is unique.
+      #
+      # @param command [Command] The command or application to parse.
+      # @param forms [Hash] The current forms.
+      # @param option [Option] The option to set.
+      def self.check_unique(command, forms, option)
+        if forms[option.complete_short] || forms[option.complete_long] then
+          raise ::Mamertes::Error.new(command, :ambiguous_form, "Options #{option.label} and #{forms[option.complete_short].label} have conflicting forms.")
+        else
+          forms[option.complete_short] = option.dup
+          forms[option.complete_long] = option.dup
+        end
+      end
+
+      # Parses an action option.
+      #
+      # @param opts [Object] The current set options.
+      # @param option [Option] The option to set.
+      def self.parse_action(opts, option)
+        opts.on("-#{option.short}", "--#{option.long}") do |value|
+          option.execute_action
+        end
+      end
+
+      # Parses a string option.
+      #
+      # @param opts [Object] The current set options.
+      # @param option [Option] The option to set.
+      def self.parse_string(opts, option)
+        opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
+          option.set(value)
+        end
+      end
+
+      # Parses a number option.
+      #
+      # @param opts [Object] The current set options.
+      # @param option [Option] The option to set.
+      # @param check_method [Symbol] The method to execute to check option validity. Must return a boolean.
+      # @param convert_method [Symbol] The method to execute to convert option.
+      # @param invalid_message [String] The string to send in case of invalid arguments.
+      def self.parse_number(opts, option, check_method, convert_method, invalid_message)
+        opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}") do |value|
+          raise ::Mamertes::Error.new(option, :invalid_argument, invalid_message) if !value.send(check_method)
+          option.set(value.send(convert_method))
+        end
+      end
+
+      # Parses an array option.
+      #
+      # @param opts [Object] The current set options.
+      # @param option [Option] The option to set.
+      def self.parse_array(opts, option)
+        opts.on("#{option.complete_short} #{option.meta || "ARG"}", "#{option.complete_long} #{option.meta || "ARG"}", Array) do |value|
+          option.set(value.ensure_array)
+        end
+      end
+
+      # Parses an action option.
+      #
+      # @param opts [Object] The current set options.
+      # @param option [Option] The option to set.
+      def self.parse_boolean(opts, option)
+        opts.on("-#{option.short}", "--#{option.long}") do |value|
+          option.set(value.to_boolean)
+        end
       end
   end
 end
