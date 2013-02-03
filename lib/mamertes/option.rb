@@ -60,23 +60,11 @@ module Mamertes
     # @param options [Hash] The settings for this option.
     # @param action [Proc] The action of this option.
     def initialize(name, forms = [], options = {}, &action)
-      name = name.to_s
-      forms = forms.ensure_array
-      options = {} if !options.is_a?(::Hash)
-
-      # Set values
-      @name = name
-      self.short = forms.length > 0 ? forms[0] : name[0, 1]
-      self.long = forms.length == 2 ? forms[1] : name
+      @name = name.ensure_string
       @provided = false
-
-      # Set options
-      options.each_pair do |option, value|
-        self.send(option.to_s + "=", value) if self.respond_to?(option.to_s + "=")
-      end
-
-      # Associate action
-      @action = action if action.present? && action.respond_to?(:call) && action.try(:arity) == 2
+      setup_forms(forms)
+      setup_options(options)
+      setup_action(action)
     end
 
     # Sets the short form of this option.
@@ -207,5 +195,32 @@ module Mamertes
     def value
       self.provided? ? @value : self.default
     end
+
+    private
+      # Setups the forms of the this option.
+      # @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
+      def setup_forms(forms)
+        self.short = forms.length > 0 ? forms[0] : @name[0, 1]
+        self.long = forms.length == 2 ? forms[1] : @name
+
+        # Set options
+
+        # Associate action
+
+      end
+
+      # Setups the settings of the this option.
+      # @param options [Hash] The settings for this option.
+      def setup_options(options)
+        (options.is_a?(::Hash) ? options : {}).each_pair do |option, value|
+          self.send("#{option}=", value) if self.respond_to?("#{option}=")
+        end
+      end
+
+      # Setups the action of the this option.
+      # @param action [Proc] The action of this option.
+      def setup_action(action)
+        @action = action if action.present? && action.respond_to?(:call) && action.try(:arity) == 2
+      end
   end
 end
