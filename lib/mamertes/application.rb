@@ -116,11 +116,10 @@ class Error < ArgumentError
         if next_command then
           command = command.commands[next_command[:name]]
         else
+          command.show_help
           break
         end
       end
-
-      command.show_help
     end
 
     # Runs a command into the shell.
