@@ -68,22 +68,8 @@ module Mamertes
       parser = OptionParser.new do |opts|
         # Add every option
         command.options.each_pair do |name, option|
-          # Check that the option is unique
           check_unique(command, forms, option)
-
-          if option.action.present? then
-            parse_action(opts, option)
-          elsif option.type == String then # String arguments
-            parse_string(opts, option)
-          elsif option.type == Integer then # Integer arguments
-            parse_number(opts, option, :is_integer?, :to_integer, "Option #{option.label} expects a valid integer as argument.")
-          elsif option.type == Float then # Floating point arguments
-            parse_number(opts, option, :is_float?, :to_float, "Option #{option.label} expects a valid floating number as argument.")
-          elsif option.type == Array then # Array/List arguments
-            parse_array(opts, option)
-          else # Boolean (argument-less) type by default
-            parse_boolean(opts, option)
-          end
+          setup_option(opts, option)
         end
       end
 
@@ -92,16 +78,7 @@ module Mamertes
           rv = parse_options(parser, command, args)
           check_required_options(command)
         elsif args.present? then
-          # Try to find a command into the first argument
-          fc = ::Mamertes::Parser.find_command(args[0], command, args[1, args.length - 1])
-
-          if fc.present? then
-            rv = fc
-          else
-            args.each do |arg|
-              command.argument(arg)
-            end
-          end
+          rv = find_command_to_execute(command, args)
         end
       rescue OptionParser::MissingArgument => e
         option = forms[e.args.first]
@@ -139,6 +116,27 @@ module Mamertes
       # @return [Array] The matching subcommands.
       def self.match_subcommands(arg, command)
         command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
+      end
+
+      # Setup an option for a command.
+      #
+      # @param opts [Object] The current set options.
+      # @param option [Option] The option to set.
+      def setup_option(opts, option)
+        # Check that the option is unique
+        if option.action.present? then
+          parse_action(opts, option)
+        elsif option.type == String then # String arguments
+          parse_string(opts, option)
+        elsif option.type == Integer then # Integer arguments
+          parse_number(opts, option, :is_integer?, :to_integer, "Option #{option.label} expects a valid integer as argument.")
+        elsif option.type == Float then # Floating point arguments
+          parse_number(opts, option, :is_float?, :to_float, "Option #{option.label} expects a valid floating number as argument.")
+        elsif option.type == Array then # Array/List arguments
+          parse_array(opts, option)
+        else # Boolean (argument-less) type by default
+          parse_boolean(opts, option)
+        end
       end
 
       # Check if a option is unique.
@@ -222,6 +220,7 @@ module Mamertes
       # @param parser [OptionParser] The option parser.
       # @param command [Command] The command or application to parse.
       # @param args [Array] The arguments to parse.
+      # @param rv [Command|nil] A command to execute or `nil` if no command was found.
       def parse_options(parser, command, args)
         rv = nil
 
@@ -248,6 +247,28 @@ module Mamertes
         command.options.each_pair  do |name, option|
           raise ::Mamertes::Error.new(option, :missing_option, "Required option #{option.label} is missing.") if option.required && !option.provided?
         end
+      end
+
+      # Find a command to execute
+      #
+      # @param command [Command] The command or application to parse.
+      # @param args [Array] The arguments to parse.
+      # @param rv [Command|nil] A command to execute or `nil` if no command was found.
+      def find_command_to_execute(command, args)
+        rv = nil
+
+        # Try to find a command into the first argument
+        fc = ::Mamertes::Parser.find_command(args[0], command, args[1, args.length - 1])
+
+        if fc.present? then
+          rv = fc
+        else
+          args.each do |arg|
+            command.argument(arg)
+          end
+        end
+
+        rv
       end
   end
 end
