@@ -356,26 +356,37 @@ module Mamertes
         console.write(self.is_application? ? "[GLOBAL OPTIONS]" : "[OPTIONS]")
 
         # First of all, grab all options and construct labels
-        lefts = {}
-        self.options.each_value do |option|
-          left = [option.complete_short, option.complete_long]
+        lefts = show_help_options_build_labels
 
-          if option.requires_argument? then
-            left[0] += " " + option.meta
-            left[1] += " " + option.meta
-          end
-
-          lefts[left.join(", ")] = option.has_help? ? option.help : "*NO DESCRIPTION PROVIDED*"
-        end
-
-        alignment = lefts.keys.collect(&:length).max
 
         console.with_indentation(4) do
           lefts.keys.sort.each do |head|
-            help = lefts[head]
-            console.write("%s - %s" % [head.ljust(alignment, " "), help], "\n", true, true)
+            show_help_option(console, lefts, head)
           end
         end
+      end
+
+      # Adjusts options names for printing.
+      #
+      # @return [Hash] The adjusted options for printing.
+      def show_help_options_build_labels()
+        self.options.values.inject({}) do |lefts, option|
+          left = [option.complete_short, option.complete_long]
+          left.collect!{|l| " " + option.meta } if option.requires_argument?
+          lefts[left.join(", ")] = option.has_help? ? option.help : "*NO DESCRIPTION PROVIDED*"
+          lefts
+        end
+      end
+
+      # Prints information about an option.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      # @param lefts [Hash] The list of adjusted options.
+      # @param head [String] The option to print.
+      def show_help_option(console, lefts, head)
+        alignment = lefts.keys.collect(&:length).max
+        help = lefts[head]
+        console.write("%s - %s" % [head.ljust(alignment, " "), help], "\n", true, true)
       end
 
       # Prints information about the command's subcommands.
@@ -385,15 +396,23 @@ module Mamertes
         console.write("")
         console.write(self.is_application? ? "[COMMANDS]" : "[SUBCOMMANDS]")
 
+        console.with_indentation(4) do
+          self.commands.keys.sort.each do |name|
+            show_help_command(console, name)
+          end
+        end
+      end
+
+      # Prints information about a command's subcommand.
+      #
+      # @param name [String] The name of command to print.
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_command(console, name)
         # Find the maximum lenght of the commands
         alignment = self.commands.keys.collect(&:length).max
 
-        console.with_indentation(4) do
-          self.commands.keys.sort.each do |name|
-            command = self.commands[name]
-            console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
-          end
-        end
+        command = self.commands[name]
+        console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
       end
   end
 end
