@@ -41,7 +41,7 @@ module Mamertes
       if command.commands.present? then
         arg, args = adjust_command(arg, args, separator)
 
-        matching = command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
+        matching = match_subcommands(arg, command)
         if matching.length == 1 # Found a command
           rv = {name: matching[0], args: args}
         elsif matching.length > 1 # Ambiguous match
@@ -160,6 +160,14 @@ module Mamertes
         end
 
         [arg, args]
+      end
+
+      # Match a string against a command's subcommands.
+      # @param arg [String] The string to match.
+      # @param command [Command] The command to search subcommand in.
+      # @return [Array] The matching subcommands.
+      def self.match_subcommands(arg, command)
+        command.commands.keys.select {|c| c =~ /^(#{Regexp.quote(arg)})/ }.compact
       end
   end
 end
