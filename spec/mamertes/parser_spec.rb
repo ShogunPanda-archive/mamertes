@@ -43,7 +43,7 @@ describe Mamertes::Parser do
     it "should correctly join arrays" do
       expect(::Mamertes::Parser.smart_join([])).to eq("")
       expect(::Mamertes::Parser.smart_join(["A"], ", ", " and ", nil)).to eq("A")
-      expect(::Mamertes::Parser.smart_join(1, ", ", " and ", nil)).to eq(1)
+      expect(::Mamertes::Parser.smart_join(1, ", ", " and ", nil)).to eq("1")
       expect(::Mamertes::Parser.smart_join(["A", 1], ", ", " and ", nil)).to eq("A and 1")
       expect(::Mamertes::Parser.smart_join(["A", 1, true], ", ", " and ", nil)).to eq("A, 1 and true")
       expect(::Mamertes::Parser.smart_join(["A", "B", "C"], "-", " and ", nil)).to eq("A-B and C")
