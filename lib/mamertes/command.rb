@@ -5,6 +5,119 @@
 #
 
 module Mamertes
+  # Methods for the {Command Command} class.
+  module CommandMethods
+    # Methods for showing help messages.
+    module Help
+      # Shows a help about this command.
+      def show_help
+        console = self.is_application? ? self.console : self.application.console
+        self.is_application? ? show_help_application_summary(console) : show_help_command_summary(console)
+        show_help_banner(console) if self.has_banner?
+        show_help_options(console) if self.has_options?
+        show_help_commands(console) if self.has_commands?
+        Kernel.exit(0)
+      end
+
+      private
+      # Prints a help summary about the application.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_application_summary(console)
+        # Application
+        console.write("[NAME]")
+        console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
+        console.write("")
+        console.write("[SYNOPSIS]")
+        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s[command-options] [arguments] " % [self.executable_name, self.has_commands? ? "[command [sub-command ...]] " : ""], "\n", 4, true)
+      end
+
+      # Prints a help summary about the command.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_command_summary(console)
+        console.write("[SYNOPSIS]")
+        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s %s[command-options] [arguments] " % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? "[sub-command [sub-sub-command ...]] " : ""], "\n", 4, true)
+      end
+
+      # Prints the description of the command.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_banner(console)
+        console.write("")
+        console.write("[DESCRIPTION]")
+        console.write(self.banner, "\n", 4, true)
+      end
+
+      # Prints information about the command's options.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_options(console)
+        console.write("")
+        console.write(self.is_application? ? "[GLOBAL OPTIONS]" : "[OPTIONS]")
+
+        # First of all, grab all options and construct labels
+        lefts = show_help_options_build_labels
+
+
+        console.with_indentation(4) do
+          lefts.keys.sort.each do |head|
+            show_help_option(console, lefts, head)
+          end
+        end
+      end
+
+      # Adjusts options names for printing.
+      #
+      # @return [Hash] The adjusted options for printing.
+      def show_help_options_build_labels()
+        self.options.values.inject({}) do |lefts, option|
+          left = [option.complete_short, option.complete_long]
+          left.collect!{|l| " " + option.meta } if option.requires_argument?
+          lefts[left.join(", ")] = option.has_help? ? option.help : "*NO DESCRIPTION PROVIDED*"
+          lefts
+        end
+      end
+
+      # Prints information about an option.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      # @param lefts [Hash] The list of adjusted options.
+      # @param head [String] The option to print.
+      def show_help_option(console, lefts, head)
+        alignment = lefts.keys.collect(&:length).max
+        help = lefts[head]
+        console.write("%s - %s" % [head.ljust(alignment, " "), help], "\n", true, true)
+      end
+
+      # Prints information about the command's subcommands.
+      #
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_commands(console)
+        console.write("")
+        console.write(self.is_application? ? "[COMMANDS]" : "[SUBCOMMANDS]")
+
+        console.with_indentation(4) do
+          self.commands.keys.sort.each do |name|
+            show_help_command(console, name)
+          end
+        end
+      end
+
+      # Prints information about a command's subcommand.
+      #
+      # @param name [String] The name of command to print.
+      # @param console [Bovem::Console] The console object to use to print.
+      def show_help_command(console, name)
+        # Find the maximum lenght of the commands
+        alignment = self.commands.keys.collect(&:length).max
+
+        command = self.commands[name]
+        console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
+      end
+    end
+  end
+
   # This class represent a command (action) for Mamertes.
   #
   # Every command has the execution block and a set of option. Optionally, it also has before and after hooks.
@@ -46,6 +159,8 @@ module Mamertes
     attr_reader :commands
     attr_reader :options
     attr_reader :arguments
+
+    include Mamertes::CommandMethods::Help
 
     # Creates a new command.
     #
@@ -307,112 +422,5 @@ module Mamertes
         self.show_help
       end
     end
-
-    # Shows a help about this command.
-    def show_help
-      console = self.is_application? ? self.console : self.application.console
-      self.is_application? ? show_help_application_summary(console) : show_help_command_summary(console)
-      show_help_banner(console) if self.has_banner?
-      show_help_options(console) if self.has_options?
-      show_help_commands(console) if self.has_commands?
-      Kernel.exit(0)
-    end
-
-    private
-      # Prints a help summary about the application.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_application_summary(console)
-        # Application
-        console.write("[NAME]")
-        console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
-        console.write("")
-        console.write("[SYNOPSIS]")
-        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s[command-options] [arguments] " % [self.executable_name, self.has_commands? ? "[command [sub-command ...]] " : ""], "\n", 4, true)
-      end
-
-      # Prints a help summary about the command.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_command_summary(console)
-        console.write("[SYNOPSIS]")
-        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s %s[command-options] [arguments] " % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? "[sub-command [sub-sub-command ...]] " : ""], "\n", 4, true)
-      end
-
-      # Prints the description of the command.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_banner(console)
-        console.write("")
-        console.write("[DESCRIPTION]")
-        console.write(self.banner, "\n", 4, true)
-      end
-
-      # Prints information about the command's options.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_options(console)
-        console.write("")
-        console.write(self.is_application? ? "[GLOBAL OPTIONS]" : "[OPTIONS]")
-
-        # First of all, grab all options and construct labels
-        lefts = show_help_options_build_labels
-
-
-        console.with_indentation(4) do
-          lefts.keys.sort.each do |head|
-            show_help_option(console, lefts, head)
-          end
-        end
-      end
-
-      # Adjusts options names for printing.
-      #
-      # @return [Hash] The adjusted options for printing.
-      def show_help_options_build_labels()
-        self.options.values.inject({}) do |lefts, option|
-          left = [option.complete_short, option.complete_long]
-          left.collect!{|l| " " + option.meta } if option.requires_argument?
-          lefts[left.join(", ")] = option.has_help? ? option.help : "*NO DESCRIPTION PROVIDED*"
-          lefts
-        end
-      end
-
-      # Prints information about an option.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      # @param lefts [Hash] The list of adjusted options.
-      # @param head [String] The option to print.
-      def show_help_option(console, lefts, head)
-        alignment = lefts.keys.collect(&:length).max
-        help = lefts[head]
-        console.write("%s - %s" % [head.ljust(alignment, " "), help], "\n", true, true)
-      end
-
-      # Prints information about the command's subcommands.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_commands(console)
-        console.write("")
-        console.write(self.is_application? ? "[COMMANDS]" : "[SUBCOMMANDS]")
-
-        console.with_indentation(4) do
-          self.commands.keys.sort.each do |name|
-            show_help_command(console, name)
-          end
-        end
-      end
-
-      # Prints information about a command's subcommand.
-      #
-      # @param name [String] The name of command to print.
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_command(console, name)
-        # Find the maximum lenght of the commands
-        alignment = self.commands.keys.collect(&:length).max
-
-        command = self.commands[name]
-        console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
-      end
   end
 end
