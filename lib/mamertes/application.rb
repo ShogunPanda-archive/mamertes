@@ -109,17 +109,18 @@ class Error < ArgumentError
     #
     # @param command [Command] The command to show help for.
     def command_help(command)
-      command.arguments.collect {|c| c.split(":") }.flatten.collect(&:strip).select(&:present?).each do |arg|
+      fetch_commands_for_help(command).each do |arg|
         # Find the command across
         next_command = ::Mamertes::Parser.find_command(arg, command, [])
 
         if next_command then
           command = command.commands[next_command[:name]]
         else
-          command.show_help
           break
         end
       end
+
+      command.show_help
     end
 
     # Runs a command into the shell.
@@ -132,6 +133,14 @@ class Error < ArgumentError
     def run(command, message = nil, show_exit = true, fatal = true)
       @shell.run(command, message, !@skip_commands, show_exit, @output_commands, @show_commands, fatal)
     end
+
+    private
+      # Fetch a command list for showing help.
+      #
+      # @param command [Command] The command to show help for.
+      def fetch_commands_for_help(command)
+        command.arguments.collect {|c| c.split(":") }.flatten.collect(&:strip).select(&:present?)
+      end
   end
 
   # Initializes a new Mamertes application.
