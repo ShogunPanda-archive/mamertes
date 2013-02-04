@@ -7,7 +7,8 @@
 require "spec_helper"
 
 describe Mamertes::Parser do
-  let(:application) { ::Mamertes::Application.new do
+  let(:application) {
+    ::Mamertes::Application.new do
       command :abc do
         action do
           check = 1
@@ -38,6 +39,10 @@ describe Mamertes::Parser do
     c.application = application
     c
   }
+
+  before(:each) do
+    ENV["LANG"] = "en"
+  end
 
   describe ".smart_join" do
     it "should correctly join arrays" do

@@ -20,6 +20,10 @@ end
 describe Mamertes::Application do
   let(:application) { ::Mamertes::Application.new }
 
+  before(:each) do
+    ENV["LANG"] = "en"
+  end
+
   describe "#initialize" do
     it "should call the parent constructor" do
       options = {a: :b}
@@ -102,69 +106,76 @@ describe Mamertes::Application do
       application.run("COMMAND", "MESSAGE", "C", "D")
     end
   end
+
+  describe ".create" do
+    it "should complain about a missing block" do
+      expect { ::Mamertes.App }.to raise_error(::Mamertes::Error)
+    end
+
+    it "should create a default application" do
+      ::Mamertes::Application.should_receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil})
+      ::Mamertes::Application.create() {}
+    end
+
+    it "should create an application with given options and block" do
+      options = {name: "OK"}
+
+      ::Mamertes::Application.should_receive(:new).with({name: "OK", parent: nil, application: nil})
+      application = ::Mamertes::Application.create(options) {}
+    end
+
+    it "should execute the block" do
+      ::Bovem::Console.any_instance.stub(:write)
+      Kernel.stub(:exit)
+      options = {name: "OK"}
+      check = false
+
+      application = ::Mamertes::Application.create(options) { check = true }
+      expect(check).to be_true
+      expect(application.name).to eq("OK")
+    end
+
+    it "should execute the new application" do
+      args = []
+
+      application = ::Mamertes::Application.create do
+        action do |command|
+          args = command.arguments.join("-")
+        end
+      end
+
+      expect(args).to eq(ARGV.join("-"))
+    end
+
+    it "can override arguments" do
+      args = []
+
+      application = ::Mamertes::Application.create({__args__: ["C", "D"]}) do
+        action do |command|
+          args = command.arguments.join("-")
+        end
+      end
+
+      expect(args).to eq("C-D")
+    end
+
+    it "should not execute the application if requested to" do
+      args = []
+
+      application = ::Mamertes::Application.create(run: false) do
+        action do |command|
+          args = command.arguments.join("-")
+        end
+      end
+
+      expect(args).to eq([])
+    end
+  end
 end
 
 describe "Mamertes::App" do
-  it "should complain about a missing block" do
-    expect { ::Mamertes.App }.to raise_error(::Mamertes::Error)
-  end
-
-  it "should create a default application" do
-    ::Mamertes::Application.should_receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil})
-    ::Mamertes.App() {}
-  end
-
-  it "should create an application with given options and block" do
-    options = {name: "OK"}
-
-    ::Mamertes::Application.should_receive(:new).with({name: "OK", parent: nil, application: nil})
-    application = ::Mamertes.App(options) {}
-  end
-
-  it "should execute the block" do
-    ::Bovem::Console.any_instance.stub(:write)
-    Kernel.stub(:exit)
-    options = {name: "OK"}
-    check = false
-
-    application = ::Mamertes.App(options) { check = true }
-    expect(check).to be_true
-    expect(application.name).to eq("OK")
-  end
-
-  it "should execute the new application" do
-    args = []
-
-    application = ::Mamertes.App do
-      action do |command|
-        args = command.arguments.join("-")
-      end
-    end
-
-    expect(args).to eq(ARGV.join("-"))
-  end
-
-  it "can override arguments" do
-    args = []
-
-    application = ::Mamertes.App({__args__: ["C", "D"]}) do
-      action do |command|
-        args = command.arguments.join("-")
-      end
-    end
-
-    expect(args).to eq("C-D")
-  end
-
-  it "should not execute the application if requested to" do
-    args = []
-
-    application = ::Mamertes.App(run: false) do
-      action do |command|
-        args = command.arguments.join("-")
-      end
-    end
-
-    expect(args).to eq([])
+  it("should forward to Mamertes::Application.create") do
+    ::Mamertes::Application.should_receive(:create).with("OPTIONS")
+    ::Mamertes.App("OPTIONS")
   end
 end

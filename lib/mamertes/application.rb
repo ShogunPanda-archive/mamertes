@@ -58,6 +58,33 @@ class Error < ArgumentError
     attr_accessor :show_commands
     attr_accessor :output_commands
 
+    # Initializes a new Mamertes application.
+    #
+    # In options, you can override the command line arguments with `:__args__`, and you can skip execution by specifying `run: false`.
+    #
+    # @see Command#setup_with
+    #
+    # @param options [Hash] The settings to initialize the application with.
+    # @return [Application] The created application.
+    def self.create(options = {}, &block)
+      class << self
+        include Lazier::I18n
+      end
+
+      self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+      raise Mamertes::Error.new(Mamertes::Application, :missing_block, self.i18n.missing_app_block) if !block_given?
+
+      options = {} if !options.is_a?(::Hash)
+      options = {name: self.i18n.default_application_name, parent: nil, application: nil}.merge(options)
+      args = options.delete(:__args__)
+      run = options.delete(:run)
+      run = (!run.nil? ? run : true).to_boolean
+
+      application = ::Mamertes::Application.new(options, &block)
+      application.execute(args) if application && run
+      application
+    end
+
     # Creates a new application.
     #
     # @param options [Hash] The settings to initialize the application with.
@@ -91,11 +118,11 @@ class Error < ArgumentError
 
     # Adds a help command and a help option to this application.
     def help_option
-      command :help, description: "Shows a help about a command." do
+      command(:help, description: self.i18n.help_command_description) do
         action { |command| application.command_help(command) }
       end
 
-      option(:help, ["-h", "--help"], help: "Shows this message."){|application, option| application.show_help }
+      option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|application, option| application.show_help }
     end
 
     # The name of the current executable.
@@ -152,16 +179,6 @@ class Error < ArgumentError
   # @param options [Hash] The settings to initialize the application with.
   # @return [Application] The created application.
   def self.App(options = {}, &block)
-    raise Mamertes::Error.new(Mamertes::Application, :missing_block, "You have to provide a block to Mamertes::App!") if !block_given?
-
-    options = {} if !options.is_a?(::Hash)
-    options = {name: "__APPLICATION__", parent: nil, application: nil}.merge(options)
-    args = options.delete(:__args__)
-    run = options.delete(:run)
-    run = (!run.nil? ? run : true).to_boolean
-
-    application = ::Mamertes::Application.new(options, &block)
-    application.execute(args) if application && run
-    application
+    Mamertes::Application.create(options, &block)
   end
 end

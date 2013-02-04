@@ -7,7 +7,27 @@
 require "spec_helper"
 
 describe Mamertes::Option do
-  let(:option) { ::Mamertes::Option.new("NAME") }
+  let(:application) {
+    ::Mamertes::Application.new {
+      action {}
+    }
+  }
+
+  let(:command) {
+    c = ::Mamertes::Command.new
+    c.application = application
+    c
+  }
+
+  let(:option) {
+    o = ::Mamertes::Option.new("NAME")
+    o.parent = command
+    o
+  }
+
+  before(:each) do
+    ENV["LANG"] = "en"
+  end
 
   describe "#initialize" do
     it "should set good forms" do

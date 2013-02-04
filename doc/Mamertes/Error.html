@@ -332,14 +332,13 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 28</span>
 
-<span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
-  <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+<span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_target'>target</span><span class='comma'>,</span> <span class='id identifier rubyid_reason'>reason</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+  <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 
-  <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
-  <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
-  <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+  <span class='ivar'>@target</span> <span class='op'>=</span> <span class='id identifier rubyid_target'>target</span>
+  <span class='ivar'>@reason</span> <span class='op'>=</span> <span class='id identifier rubyid_reason'>reason</span>
+  <span class='ivar'>@message</span> <span class='op'>=</span> <span class='id identifier rubyid_message'>message</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -416,25 +415,24 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 18</span>
 
-<span class='rubyid_class class kw'>class</span> <span class='rubyid_Error constant id'>Error</span> <span class='lt op'>&lt;</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:target</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:reason</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:message</span>
+<span class='kw'>class</span> <span class='const'>Error</span> <span class='op'>&lt;</span> <span class='const'>ArgumentError</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:target</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:reason</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:message</span>
 
-  <span class='comment val'># Initializes a new error</span>
-  <span class='comment val'>#</span>
-  <span class='comment val'># @param target [Object] The target of this error.</span>
-  <span class='comment val'># @param reason [Symbol] The reason of failure.</span>
-  <span class='comment val'># @param message [String] A human readable message.</span>
-  <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
-    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+  <span class='comment'># Initializes a new error
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param target [Object] The target of this error.
+</span>  <span class='comment'># @param reason [Symbol] The reason of failure.
+</span>  <span class='comment'># @param message [String] A human readable message.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_target'>target</span><span class='comma'>,</span> <span class='id identifier rubyid_reason'>reason</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+    <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 
-    <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
-    <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
-    <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+    <span class='ivar'>@target</span> <span class='op'>=</span> <span class='id identifier rubyid_target'>target</span>
+    <span class='ivar'>@reason</span> <span class='op'>=</span> <span class='id identifier rubyid_reason'>reason</span>
+    <span class='ivar'>@message</span> <span class='op'>=</span> <span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -506,25 +504,24 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 18</span>
 
-<span class='rubyid_class class kw'>class</span> <span class='rubyid_Error constant id'>Error</span> <span class='lt op'>&lt;</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:target</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:reason</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:message</span>
+<span class='kw'>class</span> <span class='const'>Error</span> <span class='op'>&lt;</span> <span class='const'>ArgumentError</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:target</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:reason</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:message</span>
 
-  <span class='comment val'># Initializes a new error</span>
-  <span class='comment val'>#</span>
-  <span class='comment val'># @param target [Object] The target of this error.</span>
-  <span class='comment val'># @param reason [Symbol] The reason of failure.</span>
-  <span class='comment val'># @param message [String] A human readable message.</span>
-  <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
-    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+  <span class='comment'># Initializes a new error
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param target [Object] The target of this error.
+</span>  <span class='comment'># @param reason [Symbol] The reason of failure.
+</span>  <span class='comment'># @param message [String] A human readable message.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_target'>target</span><span class='comma'>,</span> <span class='id identifier rubyid_reason'>reason</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+    <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 
-    <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
-    <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
-    <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+    <span class='ivar'>@target</span> <span class='op'>=</span> <span class='id identifier rubyid_target'>target</span>
+    <span class='ivar'>@reason</span> <span class='op'>=</span> <span class='id identifier rubyid_reason'>reason</span>
+    <span class='ivar'>@message</span> <span class='op'>=</span> <span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -596,25 +593,24 @@
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 18</span>
 
-<span class='rubyid_class class kw'>class</span> <span class='rubyid_Error constant id'>Error</span> <span class='lt op'>&lt;</span> <span class='rubyid_ArgumentError constant id'>ArgumentError</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:target</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:reason</span>
-  <span class='rubyid_attr_reader identifier id'>attr_reader</span> <span class='symbol val'>:message</span>
+<span class='kw'>class</span> <span class='const'>Error</span> <span class='op'>&lt;</span> <span class='const'>ArgumentError</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:target</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:reason</span>
+  <span class='id identifier rubyid_attr_reader'>attr_reader</span> <span class='symbol'>:message</span>
 
-  <span class='comment val'># Initializes a new error</span>
-  <span class='comment val'>#</span>
-  <span class='comment val'># @param target [Object] The target of this error.</span>
-  <span class='comment val'># @param reason [Symbol] The reason of failure.</span>
-  <span class='comment val'># @param message [String] A human readable message.</span>
-  <span class='rubyid_def def kw'>def</span> <span class='rubyid_initialize identifier id'>initialize</span><span class='lparen token'>(</span><span class='rubyid_target identifier id'>target</span><span class='comma token'>,</span> <span class='rubyid_reason identifier id'>reason</span><span class='comma token'>,</span> <span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
-    <span class='rubyid_super super kw'>super</span><span class='lparen token'>(</span><span class='rubyid_message identifier id'>message</span><span class='rparen token'>)</span>
+  <span class='comment'># Initializes a new error
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @param target [Object] The target of this error.
+</span>  <span class='comment'># @param reason [Symbol] The reason of failure.
+</span>  <span class='comment'># @param message [String] A human readable message.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_target'>target</span><span class='comma'>,</span> <span class='id identifier rubyid_reason'>reason</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
+    <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_message'>message</span><span class='rparen'>)</span>
 
-    <span class='rubyid_@target ivar id'>@target</span> <span class='assign token'>=</span> <span class='rubyid_target identifier id'>target</span>
-    <span class='rubyid_@reason ivar id'>@reason</span> <span class='assign token'>=</span> <span class='rubyid_reason identifier id'>reason</span>
-    <span class='rubyid_@message ivar id'>@message</span> <span class='assign token'>=</span> <span class='rubyid_message identifier id'>message</span>
-  <span class='rubyid_end end kw'>end</span>
-<span class='rubyid_end end kw'>end</span>
-</pre>
+    <span class='ivar'>@target</span> <span class='op'>=</span> <span class='id identifier rubyid_target'>target</span>
+    <span class='ivar'>@reason</span> <span class='op'>=</span> <span class='id identifier rubyid_reason'>reason</span>
+    <span class='ivar'>@message</span> <span class='op'>=</span> <span class='id identifier rubyid_message'>message</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
     </td>
   </tr>
 </table>
@@ -626,9 +622,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sun Feb  3 11:59:53 2013 by
+  Generated on Mon Feb  4 13:07:07 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.8.7).
+  0.8.3 (ruby-1.9.3).
 </div>
 
   </body>

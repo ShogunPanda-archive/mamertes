@@ -151,9 +151,9 @@ module Mamertes
         @provided = true
       elsif raise_error then # Validation failed
         if vs == :array then
-          raise ::Mamertes::Error.new(self, :validation_failed, "Value of option #{self.label} must be one of these values: #{::Mamertes::Parser.smart_join(validator)}.")
+          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_value(self.label, ::Mamertes::Parser.smart_join(validator)))
         else
-          raise ::Mamertes::Error.new(self, :validation_failed, "Value of option #{self.label} must match the regular expression: #{@validator.inspect}.")
+          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_for_regexp(self.label, @validator.inspect))
         end
       else
         false

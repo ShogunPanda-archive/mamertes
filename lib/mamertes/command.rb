@@ -25,19 +25,19 @@ module Mamertes
       # @param console [Bovem::Console] The console object to use to print.
       def show_help_application_summary(console)
         # Application
-        console.write("[NAME]")
+        console.write(self.i18n.help_name)
         console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
         console.write("")
-        console.write("[SYNOPSIS]")
-        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s[command-options] [arguments] " % [self.executable_name, self.has_commands? ? "[command [sub-command ...]] " : ""], "\n", 4, true)
+        console.write(self.i18n.help_synopsis)
+        console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_application_synopsis % [self.executable_name, self.has_commands? ? self.i18n.help_subcommand_invocation : ""], "\n", 4, true)
       end
 
       # Prints a help summary about the command.
       #
       # @param console [Bovem::Console] The console object to use to print.
       def show_help_command_summary(console)
-        console.write("[SYNOPSIS]")
-        console.write(self.synopsis.present? ? self.synopsis : "%s [options] %s %s[command-options] [arguments] " % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? "[sub-command [sub-sub-command ...]] " : ""], "\n", 4, true)
+        console.write(self.i18n.help_synopsis)
+        console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_command_synopsis % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? self.i18n.help_subsubcommand_invocation : ""], "\n", 4, true)
       end
 
       # Prints the description of the command.
@@ -45,7 +45,7 @@ module Mamertes
       # @param console [Bovem::Console] The console object to use to print.
       def show_help_banner(console)
         console.write("")
-        console.write("[DESCRIPTION]")
+        console.write(self.i18n.help_description)
         console.write(self.banner, "\n", 4, true)
       end
 
@@ -54,7 +54,7 @@ module Mamertes
       # @param console [Bovem::Console] The console object to use to print.
       def show_help_options(console)
         console.write("")
-        console.write(self.is_application? ? "[GLOBAL OPTIONS]" : "[OPTIONS]")
+        console.write(self.is_application? ? self.i18n.help_global_options : self.i18n.help_options)
 
         # First of all, grab all options and construct labels
         lefts = show_help_options_build_labels
@@ -74,7 +74,7 @@ module Mamertes
         self.options.values.inject({}) do |lefts, option|
           left = [option.complete_short, option.complete_long]
           left.collect!{|l| " " + option.meta } if option.requires_argument?
-          lefts[left.join(", ")] = option.has_help? ? option.help : "*NO DESCRIPTION PROVIDED*"
+          lefts[left.join(", ")] = option.has_help? ? option.help : self.i18n.help_no_description
           lefts
         end
       end
@@ -95,7 +95,7 @@ module Mamertes
       # @param console [Bovem::Console] The console object to use to print.
       def show_help_commands(console)
         console.write("")
-        console.write(self.is_application? ? "[COMMANDS]" : "[SUBCOMMANDS]")
+        console.write(self.is_application? ? self.i18n.help_commands : self.i18n.help_subcommands)
 
         console.with_indentation(4) do
           self.commands.keys.sort.each do |name|
@@ -113,7 +113,7 @@ module Mamertes
         alignment = self.commands.keys.collect(&:length).max
 
         command = self.commands[name]
-        console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : "*NO DESCRIPTION PROVIDED*"], "\n", true, true)
+        console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : self.i18n.help_no_description], "\n", true, true)
       end
     end
   end
@@ -160,6 +160,7 @@ module Mamertes
     attr_reader :options
     attr_reader :arguments
 
+    include Lazier::I18n
     include Mamertes::CommandMethods::Help
 
     # Creates a new command.
@@ -274,12 +275,12 @@ module Mamertes
       options = {} if !options.is_a?(::Hash)
       options = {name: name.to_s, parent: self, application: self.application}.merge(options)
 
-      raise Mamertes::Error.new(self, :duplicate_command, "The command \"#{self.full_name(name)}\" already exists.") if @commands[name.to_s]
+      raise Mamertes::Error.new(self, :duplicate_command, self.i18n.existing_command(self.full_name(name))) if @commands[name.to_s]
 
       command = ::Mamertes::Command.new(options, &block)
 
       # Add the help option
-      command.option(:help, ["-h", "--help"], help: "Shows this message."){|command, option| command.show_help }
+      command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|command, option| command.show_help }
 
       @commands[name.to_s] = command
       command
@@ -300,9 +301,9 @@ module Mamertes
 
       if @options[name] then
         if self.is_application? then
-          raise Mamertes::Error.new(self, :duplicate_option, "The global option \"#{name}\" already exists.")
+          raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option_global(name))
         else
-          raise Mamertes::Error.new(self, :duplicate_option, "The option \"#{name}\" already exists for the command \"#{self.full_name}\".")
+          raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option(name, self.full_name))
         end
       end
 
@@ -387,6 +388,9 @@ module Mamertes
     # @return [Command] The command.
     def setup_with(options = {})
       options = {} if !options.is_a?(::Hash)
+
+      self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+      self.i18n = (options[:locale] || :en).ensure_string
 
       options.each_pair do |option, value|
         method = option.to_s
