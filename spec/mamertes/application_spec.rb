@@ -7,6 +7,10 @@
 require "spec_helper"
 
 describe Mamertes::Error do
+  before(:each) do
+    ENV["LANG"] = "en"
+  end
+
   describe "#initialize" do
     it "copies attributes" do
       error = ::Mamertes::Error.new("A", "B", "C")
@@ -174,6 +178,10 @@ describe Mamertes::Application do
 end
 
 describe "Mamertes::App" do
+  before(:each) do
+    ENV["LANG"] = "en"
+  end
+  
   it("should forward to Mamertes::Application.create") do
     ::Mamertes::Application.should_receive(:create).with("OPTIONS")
     ::Mamertes.App("OPTIONS")
