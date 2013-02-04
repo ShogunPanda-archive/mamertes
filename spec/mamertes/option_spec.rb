@@ -25,10 +25,6 @@ describe Mamertes::Option do
     o
   }
 
-  before(:each) do
-    ENV["LANG"] = "en"
-  end
-
   describe "#initialize" do
     it "should set good forms" do
       option = ::Mamertes::Option.new("NAME")

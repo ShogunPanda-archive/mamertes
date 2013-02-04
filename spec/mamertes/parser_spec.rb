@@ -40,10 +40,6 @@ describe Mamertes::Parser do
     c
   }
 
-  before(:each) do
-    ENV["LANG"] = "en"
-  end
-
   describe ".smart_join" do
     it "should correctly join arrays" do
       expect(::Mamertes::Parser.smart_join([])).to eq("")

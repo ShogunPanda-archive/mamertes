@@ -19,10 +19,6 @@ describe Mamertes::Command do
     c
   }
 
-  before(:each) do
-    ENV["LANG"] = "en"
-  end
-
   describe "#initialize" do
     it "should forward to #setup_with" do
       expect(::Mamertes::Command.new(name: "command").name).to eq("command")
