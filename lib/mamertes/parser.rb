@@ -36,20 +36,19 @@ module Mamertes
         # @return [Hash|NilClass] An hash with `name` and `args` keys if a valid subcommand is found, `nil` otherwise.
         def find_command(arg, command, args, separator = ":")
           args = args.ensure_array.dup
-          rv = nil
 
           if command.commands.present? then
             arg, args = adjust_command(arg, args, separator)
 
             matching = match_subcommands(arg, command)
             if matching.length == 1 # Found a command
-              rv = {name: matching[0], args: args}
+              {name: matching[0], args: args}
             elsif matching.length > 1 # Ambiguous match
               raise ::Mamertes::Error.new(command, :ambiguous_command, command.i18n.ambigous_command(arg, ::Mamertes::Parser.smart_join(matching)))
             end
+          else
+            nil
           end
-
-          rv
         end
 
         # Parses a command/application.
@@ -102,15 +101,7 @@ module Mamertes
     def parse(command, args)
       rv = nil
       args = args.ensure_array.dup
-      forms = {}
-
-      parser = OptionParser.new do |opts|
-        # Add every option
-        command.options.each_pair do |name, option|
-          check_unique(command, forms, option)
-          setup_option(command, opts, option)
-        end
-      end
+      forms, parser = create_parser(command)
 
       begin
         rv = execute_parsing(parser, command, args)
@@ -127,6 +118,23 @@ module Mamertes
     end
 
     private
+      # Creates a new option parser.
+      #
+      # @param command [Command] The command or application to parse.
+      # @return [OptionParser] The new parser
+      def create_parser(command)
+        forms = {}
+        parser = OptionParser.new do |opts|
+          # Add every option
+          command.options.each_pair do |_name, option|
+            check_unique(command, forms, option)
+            setup_option(command, opts, option)
+          end
+        end
+
+        [forms, parser]
+      end
+
       # Executes the parsing.
       #
       # @param parser [OptionParser] The option parser.

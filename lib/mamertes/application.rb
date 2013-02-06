@@ -74,15 +74,8 @@ class Error < ArgumentError
       self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
       raise Mamertes::Error.new(Mamertes::Application, :missing_block, self.i18n.missing_app_block) if !block_given?
 
-      options = {} if !options.is_a?(::Hash)
-      options = {name: self.i18n.default_application_name, parent: nil, application: nil}.merge(options)
-      args = options.delete(:__args__)
-      run = options.delete(:run)
-      run = (!run.nil? ? run : true).to_boolean
-
-      application = ::Mamertes::Application.new(options, &block)
-      application.execute(args) if application && run
-      application
+      run, args, options = setup_application_option(options)
+      create_application(run, args, options, &block)
     end
 
     # Creates a new application.
@@ -162,6 +155,29 @@ class Error < ArgumentError
     end
 
     private
+      # Setup options for application creation.
+      #
+      # @param options [Hash] The options to setups.
+      # @return [Array] If to run the application, the arguments and the specified options.
+      def self.setup_application_option(options)
+        options = {} if !options.is_a?(::Hash)
+        options = {name: self.i18n.default_application_name, parent: nil, application: nil}.merge(options)
+        run = options.delete(:run)
+        [(!run.nil? ? run : true).to_boolean, options.delete(:__args__), options]
+      end
+
+      # Create the application.
+      #
+      # @param run [Boolean ]If to run the application.
+      # @param args [Hash] The arguments to use for running.
+      # @param options [Hash] The options of the application.
+      # @return [Application] The new application.
+      def self.create_application(run, args, options, &block)
+        application = ::Mamertes::Application.new(options, &block)
+        application.execute(args) if application && run
+        application
+      end
+
       # Fetch a command list for showing help.
       #
       # @param command [Command] The command to show help for.

@@ -20,101 +20,107 @@ module Mamertes
       end
 
       private
-      # Prints a help summary about the application.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_application_summary(console)
-        # Application
-        console.write(self.i18n.help_name)
-        console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
-        console.write("")
-        console.write(self.i18n.help_synopsis)
-        console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_application_synopsis % [self.executable_name, self.has_commands? ? self.i18n.help_subcommand_invocation : ""], "\n", 4, true)
-      end
+        # Prints a help summary about the application.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        def show_help_application_summary(console)
+          # Application
+          console.write(self.i18n.help_name)
+          console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
+          show_synopsis(console)
+        end
 
-      # Prints a help summary about the command.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_command_summary(console)
-        console.write(self.i18n.help_synopsis)
-        console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_command_synopsis % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? self.i18n.help_subsubcommand_invocation : ""], "\n", 4, true)
-      end
+        # Prints a synopsis about the application.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        def show_synopsis(console)
+          console.write("")
+          console.write(self.i18n.help_synopsis)
+          console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_application_synopsis % [self.executable_name, self.has_commands? ? self.i18n.help_subcommand_invocation : ""], "\n", 4, true)
+        end
 
-      # Prints the description of the command.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_banner(console)
-        console.write("")
-        console.write(self.i18n.help_description)
-        console.write(self.banner, "\n", 4, true)
-      end
+        # Prints a help summary about the command.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        def show_help_command_summary(console)
+          console.write(self.i18n.help_synopsis)
+          console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_command_synopsis % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? self.i18n.help_subsubcommand_invocation : ""], "\n", 4, true)
+        end
 
-      # Prints information about the command's options.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_options(console)
-        console.write("")
-        console.write(self.is_application? ? self.i18n.help_global_options : self.i18n.help_options)
+        # Prints the description of the command.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        def show_help_banner(console)
+          console.write("")
+          console.write(self.i18n.help_description)
+          console.write(self.banner, "\n", 4, true)
+        end
 
-        # First of all, grab all options and construct labels
-        lefts = show_help_options_build_labels
+        # Prints information about the command's options.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        def show_help_options(console)
+          console.write("")
+          console.write(self.is_application? ? self.i18n.help_global_options : self.i18n.help_options)
+
+          # First of all, grab all options and construct labels
+          lefts = show_help_options_build_labels
 
 
-        console.with_indentation(4) do
-          lefts.keys.sort.each do |head|
-            show_help_option(console, lefts, head)
+          console.with_indentation(4) do
+            lefts.keys.sort.each do |head|
+              show_help_option(console, lefts, head)
+            end
           end
         end
-      end
 
-      # Adjusts options names for printing.
-      #
-      # @return [Hash] The adjusted options for printing.
-      def show_help_options_build_labels()
-        self.options.values.inject({}) do |lefts, option|
-          left = [option.complete_short, option.complete_long]
-          left.collect!{|l| " " + option.meta } if option.requires_argument?
-          lefts[left.join(", ")] = option.has_help? ? option.help : self.i18n.help_no_description
-          lefts
-        end
-      end
-
-      # Prints information about an option.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      # @param lefts [Hash] The list of adjusted options.
-      # @param head [String] The option to print.
-      def show_help_option(console, lefts, head)
-        alignment = lefts.keys.collect(&:length).max
-        help = lefts[head]
-        console.write("%s - %s" % [head.ljust(alignment, " "), help], "\n", true, true)
-      end
-
-      # Prints information about the command's subcommands.
-      #
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_commands(console)
-        console.write("")
-        console.write(self.is_application? ? self.i18n.help_commands : self.i18n.help_subcommands)
-
-        console.with_indentation(4) do
-          self.commands.keys.sort.each do |name|
-            show_help_command(console, name)
+        # Adjusts options names for printing.
+        #
+        # @return [Hash] The adjusted options for printing.
+        def show_help_options_build_labels()
+          self.options.values.inject({}) do |lefts, option|
+            left = [option.complete_short, option.complete_long]
+            left.collect!{|l| " " + option.meta } if option.requires_argument?
+            lefts[left.join(", ")] = option.has_help? ? option.help : self.i18n.help_no_description
+            lefts
           end
         end
-      end
 
-      # Prints information about a command's subcommand.
-      #
-      # @param name [String] The name of command to print.
-      # @param console [Bovem::Console] The console object to use to print.
-      def show_help_command(console, name)
-        # Find the maximum lenght of the commands
-        alignment = self.commands.keys.collect(&:length).max
+        # Prints information about an option.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        # @param lefts [Hash] The list of adjusted options.
+        # @param head [String] The option to print.
+        def show_help_option(console, lefts, head)
+          alignment = lefts.keys.collect(&:length).max
+          help = lefts[head]
+          console.write("%s - %s" % [head.ljust(alignment, " "), help], "\n", true, true)
+        end
 
-        command = self.commands[name]
-        console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : self.i18n.help_no_description], "\n", true, true)
-      end
+        # Prints information about the command's subcommands.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        def show_help_commands(console)
+          console.write("")
+          console.write(self.is_application? ? self.i18n.help_commands : self.i18n.help_subcommands)
+          alignment = self.commands.keys.collect(&:length).max
+
+          console.with_indentation(4) do
+            self.commands.keys.sort.each do |name|
+              show_help_command(console, name, alignment)
+            end
+          end
+        end
+
+        # Prints information about a command's subcommand.
+        #
+        # @param name [String] The name of command to print.
+        # @param console [Bovem::Console] The console object to use to print.
+        def show_help_command(console, name, alignment)
+          # Find the maximum lenght of the commands
+          command = self.commands[name]
+          console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : self.i18n.help_no_description], "\n", true, true)
+        end
     end
   end
 
@@ -272,18 +278,10 @@ module Mamertes
     def command(name, options = {}, &block)
       @commands ||= {}
 
-      options = {} if !options.is_a?(::Hash)
-      options = {name: name.to_s, parent: self, application: self.application}.merge(options)
-
+      options = {name: name.to_s, parent: self, application: self.application}.merge(!options.is_a?(::Hash) ? {} : options)
       raise Mamertes::Error.new(self, :duplicate_command, self.i18n.existing_command(self.full_name(name))) if @commands[name.to_s]
 
-      command = ::Mamertes::Command.new(options, &block)
-
-      # Add the help option
-      command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|command, option| command.show_help }
-
-      @commands[name.to_s] = command
-      command
+      create_command(name, options, &block)
     end
 
     # Adds a new option to this command.
@@ -388,9 +386,7 @@ module Mamertes
     # @return [Command] The command.
     def setup_with(options = {})
       options = {} if !options.is_a?(::Hash)
-
-      self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
-      self.i18n = (options[:locale] || :en).ensure_string
+      setup_i18n(options)
 
       options.each_pair do |option, value|
         method = option.to_s
@@ -426,5 +422,26 @@ module Mamertes
         self.show_help
       end
     end
+
+    private
+      # Setup the application localization.
+      #
+      # @param options [Hash] The setttings for this command.
+      def setup_i18n(options)
+        self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+        self.i18n = (options[:locale] || :en).ensure_string
+      end
+
+      # Creates a new command.
+      #
+      # @param name [String] The name of this command.
+      # @param options [Hash] The setttings for this command.
+      # @return [Command] The new command.
+      def create_command(name, options, &block)
+        command = ::Mamertes::Command.new(options, &block)
+        command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|command, option| command.show_help }
+        @commands[name.to_s] = command
+        command
+      end
   end
 end

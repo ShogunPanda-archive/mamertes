@@ -150,11 +150,7 @@ module Mamertes
         @value = value
         @provided = true
       elsif raise_error then # Validation failed
-        if vs == :array then
-          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_value(self.label, ::Mamertes::Parser.smart_join(validator)))
-        else
-          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_for_regexp(self.label, @validator.inspect))
-        end
+        handle_set_failure(vs)
       else
         false
       end
@@ -198,6 +194,7 @@ module Mamertes
 
     private
       # Setups the forms of the this option.
+      #
       # @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
       def setup_forms(forms)
         self.short = forms.length > 0 ? forms[0] : @name[0, 1]
@@ -210,6 +207,7 @@ module Mamertes
       end
 
       # Setups the settings of the this option.
+      #
       # @param options [Hash] The settings for this option.
       def setup_options(options)
         (options.is_a?(::Hash) ? options : {}).each_pair do |option, value|
@@ -218,9 +216,21 @@ module Mamertes
       end
 
       # Setups the action of the this option.
+      #
       # @param action [Proc] The action of this option.
       def setup_action(action)
         @action = action if action.present? && action.respond_to?(:call) && action.try(:arity) == 2
+      end
+
+      # Handle failure in setting an option.
+      #
+      # @param vs [Symbol] The type of validator.
+      def handle_set_failure(vs)
+        if vs == :array then
+          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_value(self.label, ::Mamertes::Parser.smart_join(@validator)))
+        else
+          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_for_regexp(self.label, @validator.inspect))
+        end
       end
   end
 end
