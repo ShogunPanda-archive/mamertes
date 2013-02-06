@@ -99,22 +99,9 @@ module Mamertes
     # @param args [Array] The arguments to parse.
     # @return [Hash|NilClass] An hash with `name` (of a subcommand to execute) and `args` keys if a valid subcommand is found, `nil` otherwise.
     def parse(command, args)
-      rv = nil
       args = args.ensure_array.dup
       forms, parser = create_parser(command)
-
-      begin
-        rv = execute_parsing(parser, command, args)
-      rescue OptionParser::MissingArgument => e
-        option = forms[e.args.first]
-        raise ::Mamertes::Error.new(option, :missing_argument, command.i18n.missing_argument(option.label))
-      rescue OptionParser::InvalidOption => e
-        raise ::Mamertes::Error.new(option, :invalid_option, command.i18n.missing_argument(e.args))
-      rescue Exception => e
-        raise e
-      end
-
-      rv
+      perform_parsing(parser, command, args, forms)
     end
 
     private
@@ -133,6 +120,28 @@ module Mamertes
         end
 
         [forms, parser]
+      end
+
+      # Perform the parsing
+      #
+      # @param parser [OptionParser] The option parser.
+      # @param command [Command] The command or application to parse.
+      # @param args [Array] The arguments to parse.
+      # @param forms [Hash] The current forms.
+      def perform_parsing(parser, command, args, forms)
+        rv = nil
+        begin
+          rv = execute_parsing(parser, command, args)
+        rescue OptionParser::MissingArgument => e
+          option = forms[e.args.first]
+          raise ::Mamertes::Error.new(option, :missing_argument, command.i18n.missing_argument(option.label))
+        rescue OptionParser::InvalidOption => e
+          raise ::Mamertes::Error.new(option, :invalid_option, command.i18n.missing_argument(e.args))
+        rescue Exception => e
+          raise e
+        end
+
+        rv
       end
 
       # Executes the parsing.
@@ -160,19 +169,12 @@ module Mamertes
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
       def setup_option(command, opts, option)
-        # Check that the option is unique
-        if option.action.present? then
-          parse_action(opts, option)
-        elsif option.type == String then # String arguments
-          parse_string(command, opts, option)
-        elsif option.type == Integer then # Integer arguments
-          parse_number(command, opts, option, :is_integer?, :to_integer, command.i18n.invalid_integer(option.label))
-        elsif option.type == Float then # Floating point arguments
-          parse_number(command, opts, option, :is_float?, :to_float, command.i18n.invalid_float(option.label))
-        elsif option.type == Array then # Array/List arguments
-          parse_array(command, opts, option)
-        else # Boolean (argument-less) type by default
-          parse_boolean(opts, option)
+        case option.type.to_s
+          when "String" then parse_string(command, opts, option)
+          when "Integer" then parse_number(command, opts, option, :is_integer?, :to_integer, command.i18n.invalid_integer(option.label))
+          when "Float" then parse_number(command, opts, option, :is_float?, :to_float, command.i18n.invalid_float(option.label))
+          when "Array" then parse_array(command, opts, option)
+          else option.action.present? ? parse_action(opts, option) : parse_boolean(opts, option)
         end
       end
 

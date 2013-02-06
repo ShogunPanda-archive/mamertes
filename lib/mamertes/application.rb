@@ -14,8 +14,7 @@ module Mamertes
   #   @return [Symbol] The reason of failure.
   # @attribute [r] message
   #   @return [String] A human readable message.
-
-class Error < ArgumentError
+  class Error < ArgumentError
     attr_reader :target
     attr_reader :reason
     attr_reader :message
@@ -31,6 +30,25 @@ class Error < ArgumentError
       @target = target
       @reason = reason
       @message = message
+    end
+  end
+
+  # This class is used to localize strings inside classes methods.
+  class Localizer
+    include Lazier::I18n
+
+    # Initialize a new localizer.
+    def initialize
+      self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+    end
+
+    # Localize a message.
+    #
+    # @param message [String|Symbol] The message to localize.
+    # @param args [Array] Optional arguments to localize the message.
+    # @return [String||R18n::Untranslated] The localized message.
+    def self.localize(message, *args)
+      self.new.i18n.send(message, *args)
     end
   end
 
@@ -67,13 +85,7 @@ class Error < ArgumentError
     # @param options [Hash] The settings to initialize the application with.
     # @return [Application] The created application.
     def self.create(options = {}, &block)
-      class << self
-        include Lazier::I18n
-      end
-
-      self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
-      raise Mamertes::Error.new(Mamertes::Application, :missing_block, self.i18n.missing_app_block) if !block_given?
-
+      raise Mamertes::Error.new(Mamertes::Application, :missing_block, ::Mamertes::Localizer.localize(:missing_app_block)) if !block_given?
       run, args, options = setup_application_option(options)
       create_application(run, args, options, &block)
     end
@@ -161,7 +173,7 @@ class Error < ArgumentError
       # @return [Array] If to run the application, the arguments and the specified options.
       def self.setup_application_option(options)
         options = {} if !options.is_a?(::Hash)
-        options = {name: self.i18n.default_application_name, parent: nil, application: nil}.merge(options)
+        options = {name: ::Mamertes::Localizer.localize(:default_application_name), parent: nil, application: nil}.merge(options)
         run = options.delete(:run)
         [(!run.nil? ? run : true).to_boolean, options.delete(:__args__), options]
       end

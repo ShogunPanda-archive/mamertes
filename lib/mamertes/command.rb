@@ -66,7 +66,6 @@ module Mamertes
           # First of all, grab all options and construct labels
           lefts = show_help_options_build_labels
 
-
           console.with_indentation(4) do
             lefts.keys.sort.each do |head|
               show_help_option(console, lefts, head)
@@ -101,15 +100,22 @@ module Mamertes
         #
         # @param console [Bovem::Console] The console object to use to print.
         def show_help_commands(console)
-          console.write("")
-          console.write(self.is_application? ? self.i18n.help_commands : self.i18n.help_subcommands)
-          alignment = self.commands.keys.collect(&:length).max
+          alignment = prepare_show_help_commands(console)
 
           console.with_indentation(4) do
             self.commands.keys.sort.each do |name|
               show_help_command(console, name, alignment)
             end
           end
+        end
+
+        # Starts printing information about the command's subcommands.
+        #
+        # @param console [Bovem::Console] The console object to use to print.
+        def prepare_show_help_commands(console)
+          console.write("")
+          console.write(self.is_application? ? self.i18n.help_commands : self.i18n.help_subcommands)
+          self.commands.keys.collect(&:length).max
         end
 
         # Prints information about a command's subcommand.
