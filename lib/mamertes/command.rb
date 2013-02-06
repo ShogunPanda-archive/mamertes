@@ -282,7 +282,7 @@ module Mamertes
     # @param options [Hash] A set of options for this command.
     # @return [Command] The newly added command.
     def command(name, options = {}, &block)
-      @commands ||= {}
+      @commands ||= HashWithIndifferentAccess.new
 
       options = {name: name.to_s, parent: self, application: self.application}.merge(!options.is_a?(::Hash) ? {} : options)
       raise Mamertes::Error.new(self, :duplicate_command, self.i18n.existing_command(self.full_name(name))) if @commands[name.to_s]
@@ -301,7 +301,7 @@ module Mamertes
     # @return [Option] The newly added option.
     def option(name, forms = [], options = {}, &action)
       name = name.ensure_string
-      @options ||= {}
+      @options ||= HashWithIndifferentAccess.new
 
       if @options[name] then
         if self.is_application? then
@@ -321,7 +321,7 @@ module Mamertes
     #
     # @return [Hash] The list of subcommands of this command.
     def commands
-      @commands || {}
+      @commands || HashWithIndifferentAccess.new
     end
 
     # Clear all subcommands of this commands.
@@ -341,7 +341,7 @@ module Mamertes
     #
     # @return [Hash] The list of options of this command.
     def options
-      @options || {}
+      @options || HashWithIndifferentAccess.new
     end
 
     # Clear all the options of this commands.

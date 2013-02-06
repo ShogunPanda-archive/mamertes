@@ -127,7 +127,7 @@ describe Mamertes::Command do
   describe "#command" do
     it "should add a subcommand" do
       command.command("subcommand", {banner: "BANNER"}) do |option|
-        description "DESCRIPTION"
+        description("DESCRIPTION")
       end
 
       subcommand = command.commands["subcommand"]
@@ -172,6 +172,12 @@ describe Mamertes::Command do
       command.command("subcommand2")
       expect(command.commands.values.collect(&:name).sort).to eq(["subcommand1", "subcommand2"])
     end
+
+    it "should let access both with Symbol or String" do
+      command.command("subcommand1")
+      expect(command.commands).to be_a(HashWithIndifferentAccess)
+      expect(command.commands[:subcommand1]).to eq(command.commands["subcommand1"])
+    end
   end
 
   describe "#clear_commands" do
@@ -206,6 +212,12 @@ describe Mamertes::Command do
       command.option("option1")
       command.option("option2")
       expect(command.options.values.collect(&:name).sort).to eq(["option1", "option2"])
+    end
+
+    it "should let access both with Symbol or String" do
+      command.option("option1")
+      expect(command.options).to be_a(HashWithIndifferentAccess)
+      expect(command.options[:option1]).to eq(command.options["option1"])
     end
   end
 
