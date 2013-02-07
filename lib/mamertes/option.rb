@@ -132,9 +132,17 @@ module Mamertes
     end
 
     # Get the current default value for this option.
+    #
     # @return [Object] The default value for this option.
     def default
       @default || ::Mamertes::OPTION_TYPES[@type]
+    end
+
+    # Check if the current option has a default value.
+    #
+    # @return [Boolean] If the current option has a default value.
+    def has_default?
+      !@default.nil?
     end
 
     # Sets the value of this option and also make sure that it is validated.

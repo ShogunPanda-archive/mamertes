@@ -20,7 +20,7 @@ require "rubygems"
 require "mamertes"
 
 Mamertes.App(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
-  option(:storage, ["f", "file"], {help: "The file where store TODOs to.", meta: "FILE"})
+  option(:storage, ["f", "file"], {type: String, help: "The file where store TODOs to.", meta: "FILE"})
 
   command :list do
     description "List all TODOs."
@@ -78,8 +78,8 @@ $ ./test -h
     Do you like Mamertes?
 
 [GLOBAL OPTIONS]
-    -f, --file - The file where store TODOs to.
-    -h, --help - Shows this message.
+    -f FILE, --file FILE - The file where store TODOs to.
+    -h, --help           - Shows this message.
 
 [COMMANDS]
     help   - Shows a help about a command.

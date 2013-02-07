@@ -381,6 +381,67 @@ describe Mamertes::Command do
     end
   end
 
+  describe "#get_options" do
+    let(:reference){
+      c = ::Mamertes::Command.new("command") do
+        option("aaa", [], {type: Integer, default: 456})
+        option("bbb", [], {type: String})
+        option("ccc", [], {type: Array, default: ["1", "2"]})
+      end
+
+      c.application = ::Mamertes::Application.new do |a|
+        option("aaa", [], {type: Integer, default: 123})
+        option("ddd", [], {type: Float})
+        action {}
+      end
+
+      c
+    }
+
+    it "should return the full list of options" do
+      Mamertes::Parser.parse(reference.application, ["--aaa", "111", "--ddd", "2.0"])
+      Mamertes::Parser.parse(reference, ["--bbb", "2.0", "--ccc", "A,B,C"])
+      expect(reference.get_options.symbolize_keys).to eq({application_aaa: 111, application_ddd: 2.0, aaa: 456, bbb: "2.0", ccc: ["A", "B", "C"]})
+    end
+
+    it "should only return provided options if required to" do
+      Mamertes::Parser.parse(reference.application, ["--aaa", "111"])
+      Mamertes::Parser.parse(reference, ["--ccc", "2.0"])
+      expect(reference.get_options(false).symbolize_keys).to eq({application_aaa: 111, aaa: 456, ccc: ["2.0"]})
+    end
+
+    it "should skip application options if required to" do
+      Mamertes::Parser.parse(reference.application, ["--aaa", "111", "--ddd", "2.0"])
+      Mamertes::Parser.parse(reference, ["--bbb", "2.0", "--ccc", "A,B,C"])
+      expect(reference.get_options(true, false).symbolize_keys).to eq({aaa: 456, bbb: "2.0", ccc: ["A", "B", "C"]})
+      expect(reference.get_options(true, nil).symbolize_keys).to eq({aaa: 456, bbb: "2.0", ccc: ["A", "B", "C"]})
+    end
+
+    it "should apply the requested prefix for command options" do
+      Mamertes::Parser.parse(reference.application, ["--aaa", "111", "--ddd", "2.0"])
+      Mamertes::Parser.parse(reference, ["--bbb", "2.0", "--ccc", "A,B,C"])
+      expect(reference.get_options(true, false, "PREFIX").symbolize_keys).to eq({PREFIXaaa: 456, PREFIXbbb: "2.0", PREFIXccc: ["A", "B", "C"]})
+    end
+
+    it "should apply the requested prefix for application options" do
+      Mamertes::Parser.parse(reference.application, ["--aaa", "111", "--ddd", "2.0"])
+      Mamertes::Parser.parse(reference, ["--bbb", "2.0", "--ccc", "A,B,C"])
+      expect(reference.get_options(true, "APP").symbolize_keys).to eq({APPaaa: 111, APPddd: 2.0, aaa: 456, bbb: "2.0", ccc: ["A", "B", "C"]})
+    end
+
+    it "should only return requested options" do
+      Mamertes::Parser.parse(reference.application, ["--aaa", "111", "--ddd", "2.0"])
+      Mamertes::Parser.parse(reference, ["--bbb", "2.0", "--ccc", "A,B,C"])
+      expect(reference.get_options(true, "application_", "", :aaa, :bbb).symbolize_keys).to eq({application_aaa: 111, aaa: 456, bbb: "2.0"})
+    end
+
+    it "should apply higher precedence to command options in case of conflicts" do
+      Mamertes::Parser.parse(reference.application, ["--aaa", "111", "--ddd", "2.0"])
+      Mamertes::Parser.parse(reference, ["--bbb", "2.0", "--ccc", "A,B,C"])
+      expect(reference.get_options(true, "", "").symbolize_keys).to eq({ddd: 2.0, aaa: 456, bbb: "2.0", ccc: ["A", "B", "C"]})
+    end
+  end
+
   describe "#show_help" do
     it "should behave differently for application" do
       Kernel.stub(:exit).and_return(0)

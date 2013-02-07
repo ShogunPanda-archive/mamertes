@@ -79,7 +79,7 @@ module Mamertes
         def show_help_options_build_labels()
           self.options.values.inject({}) do |lefts, option|
             left = [option.complete_short, option.complete_long]
-            left.collect!{|l| " " + option.meta } if option.requires_argument?
+            left.collect!{|l| l + " " + option.meta } if option.requires_argument?
             lefts[left.join(", ")] = option.has_help? ? option.help : self.i18n.help_no_description
             lefts
           end
@@ -319,12 +319,13 @@ module Mamertes
 
     # Returns the list of subcommands of this command.
     #
-    # @return [Hash] The list of subcommands of this command.
+    # @return [HashWithIndifferentAccess] The list of subcommands of this command.
     def commands
       @commands || HashWithIndifferentAccess.new
     end
 
     # Clear all subcommands of this commands.
+    #
     # @return [Hash] The new (empty) list of subcommands of this command.
     def clear_commands
       @commands = {}
@@ -339,7 +340,7 @@ module Mamertes
 
     # Returns the list of options of this command.
     #
-    # @return [Hash] The list of options of this command.
+    # @return [HashWithIndifferentAccess] The list of options of this command.
     def options
       @options || HashWithIndifferentAccess.new
     end
@@ -429,6 +430,23 @@ module Mamertes
       end
     end
 
+    # Get the list of the options of this command as an hash, where the keys are the options and the values are either
+    # the user inputs or the defaults values.
+    #
+    # If the two prefixes collides, the command options take precedence over application options.
+    #
+    # @param unprovided [Boolean] If to include also options that were not provided by the user and that don't have any default value.
+    # @param application [String] The prefix to use for including application's options. If falsy, only current command options will be included.
+    # @param prefix [String] The prefix to add to the option of this command.
+    # @param whitelist [Array] The list of options to include. By default all options are included.
+    # @return [HashWithIndifferentAccess] The requested options.
+    def get_options(unprovided = false, application = "application_", prefix = "", *whitelist)
+      rv = HashWithIndifferentAccess.new
+      rv.merge!(self.application.get_options(unprovided, nil, application, *whitelist)) if application && !self.is_application?
+      rv.merge!(get_current_options(unprovided, prefix, whitelist))
+      rv
+    end
+
     private
       # Setup the application localization.
       #
@@ -448,6 +466,22 @@ module Mamertes
         command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|command, option| command.show_help }
         @commands[name.to_s] = command
         command
+      end
+
+      # Get the list of the options of this command.
+      # @param unprovided [Boolean] If to include also options that were not provided by the user and that don't have any default value.
+      # @param prefix [String] The prefix to add to the option of this command.
+      # @param whitelist [Array] The list of options to include. By default all options are included.
+      # @return [HashWithIndifferentAccess] The requested options.
+      def get_current_options(unprovided, prefix, whitelist)
+        rv = HashWithIndifferentAccess.new
+        whitelist = (whitelist.present? ? whitelist : self.options.keys).collect(&:to_s)
+
+        self.options.each do |key, option|
+          rv["#{prefix}#{key}"] = option.value if whitelist.include?(key.to_s) && (option.provided? || option.has_default? || (unprovided && option.action.nil?))
+        end
+
+        rv
       end
   end
 end
