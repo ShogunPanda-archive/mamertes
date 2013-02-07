@@ -128,6 +128,167 @@ module Mamertes
           console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : self.i18n.help_no_description], "\n", true, true)
         end
     end
+
+    # Methods to manage options and subcommands.
+    module Children
+      attr_reader :commands
+      attr_reader :options
+      attr_reader :arguments
+
+      # Adds a new subcommand to this command.
+      #
+      # @param name [String] The name of this command. Must be unique.
+      # @param options [Hash] A set of options for this command.
+      # @return [Command] The newly added command.
+      def command(name, options = {}, &block)
+        @commands ||= HashWithIndifferentAccess.new
+
+        options = {name: name.to_s, parent: self, application: self.application}.merge(!options.is_a?(::Hash) ? {} : options)
+        raise Mamertes::Error.new(self, :duplicate_command, self.i18n.existing_command(self.full_name(name))) if @commands[name.to_s]
+
+        create_command(name, options, &block)
+      end
+
+      # Adds a new option to this command.
+      #
+      # @see Option#initialize
+      #
+      # @param name [String] The name of the option. Must be unique.
+      # @param forms [Array] An array of short and long forms for this option.
+      # @param options [Hash] The settings for the option.
+      # @param action [Proc] An optional action to pass to the option.
+      # @return [Option] The newly added option.
+      def option(name, forms = [], options = {}, &action)
+        name = name.ensure_string
+        @options ||= HashWithIndifferentAccess.new
+
+        if @options[name] then
+          if self.is_application? then
+            raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option_global(name))
+          else
+            raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option(name, self.full_name))
+          end
+        end
+
+        option = ::Mamertes::Option.new(name, forms, options, &action)
+        option.parent = self
+        @options[name] = option
+        option
+      end
+
+      # Returns the list of subcommands of this command.
+      #
+      # @return [HashWithIndifferentAccess] The list of subcommands of this command.
+      def commands
+        @commands || HashWithIndifferentAccess.new
+      end
+
+      # Clear all subcommands of this commands.
+      #
+      # @return [Hash] The new (empty) list of subcommands of this command.
+      def clear_commands
+        @commands = {}
+      end
+
+      # Check if this command has subcommands.
+      #
+      # @return [Boolean] `true` if this command has subcommands, `false` otherwise.
+      def has_commands?
+        self.commands.length > 0
+      end
+
+      # Returns the list of options of this command.
+      #
+      # @return [HashWithIndifferentAccess] The list of options of this command.
+      def options
+        @options || HashWithIndifferentAccess.new
+      end
+
+      # Clear all the options of this commands.
+      # @return [Hash] The new (empty) list of the options of this command.
+      def clear_options
+        @options = {}
+      end
+
+      # Check if this command has options.
+      #
+      # @return [Boolean] `true` if this command has options, `false` otherwise.
+      def has_options?
+        self.options.length > 0
+      end
+
+      # Adds a new argument to this command.
+      #
+      # @param value [String] The argument to add.
+      def argument(value)
+        @args ||= []
+        @args << value
+      end
+
+      # Returns the list of arguments of this command.
+      #
+      # @return [Array] The list of arguments of this command.
+      def arguments
+        @args || []
+      end
+
+      # Get the list of the options of this command as an hash, where the keys are the options and the values are either
+      # the user inputs or the defaults values.
+      #
+      # If the two prefixes collides, the command options take precedence over application options.
+      #
+      # @param unprovided [Boolean] If to include also options that were not provided by the user and that don't have any default value.
+      # @param application [String] The prefix to use for including application's options. If falsy, only current command options will be included.
+      # @param prefix [String] The prefix to add to the option of this command.
+      # @param whitelist [Array] The list of options to include. By default all options are included.
+      # @return [HashWithIndifferentAccess] The requested options.
+      def get_options(unprovided = false, application = "application_", prefix = "", *whitelist)
+        rv = HashWithIndifferentAccess.new
+        rv.merge!(self.application.get_options(unprovided, nil, application, *whitelist)) if application && !self.is_application?
+        rv.merge!(get_current_options(unprovided, prefix, whitelist))
+        rv
+      end
+
+      private
+        # Creates a new command.
+        #
+        # @param name [String] The name of this command.
+        # @param options [Hash] The setttings for this command.
+        # @return [Command] The new command.
+        def create_command(name, options, &block)
+          command = ::Mamertes::Command.new(options, &block)
+          command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|command, option| command.show_help }
+          @commands[name.to_s] = command
+          command
+        end
+
+        # Gets the list of the options of this command.
+        # @param unprovided [Boolean] If to include also options that were not provided by the user and that don't have any default value.
+        # @param prefix [String] The prefix to add to the option of this command.
+        # @param whitelist [Array] The list of options to include. By default all options are included.
+        # @return [HashWithIndifferentAccess] The requested options.
+        def get_current_options(unprovided, prefix, whitelist)
+          rv = HashWithIndifferentAccess.new
+          whitelist = (whitelist.present? ? whitelist : self.options.keys).collect(&:to_s)
+
+          self.options.each do |key, option|
+            rv["#{prefix}#{key}"] = option.value if include_option?(whitelist, unprovided, key, option)
+          end
+
+          rv
+        end
+
+        # Checks if a option must be included in a hash.
+        #
+        # @param whitelist [Array] The list of options to include.
+        # @param unprovided [Boolean] If to include also options that were not provided by the user and that don't have any default value.
+        # @param key [String] The option name.
+        # @param option [Option] The option to include.
+        # @return [Boolean] Whether to include the option.
+        def include_option?(whitelist, unprovided, key, option)
+          whitelist.include?(key.to_s) && (option.provided? || option.has_default? || (unprovided && option.action.nil?))
+        end
+    end
   end
 
   # This class represent a command (action) for Mamertes.
@@ -168,12 +329,10 @@ module Mamertes
     attr_accessor :after
     attr_accessor :application
     attr_accessor :parent
-    attr_reader :commands
-    attr_reader :options
-    attr_reader :arguments
 
     include Lazier::I18n
     include Mamertes::CommandMethods::Help
+    include Mamertes::CommandMethods::Children
 
     # Creates a new command.
     #
@@ -262,117 +421,6 @@ module Mamertes
       @after
     end
 
-    # Check if this command has a description.
-    #
-    # @return [Boolean] `true` if this command has a description, `false` otherwise.
-    def has_description?
-      self.description.present?
-    end
-
-    # Check if this command has a banner.
-    #
-    # @return [Boolean] `true` if this command has a banner, `false` otherwise.
-    def has_banner?
-      self.banner.present?
-    end
-
-    # Adds a new subcommand to this command.
-    #
-    # @param name [String] The name of this command. Must be unique.
-    # @param options [Hash] A set of options for this command.
-    # @return [Command] The newly added command.
-    def command(name, options = {}, &block)
-      @commands ||= HashWithIndifferentAccess.new
-
-      options = {name: name.to_s, parent: self, application: self.application}.merge(!options.is_a?(::Hash) ? {} : options)
-      raise Mamertes::Error.new(self, :duplicate_command, self.i18n.existing_command(self.full_name(name))) if @commands[name.to_s]
-
-      create_command(name, options, &block)
-    end
-
-    # Adds a new option to this command.
-    #
-    # @see Option#initialize
-    #
-    # @param name [String] The name of the option. Must be unique.
-    # @param forms [Array] An array of short and long forms for this option.
-    # @param options [Hash] The settings for the option.
-    # @param action [Proc] An optional action to pass to the option.
-    # @return [Option] The newly added option.
-    def option(name, forms = [], options = {}, &action)
-      name = name.ensure_string
-      @options ||= HashWithIndifferentAccess.new
-
-      if @options[name] then
-        if self.is_application? then
-          raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option_global(name))
-        else
-          raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option(name, self.full_name))
-        end
-      end
-
-      option = ::Mamertes::Option.new(name, forms, options, &action)
-      option.parent = self
-      @options[name] = option
-      option
-    end
-
-    # Returns the list of subcommands of this command.
-    #
-    # @return [HashWithIndifferentAccess] The list of subcommands of this command.
-    def commands
-      @commands || HashWithIndifferentAccess.new
-    end
-
-    # Clear all subcommands of this commands.
-    #
-    # @return [Hash] The new (empty) list of subcommands of this command.
-    def clear_commands
-      @commands = {}
-    end
-
-    # Check if this command has subcommands.
-    #
-    # @return [Boolean] `true` if this command has subcommands, `false` otherwise.
-    def has_commands?
-      self.commands.length > 0
-    end
-
-    # Returns the list of options of this command.
-    #
-    # @return [HashWithIndifferentAccess] The list of options of this command.
-    def options
-      @options || HashWithIndifferentAccess.new
-    end
-
-    # Clear all the options of this commands.
-    # @return [Hash] The new (empty) list of the options of this command.
-    def clear_options
-      @options = {}
-    end
-
-    # Check if this command has options.
-    #
-    # @return [Boolean] `true` if this command has options, `false` otherwise.
-    def has_options?
-      self.options.length > 0
-    end
-
-    # Adds a new argument to this command.
-    #
-    # @param value [String] The argument to add.
-    def argument(value)
-      @args ||= []
-      @args << value
-    end
-
-    # Returns the list of arguments of this command.
-    #
-    # @return [Array] The list of arguments of this command.
-    def arguments
-      @args || []
-    end
-
     # Returns the application this command belongs to.
     #
     # @return [Application] The application this command belongs to or `self`, if the command is an Application.
@@ -385,6 +433,20 @@ module Mamertes
     # @return [Boolean] `true` if command is an application, `false` otherwise.
     def is_application?
       self.is_a?(Mamertes::Application)
+    end
+
+    # Check if this command has a description.
+    #
+    # @return [Boolean] `true` if this command has a description, `false` otherwise.
+    def has_description?
+      self.description.present?
+    end
+
+    # Check if this command has a banner.
+    #
+    # @return [Boolean] `true` if this command has a banner, `false` otherwise.
+    def has_banner?
+      self.banner.present?
     end
 
     # Setups the command.
@@ -430,23 +492,6 @@ module Mamertes
       end
     end
 
-    # Get the list of the options of this command as an hash, where the keys are the options and the values are either
-    # the user inputs or the defaults values.
-    #
-    # If the two prefixes collides, the command options take precedence over application options.
-    #
-    # @param unprovided [Boolean] If to include also options that were not provided by the user and that don't have any default value.
-    # @param application [String] The prefix to use for including application's options. If falsy, only current command options will be included.
-    # @param prefix [String] The prefix to add to the option of this command.
-    # @param whitelist [Array] The list of options to include. By default all options are included.
-    # @return [HashWithIndifferentAccess] The requested options.
-    def get_options(unprovided = false, application = "application_", prefix = "", *whitelist)
-      rv = HashWithIndifferentAccess.new
-      rv.merge!(self.application.get_options(unprovided, nil, application, *whitelist)) if application && !self.is_application?
-      rv.merge!(get_current_options(unprovided, prefix, whitelist))
-      rv
-    end
-
     private
       # Setup the application localization.
       #
@@ -454,34 +499,6 @@ module Mamertes
       def setup_i18n(options)
         self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
         self.i18n = (options[:locale] || :en).ensure_string
-      end
-
-      # Creates a new command.
-      #
-      # @param name [String] The name of this command.
-      # @param options [Hash] The setttings for this command.
-      # @return [Command] The new command.
-      def create_command(name, options, &block)
-        command = ::Mamertes::Command.new(options, &block)
-        command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|command, option| command.show_help }
-        @commands[name.to_s] = command
-        command
-      end
-
-      # Get the list of the options of this command.
-      # @param unprovided [Boolean] If to include also options that were not provided by the user and that don't have any default value.
-      # @param prefix [String] The prefix to add to the option of this command.
-      # @param whitelist [Array] The list of options to include. By default all options are included.
-      # @return [HashWithIndifferentAccess] The requested options.
-      def get_current_options(unprovided, prefix, whitelist)
-        rv = HashWithIndifferentAccess.new
-        whitelist = (whitelist.present? ? whitelist : self.options.keys).collect(&:to_s)
-
-        self.options.each do |key, option|
-          rv["#{prefix}#{key}"] = option.value if whitelist.include?(key.to_s) && (option.provided? || option.has_default? || (unprovided && option.action.nil?))
-        end
-
-        rv
       end
   end
 end

@@ -6,7 +6,7 @@
 <title>
   Class: Mamertes::Option
   
-    &mdash; Documentation by YARD 0.8.3
+    &mdash; Documentation by YARD 0.8.4.1
   
 </title>
 
@@ -539,6 +539,29 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#has_default%3F-instance_method" title="#has_default? (instance method)">- (Boolean) <strong>has_default?</strong> </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'><p>Check if the current option has a default value.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#has_help%3F-instance_method" title="#has_help? (instance method)">- (Boolean) <strong>has_help?</strong> </a>
     
 
@@ -1030,7 +1053,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -1128,9 +1169,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -1146,11 +1195,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -1194,6 +1239,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -1206,6 +1252,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -1214,9 +1261,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1451,7 +1510,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -1549,9 +1626,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -1567,11 +1652,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -1615,6 +1696,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -1627,6 +1709,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -1635,9 +1718,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -1872,7 +1967,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -1970,9 +2083,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -1988,11 +2109,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -2036,6 +2153,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -2048,6 +2166,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -2056,9 +2175,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2293,7 +2424,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -2391,9 +2540,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -2409,11 +2566,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -2457,6 +2610,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -2469,6 +2623,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -2477,9 +2632,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -2714,7 +2881,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -2812,9 +2997,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -2830,11 +3023,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -2878,6 +3067,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -2890,6 +3080,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -2898,9 +3089,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3135,7 +3338,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -3233,9 +3454,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -3251,11 +3480,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -3299,6 +3524,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -3311,6 +3537,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -3319,9 +3546,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3556,7 +3795,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -3654,9 +3911,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -3672,11 +3937,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -3720,6 +3981,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -3732,6 +3994,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -3740,9 +4003,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -3977,7 +4252,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -4075,9 +4368,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -4093,11 +4394,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -4141,6 +4438,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -4153,6 +4451,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -4161,9 +4460,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -4398,7 +4709,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -4496,9 +4825,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -4514,11 +4851,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -4562,6 +4895,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -4574,6 +4908,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -4582,9 +4917,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -4819,7 +5166,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -4917,9 +5282,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -4935,11 +5308,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -4983,6 +5352,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -4995,6 +5365,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -5003,9 +5374,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -5240,7 +5623,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -5338,9 +5739,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -5356,11 +5765,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -5404,6 +5809,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -5416,6 +5822,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -5424,9 +5831,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -5703,7 +6122,25 @@
 222
 223
 224
-225</pre>
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243</pre>
     </td>
     <td>
       <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 42</span>
@@ -5801,9 +6238,17 @@
   <span class='kw'>end</span>
 
   <span class='comment'># Get the current default value for this option.
+</span>  <span class='comment'>#
 </span>  <span class='comment'># @return [Object] The default value for this option.
 </span>  <span class='kw'>def</span> <span class='id identifier rubyid_default'>default</span>
     <span class='ivar'>@default</span> <span class='op'>||</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>OPTION_TYPES</span><span class='lbracket'>[</span><span class='ivar'>@type</span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+
+  <span class='comment'># Check if the current option has a default value.
+</span>  <span class='comment'>#
+</span>  <span class='comment'># @return [Boolean] If the current option has a default value.
+</span>  <span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+    <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
   <span class='kw'>end</span>
 
   <span class='comment'># Sets the value of this option and also make sure that it is validated.
@@ -5819,11 +6264,7 @@
       <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
       <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>else</span>
-        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-      <span class='kw'>end</span>
+</span>      <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
     <span class='kw'>else</span>
       <span class='kw'>false</span>
     <span class='kw'>end</span>
@@ -5867,6 +6308,7 @@
 
   <span class='id identifier rubyid_private'>private</span>
     <span class='comment'># Setups the forms of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_forms'>setup_forms</span><span class='lparen'>(</span><span class='id identifier rubyid_forms'>forms</span><span class='rparen'>)</span>
       <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_short'>short</span> <span class='op'>=</span> <span class='id identifier rubyid_forms'>forms</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>&gt;</span> <span class='int'>0</span> <span class='op'>?</span> <span class='id identifier rubyid_forms'>forms</span><span class='lbracket'>[</span><span class='int'>0</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='ivar'>@name</span><span class='lbracket'>[</span><span class='int'>0</span><span class='comma'>,</span> <span class='int'>1</span><span class='rbracket'>]</span>
@@ -5879,6 +6321,7 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the settings of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param options [Hash] The settings for this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_options'>setup_options</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span> <span class='op'>:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each_pair'>each_pair</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_option'>option</span><span class='comma'>,</span> <span class='id identifier rubyid_value'>value</span><span class='op'>|</span>
@@ -5887,9 +6330,21 @@
     <span class='kw'>end</span>
 
     <span class='comment'># Setups the action of the this option.
+</span>    <span class='comment'>#
 </span>    <span class='comment'># @param action [Proc] The action of this option.
 </span>    <span class='kw'>def</span> <span class='id identifier rubyid_setup_action'>setup_action</span><span class='lparen'>(</span><span class='id identifier rubyid_action'>action</span><span class='rparen'>)</span>
       <span class='ivar'>@action</span> <span class='op'>=</span> <span class='id identifier rubyid_action'>action</span> <span class='kw'>if</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:call</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='id identifier rubyid_action'>action</span><span class='period'>.</span><span class='id identifier rubyid_try'>try</span><span class='lparen'>(</span><span class='symbol'>:arity</span><span class='rparen'>)</span> <span class='op'>==</span> <span class='int'>2</span>
+    <span class='kw'>end</span>
+
+    <span class='comment'># Handle failure in setting an option.
+</span>    <span class='comment'>#
+</span>    <span class='comment'># @param vs [Symbol] The type of validator.
+</span>    <span class='kw'>def</span> <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='ivar'>@validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
     <span class='kw'>end</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -6043,21 +6498,78 @@
       <pre class="lines">
 
 
-164
-165
-166
-167
 168
-169</pre>
+169
+170
+171
+172
+173</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 164</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 168</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_execute_action'>execute_action</span>
   <span class='kw'>if</span> <span class='ivar'>@action</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='kw'>then</span>
     <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
     <span class='ivar'>@action</span><span class='period'>.</span><span class='id identifier rubyid_call'>call</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parent'>parent</span><span class='comma'>,</span> <span class='kw'>self</span><span class='rparen'>)</span>
   <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="has_default?-instance_method">
+  
+    - (<tt>Boolean</tt>) <strong>has_default?</strong> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <p>Check if the current option has a default value.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Boolean</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'><p>If the current option has a default value.</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+144
+145
+146</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 144</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_has_default?'>has_default?</span>
+  <span class='op'>!</span><span class='ivar'>@default</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -6106,12 +6618,12 @@
       <pre class="lines">
 
 
-188
-189
-190</pre>
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 188</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_has_help?'>has_help?</span>
   <span class='ivar'>@help</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span>
@@ -6220,12 +6732,12 @@
       <pre class="lines">
 
 
-181
-182
-183</pre>
+185
+186
+187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 181</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 185</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_provided?'>provided?</span>
   <span class='ivar'>@provided</span>
@@ -6277,12 +6789,12 @@
       <pre class="lines">
 
 
-174
-175
-176</pre>
+178
+179
+180</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 178</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_requires_argument?'>requires_argument?</span>
   <span class='lbracket'>[</span><span class='const'>String</span><span class='comma'>,</span> <span class='const'>Integer</span><span class='comma'>,</span> <span class='const'>Float</span><span class='comma'>,</span> <span class='const'>Array</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='ivar'>@type</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span> <span class='ivar'>@action</span><span class='period'>.</span><span class='id identifier rubyid_blank?'>blank?</span>
@@ -6370,14 +6882,6 @@
       <pre class="lines">
 
 
-145
-146
-147
-148
-149
-150
-151
-152
 153
 154
 155
@@ -6386,10 +6890,14 @@
 158
 159
 160
-161</pre>
+161
+162
+163
+164
+165</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 145</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/option.rb', line 153</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_set'>set</span><span class='lparen'>(</span><span class='id identifier rubyid_value'>value</span><span class='comma'>,</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_vs'>vs</span> <span class='op'>=</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_present?'>present?</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Array</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='symbol'>:array</span> <span class='op'>:</span> <span class='symbol'>:regexp</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='kw'>false</span> <span class='comment'># Check we have a validator
@@ -6399,11 +6907,7 @@
     <span class='ivar'>@value</span> <span class='op'>=</span> <span class='id identifier rubyid_value'>value</span>
     <span class='ivar'>@provided</span> <span class='op'>=</span> <span class='kw'>true</span>
   <span class='kw'>elsif</span> <span class='id identifier rubyid_raise_error'>raise_error</span> <span class='kw'>then</span> <span class='comment'># Validation failed
-</span>    <span class='kw'>if</span> <span class='id identifier rubyid_vs'>vs</span> <span class='op'>==</span> <span class='symbol'>:array</span> <span class='kw'>then</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_value'>invalid_value</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Parser</span><span class='period'>.</span><span class='id identifier rubyid_smart_join'>smart_join</span><span class='lparen'>(</span><span class='id identifier rubyid_validator'>validator</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span>
-    <span class='kw'>else</span>
-      <span class='id identifier rubyid_raise'>raise</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='kw'>self</span><span class='comma'>,</span> <span class='symbol'>:validation_failed</span><span class='comma'>,</span> <span class='ivar'>@parent</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_invalid_for_regexp'>invalid_for_regexp</span><span class='lparen'>(</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_label'>label</span><span class='comma'>,</span> <span class='ivar'>@validator</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span><span class='rparen'>)</span><span class='rparen'>)</span>
-    <span class='kw'>end</span>
+</span>    <span class='id identifier rubyid_handle_set_failure'>handle_set_failure</span><span class='lparen'>(</span><span class='id identifier rubyid_vs'>vs</span><span class='rparen'>)</span>
   <span class='kw'>else</span>
     <span class='kw'>false</span>
   <span class='kw'>end</span>
@@ -6418,9 +6922,9 @@
 </div>
 
     <div id="footer">
-  Generated on Mon Feb  4 13:07:06 2013 by
+  Generated on Thu Feb  7 08:20:48 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.3 (ruby-1.9.3).
+  0.8.4.1 (ruby-1.9.3).
 </div>
 
   </body>
