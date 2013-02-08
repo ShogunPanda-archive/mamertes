@@ -15,41 +15,39 @@ http://rdoc.info/gems/mamertes
 As ever, talking by example is always better.
 This application:
 
-```ruby
-require "rubygems"
-require "mamertes"
+    require "rubygems"
+    require "mamertes"
 
-Mamertes.App(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
-  option(:storage, ["f", "file"], {type: String, help: "The file where store TODOs to.", meta: "FILE"})
+    Mamertes.App(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
+      option(:storage, ["f", "file"], {type: String, help: "The file where store TODOs to.", meta: "FILE"})
 
-  command :list do
-    description "List all TODOs."
-    action do |command|
-      # You should implement this.
-    end
-  end
+      command :list do
+        description "List all TODOs."
+        action do |command|
+          # You should implement this.
+        end
+      end
 
-  command :manage, {description: "Manage existing TODO."} do
-    option(:verbose, [], {help: "Be verbose."})
+      command :manage, {description: "Manage existing TODO."} do
+        option(:verbose, [], {help: "Be verbose."})
 
-    action do |command|
-      puts "Please use \"add\" or \"remove\" subcommands."
-    end
+        action do |command|
+          puts "Please use \"add\" or \"remove\" subcommands."
+        end
 
-    command :add, {description: "Add a TODO."} do
-      action do |command|
-        # You should implement this.
+        command :add, {description: "Add a TODO."} do
+          action do |command|
+            # You should implement this.
+          end
+        end
+
+        command :remove, {description: "Removes a TODO."} do
+          action do |command|
+            # You should implement this.
+          end
+        end
       end
     end
-
-    command :remove, {description: "Removes a TODO."} do
-      action do |command|
-        # You should implement this.
-      end
-    end
-  end
-end
-```
 
 Will create a complete (at least at the interface model) TODO application which support commands `list` and `manage`.
 

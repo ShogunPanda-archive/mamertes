@@ -61,19 +61,19 @@
 
     <iframe id="search_frame"></iframe>
 
-    <div id="content"><div id='filecontents'><h1>mamertes</h1>
+    <div id="content"><div id='filecontents'><h1 id="mamertes">mamertes</h1>
 
-<p><a href="http://travis-ci.org/ShogunPanda/mamertes"><img src="https://secure.travis-ci.org/ShogunPanda/mamertes.png?branch=master" alt="Build Status"></a>
-<a href="https://gemnasium.com/ShogunPanda/mamertes"><img src="https://gemnasium.com/ShogunPanda/mamertes.png?travis" alt="Dependency Status"></a>
-<a href="https://codeclimate.com/github/ShogunPanda/mamertes"><img src="https://codeclimate.com/github/ShogunPanda/mamertes.png" alt="Code Climate"></a></p>
+<p><a href="http://travis-ci.org/ShogunPanda/mamertes"><img src="https://secure.travis-ci.org/ShogunPanda/mamertes.png?branch=master" alt="Build Status" /></a>
+<a href="https://gemnasium.com/ShogunPanda/mamertes"><img src="https://gemnasium.com/ShogunPanda/mamertes.png?travis" alt="Dependency Status" /></a>
+<a href="https://codeclimate.com/github/ShogunPanda/mamertes"><img src="https://codeclimate.com/github/ShogunPanda/mamertes.png" alt="Code Climate" /></a></p>
 
 <p>Yet another command line manager.</p>
 
-<p><a href="http://sw.cow.tc/mamertes">http://sw.cow.tc/mamertes</a></p>
+<p>http://sw.cow.tc/mamertes</p>
 
-<p><a href="http://rdoc.info/gems/mamertes">http://rdoc.info/gems/mamertes</a></p>
+<p>http://rdoc.info/gems/mamertes</p>
 
-<h2>Basic usage.</h2>
+<h2 id="basic-usage">Basic usage.</h2>
 
 <p>As ever, talking by example is always better.
 This application:</p>
@@ -121,73 +121,74 @@ This application:</p>
 
 <p>You can use the <code>--help</code> switch or the <code>help command</code> syntax to navigate through commands details.</p>
 
-<p>After setting up the skeleton, you will just need to write the action bodies and you&#39;re done. <strong>Happy coding!</strong></p>
+<p>After setting up the skeleton, you will just need to write the action bodies and you&#8217;re done. <strong>Happy coding!</strong></p>
 
-<h3>Wrapping up the example</h3>
+<h3 id="wrapping-up-the-example">Wrapping up the example</h3>
+<p>Here&#8217;s the help screen of the application above for the global application and for the <code>manage</code> command.</p>
 
-<p>Here&#39;s the help screen of the application above for the global application and for the <code>manage</code> command.</p>
+<h4 id="general-help">General help</h4>
 
-<h4>General help</h4>
-
-<pre class="code ruby"><code class="ruby">$ ./test -h
+<p>```
+$ ./test -h
 [NAME]
-    Mamertes Usage Test 1.0.0 - An example modelled like a TODO application
+    Mamertes Usage Test 1.0.0 - An example modelled like a TODO application</p>
 
-[SYNOPSIS]
-    test [options] [command [subcommand ...]][command-options] [arguments]
+<p>[SYNOPSIS]
+    test [options] [command [subcommand &#8230;]][command-options] [arguments]</p>
 
-[DESCRIPTION]
-    Do you like Mamertes?
+<p>[DESCRIPTION]
+    Do you like Mamertes?</p>
 
-[GLOBAL OPTIONS]
-    -f FILE, --file FILE - The file where store TODOs to.
-    -h, --help           - Shows this message.
+<p>[GLOBAL OPTIONS]
+    -f FILE, &#8211;file FILE - The file where store TODOs to.
+    -h, &#8211;help           - Shows this message.</p>
 
-[COMMANDS]
+<p>[COMMANDS]
     help   - Shows a help about a command.
     list   - List all TODOs.
     manage - Manage existing TODO.
-</code></pre>
+```</p>
 
-<h4>The <code>manage</code> command help</h4>
+<h4 id="the-manage-command-help">The <code>manage</code> command help</h4>
 
-<pre class="code ruby"><code class="ruby">$ ./test help manage
+<p>```
+$ ./test help manage
 [SYNOPSIS]
-    test [options] manage [subcommand ...]] [command-options] [arguments]
+    test [options] manage [subcommand &#8230;]] [command-options] [arguments]</p>
 
-[OPTIONS]
-    -v, --verbose - Be verbose.
+<p>[OPTIONS]
+    -v, &#8211;verbose - Be verbose.</p>
 
-[SUBCOMMANDS]
+<p>[SUBCOMMANDS]
     add    - Add a TODO.
     remove - Removes a TODO.
-</code></pre>
+```</p>
 
-<h2>Advanced usage</h2>
+<h2 id="advanced-usage">Advanced usage</h2>
 
 <p>See documentation for more information.</p>
 
-<h2>Contributing to mamertes</h2>
+<h2 id="contributing-to-mamertes">Contributing to mamertes</h2>
 
 <ul>
-<li>Check out the latest master to make sure the feature hasn&#39;t been implemented or the bug hasn&#39;t been fixed yet.</li>
-<li>Check out the issue tracker to make sure someone already hasn&#39;t requested it and/or contributed it.</li>
-<li>Fork the project.</li>
-<li>Start a feature/bugfix branch.</li>
-<li>Commit and push until you are happy with your contribution.</li>
-<li>Make sure to add tests for it. This is important so I don&#39;t break it in a future version unintentionally.</li>
-<li>Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.</li>
+  <li>Check out the latest master to make sure the feature hasn&#8217;t been implemented or the bug hasn&#8217;t been fixed yet.</li>
+  <li>Check out the issue tracker to make sure someone already hasn&#8217;t requested it and/or contributed it.</li>
+  <li>Fork the project.</li>
+  <li>Start a feature/bugfix branch.</li>
+  <li>Commit and push until you are happy with your contribution.</li>
+  <li>Make sure to add tests for it. This is important so I don&#8217;t break it in a future version unintentionally.</li>
+  <li>Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.</li>
 </ul>
 
-<h2>Copyright</h2>
+<h2 id="copyright">Copyright</h2>
 
-<p>Copyright (C) 2013 and above Shogun (<a href="mailto:shogun_panda@me.com">shogun_panda@me.com</a>).</p>
+<p>Copyright (C) 2013 and above Shogun (shogun_panda@me.com).</p>
 
-<p>Licensed under the MIT license, which can be found at <a href="http://www.opensource.org/licenses/mit-license.php">http://www.opensource.org/licenses/mit-license.php</a>).</p>
+<p>Licensed under the MIT license, which can be found at http://www.opensource.org/licenses/mit-license.php).</p>
 </div></div>
 
     <div id="footer">
-  Generated on Thu Feb  7 08:24:40 2013 by
+  Generated on Fri Feb  8 07:59:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.4.1 (ruby-1.9.3).
 </div>
