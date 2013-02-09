@@ -50,6 +50,18 @@ module Mamertes
     def self.localize(message, *args)
       self.new.i18n.send(message, *args)
     end
+
+    # Localize a message in a specified locale.
+    #
+    # @param locale [String|Symbol] The locale to use for localization.
+    # @param message [String|Symbol] The message to localize.
+    # @param args [Array] Optional arguments to localize the message.
+    # @return [String||R18n::Untranslated] The localized message.
+    def self.localize_on_locale(locale, message, *args)
+      localizer = self.new
+      localizer.i18n = locale
+      localizer.i18n.send(message, *args)
+    end
   end
 
   # This is the main class for a Mamertes application.
@@ -173,7 +185,7 @@ module Mamertes
       # @return [Array] If to run the application, the arguments and the specified options.
       def self.setup_application_option(options)
         options = {} if !options.is_a?(::Hash)
-        options = {name: ::Mamertes::Localizer.localize(:default_application_name), parent: nil, application: nil}.merge(options)
+        options = {name: ::Mamertes::Localizer.localize_on_locale(options[:locale], :default_application_name), parent: nil, application: nil}.merge(options)
         run = options.delete(:run)
         [(!run.nil? ? run : true).to_boolean, options.delete(:__args__), options]
       end

@@ -109,8 +109,8 @@ describe Mamertes::Application do
     end
 
     it "should create a default application" do
-      ::Mamertes::Application.should_receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil})
-      ::Mamertes::Application.create() {}
+      ::Mamertes::Application.should_receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil, locale: :en})
+      ::Mamertes::Application.create({locale: :en}) {}
     end
 
     it "should create an application with given options and block" do
