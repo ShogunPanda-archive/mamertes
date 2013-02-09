@@ -9,7 +9,7 @@
     default_application_name: "__APPLICATION__"
     ambigous_command: "Command shortcut \"%1\" is ambiguous across commands %2. Please add some other characters."
     missing_argument: "Option %1 expects an argument."
-    missing_argument: "Invalid option %1."
+    invalid_option: "Invalid option %1."
     invalid_integer: "Option %1 expects a valid integer as argument."
     invalid_float: "Option %1 expects a valid floating number as argument."
     conflicting_options: "Options %1 and %2 have conflicting forms."
