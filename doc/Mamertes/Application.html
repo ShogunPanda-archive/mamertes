@@ -557,20 +557,20 @@
       <pre class="lines">
 
 
-96
-97
-98
-99
-100
-101
-102
-103
-104
-105
-106</pre>
+108
+109
+110
+111
+112
+113
+114
+115
+116
+117
+118</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 96</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 108</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -637,18 +637,6 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
@@ -765,10 +753,22 @@
 196
 197
 198
-199</pre>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Command</span>
   <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:version</span>
@@ -875,7 +875,7 @@
 </span>    <span class='comment'># @return [Array] If to run the application, the arguments and the specified options.
 </span>    <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_application_option'>setup_application_option</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize'>localize</span><span class='lparen'>(</span><span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize_on_locale'>localize_on_locale</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_run'>run</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:run</span><span class='rparen'>)</span>
       <span class='lbracket'>[</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_run'>run</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_run'>run</span> <span class='op'>:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_boolean'>to_boolean</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:__args__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
@@ -948,18 +948,6 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
@@ -1076,10 +1064,22 @@
 196
 197
 198
-199</pre>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Command</span>
   <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:version</span>
@@ -1186,7 +1186,7 @@
 </span>    <span class='comment'># @return [Array] If to run the application, the arguments and the specified options.
 </span>    <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_application_option'>setup_application_option</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize'>localize</span><span class='lparen'>(</span><span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize_on_locale'>localize_on_locale</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_run'>run</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:run</span><span class='rparen'>)</span>
       <span class='lbracket'>[</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_run'>run</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_run'>run</span> <span class='op'>:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_boolean'>to_boolean</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:__args__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
@@ -1259,18 +1259,6 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
@@ -1387,10 +1375,22 @@
 196
 197
 198
-199</pre>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Command</span>
   <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:version</span>
@@ -1497,7 +1497,7 @@
 </span>    <span class='comment'># @return [Array] If to run the application, the arguments and the specified options.
 </span>    <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_application_option'>setup_application_option</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize'>localize</span><span class='lparen'>(</span><span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize_on_locale'>localize_on_locale</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_run'>run</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:run</span><span class='rparen'>)</span>
       <span class='lbracket'>[</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_run'>run</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_run'>run</span> <span class='op'>:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_boolean'>to_boolean</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:__args__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
@@ -1570,18 +1570,6 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
@@ -1698,10 +1686,22 @@
 196
 197
 198
-199</pre>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Command</span>
   <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:version</span>
@@ -1808,7 +1808,7 @@
 </span>    <span class='comment'># @return [Array] If to run the application, the arguments and the specified options.
 </span>    <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_application_option'>setup_application_option</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize'>localize</span><span class='lparen'>(</span><span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize_on_locale'>localize_on_locale</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_run'>run</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:run</span><span class='rparen'>)</span>
       <span class='lbracket'>[</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_run'>run</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_run'>run</span> <span class='op'>:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_boolean'>to_boolean</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:__args__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
@@ -1881,18 +1881,6 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
@@ -2009,10 +1997,22 @@
 196
 197
 198
-199</pre>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Command</span>
   <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:version</span>
@@ -2119,7 +2119,7 @@
 </span>    <span class='comment'># @return [Array] If to run the application, the arguments and the specified options.
 </span>    <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_application_option'>setup_application_option</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize'>localize</span><span class='lparen'>(</span><span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize_on_locale'>localize_on_locale</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_run'>run</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:run</span><span class='rparen'>)</span>
       <span class='lbracket'>[</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_run'>run</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_run'>run</span> <span class='op'>:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_boolean'>to_boolean</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:__args__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
@@ -2213,18 +2213,6 @@
       <pre class="lines">
 
 
-71
-72
-73
-74
-75
-76
-77
-78
-79
-80
-81
-82
 83
 84
 85
@@ -2341,10 +2329,22 @@
 196
 197
 198
-199</pre>
+199
+200
+201
+202
+203
+204
+205
+206
+207
+208
+209
+210
+211</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 71</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 83</span>
 
 <span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Command</span>
   <span class='id identifier rubyid_attr_accessor'>attr_accessor</span> <span class='symbol'>:version</span>
@@ -2451,7 +2451,7 @@
 </span>    <span class='comment'># @return [Array] If to run the application, the arguments and the specified options.
 </span>    <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_setup_application_option'>setup_application_option</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='op'>::</span><span class='const'>Hash</span><span class='rparen'>)</span>
-      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize'>localize</span><span class='lparen'>(</span><span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>name:</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize_on_locale'>localize_on_locale</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:locale</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='symbol'>:default_application_name</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='label'>parent:</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='label'>application:</span> <span class='kw'>nil</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
       <span class='id identifier rubyid_run'>run</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:run</span><span class='rparen'>)</span>
       <span class='lbracket'>[</span><span class='lparen'>(</span><span class='op'>!</span><span class='id identifier rubyid_run'>run</span><span class='period'>.</span><span class='id identifier rubyid_nil?'>nil?</span> <span class='op'>?</span> <span class='id identifier rubyid_run'>run</span> <span class='op'>:</span> <span class='kw'>true</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_boolean'>to_boolean</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_delete'>delete</span><span class='lparen'>(</span><span class='symbol'>:__args__</span><span class='rparen'>)</span><span class='comma'>,</span> <span class='id identifier rubyid_options'>options</span><span class='rbracket'>]</span>
     <span class='kw'>end</span>
@@ -2572,14 +2572,14 @@
       <pre class="lines">
 
 
-87
-88
-89
-90
-91</pre>
+99
+100
+101
+102
+103</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 87</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 99</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_create'>create</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_raise'>raise</span> <span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Error</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Application</span><span class='comma'>,</span> <span class='symbol'>:missing_block</span><span class='comma'>,</span> <span class='op'>::</span><span class='const'>Mamertes</span><span class='op'>::</span><span class='const'>Localizer</span><span class='period'>.</span><span class='id identifier rubyid_localize'>localize</span><span class='lparen'>(</span><span class='symbol'>:missing_app_block</span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='op'>!</span><span class='id identifier rubyid_block_given?'>block_given?</span>
@@ -2641,23 +2641,23 @@
       <pre class="lines">
 
 
-143
-144
-145
-146
-147
-148
-149
-150
-151
-152
-153
-154
 155
-156</pre>
+156
+157
+158
+159
+160
+161
+162
+163
+164
+165
+166
+167
+168</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 143</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 155</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_command_help'>command_help</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_fetch_commands_for_help'>fetch_commands_for_help</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_arg'>arg</span><span class='op'>|</span>
@@ -2720,12 +2720,12 @@
       <pre class="lines">
 
 
-136
-137
-138</pre>
+148
+149
+150</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 148</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_executable_name'>executable_name</span>
   <span class='gvar'>$0</span>
@@ -2781,12 +2781,12 @@
       <pre class="lines">
 
 
-120
-121
-122</pre>
+132
+133
+134</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 120</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 132</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='kw'>super</span><span class='lparen'>(</span><span class='id identifier rubyid_args'>args</span> <span class='op'>||</span> <span class='const'>ARGV</span><span class='rparen'>)</span>
@@ -2821,16 +2821,16 @@
       <pre class="lines">
 
 
-125
-126
-127
-128
-129
-130
-131</pre>
+137
+138
+139
+140
+141
+142
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 137</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_help_option'>help_option</span>
   <span class='id identifier rubyid_command'>command</span><span class='lparen'>(</span><span class='symbol'>:help</span><span class='comma'>,</span> <span class='label'>description:</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_i18n'>i18n</span><span class='period'>.</span><span class='id identifier rubyid_help_command_description'>help_command_description</span><span class='rparen'>)</span> <span class='kw'>do</span>
@@ -2956,12 +2956,12 @@
       <pre class="lines">
 
 
-165
-166
-167</pre>
+177
+178
+179</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 165</span>
+      <pre class="code"><span class="info file"># File 'lib/mamertes/application.rb', line 177</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='id identifier rubyid_show_exit'>show_exit</span> <span class='op'>=</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='id identifier rubyid_fatal'>fatal</span> <span class='op'>=</span> <span class='kw'>true</span><span class='rparen'>)</span>
   <span class='ivar'>@shell</span><span class='period'>.</span><span class='id identifier rubyid_run'>run</span><span class='lparen'>(</span><span class='id identifier rubyid_command'>command</span><span class='comma'>,</span> <span class='id identifier rubyid_message'>message</span><span class='comma'>,</span> <span class='op'>!</span><span class='ivar'>@skip_commands</span><span class='comma'>,</span> <span class='id identifier rubyid_show_exit'>show_exit</span><span class='comma'>,</span> <span class='ivar'>@output_commands</span><span class='comma'>,</span> <span class='ivar'>@show_commands</span><span class='comma'>,</span> <span class='id identifier rubyid_fatal'>fatal</span><span class='rparen'>)</span>
@@ -2976,7 +2976,7 @@
 </div>
 
     <div id="footer">
-  Generated on Fri Feb  8 11:43:29 2013 by
+  Generated on Fri Feb  8 19:19:59 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.4.1 (ruby-1.9.3).
 </div>
