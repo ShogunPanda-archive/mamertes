@@ -34,21 +34,12 @@ module Mamertes
   end
 
   # This class is used to localize strings inside classes methods.
-  class Localizer
-    include Lazier::I18n
-
+  class Localizer < ::Lazier::Localizer
     # Initialize a new localizer.
-    def initialize
-      self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
-    end
-
-    # Localize a message.
     #
-    # @param message [String|Symbol] The message to localize.
-    # @param args [Array] Optional arguments to localize the message.
-    # @return [String||R18n::Untranslated] The localized message.
-    def self.localize(message, *args)
-      self.new.i18n.send(message, *args)
+    # @param locale [String|Symbol] The locale to use for localization.
+    def initialize(locale)
+      super(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"), locale)
     end
 
     # Localize a message in a specified locale.
@@ -56,11 +47,9 @@ module Mamertes
     # @param locale [String|Symbol] The locale to use for localization.
     # @param message [String|Symbol] The message to localize.
     # @param args [Array] Optional arguments to localize the message.
-    # @return [String||R18n::Untranslated] The localized message.
+    # @return [String|R18n::Untranslated] The localized message.
     def self.localize_on_locale(locale, message, *args)
-      localizer = self.new
-      localizer.i18n = locale
-      localizer.i18n.send(message, *args)
+      self.new(locale).i18n.send(message, *args)
     end
   end
 
@@ -97,7 +86,7 @@ module Mamertes
     # @param options [Hash] The settings to initialize the application with.
     # @return [Application] The created application.
     def self.create(options = {}, &block)
-      raise Mamertes::Error.new(Mamertes::Application, :missing_block, ::Mamertes::Localizer.localize(:missing_app_block)) if !block_given?
+      raise Mamertes::Error.new(Mamertes::Application, :missing_block, ::Mamertes::Localizer.localize_on_locale(options[:locale], :missing_app_block)) if !block_given?
       run, args, options = setup_application_option(options)
       create_application(run, args, options, &block)
     end
