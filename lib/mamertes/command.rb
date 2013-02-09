@@ -498,7 +498,7 @@ module Mamertes
       # @param options [Hash] The setttings for this command.
       def setup_i18n(options)
         self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
-        self.i18n = (options[:locale] || :en).ensure_string
+        self.i18n = (options[:locale]).ensure_string
       end
   end
 end

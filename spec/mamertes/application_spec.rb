@@ -18,7 +18,7 @@ describe Mamertes::Error do
 end
 
 describe Mamertes::Application do
-  let(:application) { ::Mamertes::Application.new }
+  let(:application) { ::Mamertes::Application.new(locale: :en) }
 
   describe "#initialize" do
     it "should call the parent constructor" do

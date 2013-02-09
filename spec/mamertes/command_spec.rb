@@ -8,13 +8,13 @@ require "spec_helper"
 
 describe Mamertes::Command do
   let(:application) {
-    ::Mamertes::Application.new {
+    ::Mamertes::Application.new(locale: :en) {
       action {}
     }
   }
 
   let(:command) {
-    c = ::Mamertes::Command.new
+    c = ::Mamertes::Command.new(locale: :en)
     c.application = application
     c
   }
