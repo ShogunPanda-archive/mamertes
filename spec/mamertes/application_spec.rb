@@ -108,6 +108,13 @@ describe Mamertes::Application do
       expect { ::Mamertes.App }.to raise_error(::Mamertes::Error)
     end
 
+    it "should print errors" do
+      ::Mamertes::Application.stub(:create_application).and_raise(ArgumentError.new("ERROR"))
+      Kernel.should_receive(:puts).with("ERROR")
+      Kernel.should_receive(:exit).with(1)
+      ::Mamertes.App {}
+    end
+
     it "should create a default application" do
       ::Mamertes::Application.should_receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil, locale: :en})
       ::Mamertes::Application.create({locale: :en}) {}

@@ -88,7 +88,13 @@ module Mamertes
     def self.create(options = {}, &block)
       raise Mamertes::Error.new(Mamertes::Application, :missing_block, ::Mamertes::Localizer.localize_on_locale(options[:locale], :missing_app_block)) if !block_given?
       run, args, options = setup_application_option(options)
-      create_application(run, args, options, &block)
+
+      begin
+        create_application(run, args, options, &block)
+      rescue Exception => e
+        Kernel.puts(e.to_s)
+        Kernel.exit(1)
+      end
     end
 
     # Creates a new application.
