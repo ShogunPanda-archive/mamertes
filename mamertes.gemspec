@@ -23,8 +23,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version = ">= 1.9.3"
 
-  gem.add_dependency("lazier", "~> 2.6.5") # Remove this dependency once fulfilled by bovem.
-  gem.add_dependency("bovem", "~> 2.1.1")
+  gem.add_dependency("bovem", "~> 2.1.2")
 end
 
 
