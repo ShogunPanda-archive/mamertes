@@ -136,7 +136,7 @@ module Mamertes
           option = forms[e.args.first]
           raise ::Mamertes::Error.new(option, :missing_argument, command.i18n.missing_argument(option.label))
         rescue OptionParser::InvalidOption => e
-          raise ::Mamertes::Error.new(option, :invalid_option, command.i18n.missing_argument(e.args.first))
+          raise ::Mamertes::Error.new(option, :invalid_option, command.i18n.invalid_option(e.args.first))
         rescue Exception => e
           raise e
         end
