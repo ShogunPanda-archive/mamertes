@@ -35,7 +35,7 @@ module Mamertes
   #   @return [Object] The current value of this option.
   # @attribute action
   #   @return [Proc] The action associated to this option.
-  # @attribute validat
+  # @attribute validator
   #   @return [Array|Regexp] or A constraint for valid values. Can be an Array of valid values or a Regexp.
   # @attribute parent
   #   @return [Command] The parent of this option.

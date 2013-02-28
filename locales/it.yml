@@ -8,6 +8,7 @@
   mamertes:
     default_application_name: "__APPLICAZIONE__"
     ambigous_command: "La scorciatoia di comando \"%1\" è ambigua tra i seguenti comandi %2. Per favore aggiungi qualche altro carattere."
+    needless_argument: "L'opzione %1 non richiede un argomento."
     missing_argument: "L'opzione %1 richiede un argomento."
     invalid_option: "L'opzione %1 non è valida."
     invalid_integer: "L'opzione %1 richiede un numero intero valido come argomento."

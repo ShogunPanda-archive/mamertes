@@ -31,7 +31,7 @@ module Mamertes
         #
         # @param arg [String] The string to match.
         # @param command [Command] The command to search subcommand in.
-        # @param args [String] The complet list of arguments passed.
+        # @param args [String] The complete list of arguments passed.
         # @param separator [String] The separator for joined syntax commands.
         # @return [Hash|NilClass] An hash with `name` and `args` keys if a valid subcommand is found, `nil` otherwise.
         def find_command(arg, command, args, separator = ":")
@@ -64,7 +64,7 @@ module Mamertes
           # Adjusts a command so that it only specify a single command.
           #
           # @param arg [String] The string to match.
-          # @param args [String] The complet list of arguments passed.
+          # @param args [String] The complete list of arguments passed.
           # @param separator [String] The separator for joined syntax commands.
           # @return [Array] Adjust command and arguments.
           def adjust_command(arg, args, separator)
@@ -113,7 +113,7 @@ module Mamertes
         forms = {}
         parser = OptionParser.new do |opts|
           # Add every option
-          command.options.each_pair do |_name, option|
+          command.options.each_pair do |_, option|
             check_unique(command, forms, option)
             setup_option(command, opts, option)
           end
@@ -130,13 +130,12 @@ module Mamertes
       # @param forms [Hash] The current forms.
       def perform_parsing(parser, command, args, forms)
         rv = nil
+
         begin
           rv = execute_parsing(parser, command, args)
-        rescue OptionParser::MissingArgument => e
-          option = forms[e.args.first]
-          raise ::Mamertes::Error.new(option, :missing_argument, command.i18n.missing_argument(option.label))
-        rescue OptionParser::InvalidOption => e
-          raise ::Mamertes::Error.new(option, :invalid_option, command.i18n.invalid_option(e.args.first))
+        rescue OptionParser::NeedlessArgument, OptionParser::MissingArgument, OptionParser::InvalidOption => oe
+          type = oe.class.to_s.gsub("OptionParser::", "").underscore.to_sym
+          raise ::Mamertes::Error.new(forms[oe.args.first], type, command.i18n.send(type, oe.args.first))
         rescue Exception => e
           raise e
         end
@@ -208,7 +207,7 @@ module Mamertes
       # @param opts [Object] The current set options.
       # @param option [Option] The option to set.
       def parse_action(opts, option)
-        opts.on("-#{option.short}", "--#{option.long}") do |value|
+        opts.on("-#{option.short}", "--#{option.long}") do |_|
           option.execute_action
         end
       end

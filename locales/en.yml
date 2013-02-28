@@ -8,6 +8,7 @@
   mamertes:
     default_application_name: "__APPLICATION__"
     ambigous_command: "Command shortcut \"%1\" is ambiguous across commands %2. Please add some other characters."
+    needless_argument: "Option %1 does not expects an argument."
     missing_argument: "Option %1 expects an argument."
     invalid_option: "Invalid option %1."
     invalid_integer: "Option %1 expects a valid integer as argument."

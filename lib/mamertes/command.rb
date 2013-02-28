@@ -76,7 +76,7 @@ module Mamertes
         # Adjusts options names for printing.
         #
         # @return [Hash] The adjusted options for printing.
-        def show_help_options_build_labels()
+        def show_help_options_build_labels
           self.options.values.inject({}) do |lefts, option|
             left = [option.complete_short, option.complete_long]
             left.collect!{|l| l + " " + option.meta } if option.requires_argument?
@@ -123,7 +123,7 @@ module Mamertes
         # @param name [String] The name of command to print.
         # @param console [Bovem::Console] The console object to use to print.
         def show_help_command(console, name, alignment)
-          # Find the maximum lenght of the commands
+          # Find the maximum length of the commands
           command = self.commands[name]
           console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : self.i18n.help_no_description], "\n", true, true)
         end
@@ -133,7 +133,6 @@ module Mamertes
     module Children
       attr_reader :commands
       attr_reader :options
-      attr_reader :arguments
 
       # Adds a new subcommand to this command.
       #
@@ -253,11 +252,11 @@ module Mamertes
         # Creates a new command.
         #
         # @param name [String] The name of this command.
-        # @param options [Hash] The setttings for this command.
+        # @param options [Hash] The settings for this command.
         # @return [Command] The new command.
         def create_command(name, options, &block)
           command = ::Mamertes::Command.new(options, &block)
-          command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|command, option| command.show_help }
+          command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|c, _| c.show_help }
           @commands[name.to_s] = command
           command
         end
@@ -451,7 +450,7 @@ module Mamertes
 
     # Setups the command.
     #
-    # @param options [Hash] The setttings for this command.
+    # @param options [Hash] The settings for this command.
     # @return [Command] The command.
     def setup_with(options = {})
       options = {} if !options.is_a?(::Hash)
@@ -495,7 +494,7 @@ module Mamertes
     private
       # Setup the application localization.
       #
-      # @param options [Hash] The setttings for this command.
+      # @param options [Hash] The settings for this command.
       def setup_i18n(options)
         self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
         self.i18n = (options[:locale]).ensure_string

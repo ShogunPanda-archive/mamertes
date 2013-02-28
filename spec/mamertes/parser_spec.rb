@@ -96,7 +96,7 @@ describe Mamertes::Parser do
     end
 
     it "should complain about invalid or additional values" do
-      expect { ::Mamertes::Parser.parse(application, ["-b f"]) }.to raise_error(::Mamertes::Error)
+      expect { ::Mamertes::Parser.parse(application, ["-b=f"]) }.to raise_error(::Mamertes::Error)
       expect { ::Mamertes::Parser.parse(application, ["-s"]) }.to raise_error(::Mamertes::Error)
       expect { ::Mamertes::Parser.parse(application, ["-i", "A"]) }.to raise_error(::Mamertes::Error)
       expect { ::Mamertes::Parser.parse(application, ["-f", "A"]) }.to raise_error(::Mamertes::Error)

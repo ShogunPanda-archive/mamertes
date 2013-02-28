@@ -134,7 +134,7 @@ module Mamertes
         action { |command| application.command_help(command) }
       end
 
-      option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|application, option| application.show_help }
+      option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|application, _| application.show_help }
     end
 
     # The name of the current executable.
