@@ -63,7 +63,7 @@
 
     <div id="content"><div id='filecontents'><h1 id="mamertes">mamertes</h1>
 
-<p><a href="http://badge.fury.io/rb/bovem"><img src="https://badge.fury.io/rb/bovem.png" alt="Gem Version" /></a>
+<p><a href="http://badge.fury.io/rb/mamertes"><img src="https://badge.fury.io/rb/mamertes.png" alt="Gem Version" /></a>
 <a href="https://gemnasium.com/ShogunPanda/mamertes"><img src="https://gemnasium.com/ShogunPanda/mamertes.png?travis" alt="Dependency Status" /></a>
 <a href="http://travis-ci.org/ShogunPanda/mamertes"><img src="https://secure.travis-ci.org/ShogunPanda/mamertes.png?branch=master" alt="Build Status" /></a>
 <a href="https://codeclimate.com/github/ShogunPanda/mamertes"><img src="https://codeclimate.com/github/ShogunPanda/mamertes.png" alt="Code Climate" /></a></p>
@@ -79,39 +79,38 @@
 <p>As ever, talking by example is always better.
 This application:</p>
 
-<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>rubygems</span><span class='tstring_end'>&quot;</span></span>
-<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>mamertes</span><span class='tstring_end'>&quot;</span></span>
+<p>```ruby
+require &#8220;rubygems&#8221;
+require &#8220;mamertes&#8221;</p>
 
-<span class='const'>Mamertes</span><span class='period'>.</span><span class='const'>App</span><span class='lparen'>(</span><span class='label'>name:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Mamertes Usage Test</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>version:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>1.0.0</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>An example modelled like a TODO application</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>banner:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Do you like Mamertes?</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span> <span class='kw'>do</span>
-  <span class='id identifier rubyid_option'>option</span><span class='lparen'>(</span><span class='symbol'>:storage</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>f</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>file</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>type:</span> <span class='const'>String</span><span class='comma'>,</span> <span class='label'>help:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>The file where store TODOs to.</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='label'>meta:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>FILE</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<p>Mamertes.App(name: &#8220;Mamertes Usage Test&#8221;, version: &#8220;1.0.0&#8221;, description: &#8220;An example modelled like a TODO application&#8221;, banner: &#8220;Do you like Mamertes?&#8221;) do
+  option(:storage, [&#8220;f&#8221;, &#8220;file&#8221;], String, help: &#8220;The file where store TODOs to.&#8221;, meta: &#8220;FILE&#8221;)</p>
 
-  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:list</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_description'>description</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>List all TODOs.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-      <span class='comment'># You should implement this.
-</span>    <span class='kw'>end</span>
-  <span class='kw'>end</span>
+<p>command :list do
+    description &#8220;List all TODOs.&#8221;
+    action do |command|
+      # You should implement this.
+    end
+  end</p>
 
-  <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:manage</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Manage existing TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
-    <span class='id identifier rubyid_option'>option</span><span class='lparen'>(</span><span class='symbol'>:verbose</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>help:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Be verbose.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span><span class='rparen'>)</span>
+<p>command :manage, &#8220;Manage existing TODO.&#8221; do
+    option(:verbose, [], &#8220;Be verbose.&#8221;)</p>
 
-    <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-      <span class='id identifier rubyid_puts'>puts</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Please use \&quot;add\&quot; or \&quot;remove\&quot; subcommands.</span><span class='tstring_end'>&quot;</span></span>
-    <span class='kw'>end</span>
+<pre class="code ruby"><code class="ruby">action do |command|
+  puts &quot;Please use \&quot;add\&quot; or \&quot;remove\&quot; subcommands.&quot;
+end
 
-    <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:add</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Add a TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-        <span class='comment'># You should implement this.
-</span>      <span class='kw'>end</span>
-    <span class='kw'>end</span>
+command :add, {description: &quot;Add a TODO.&quot;} do
+  action do |command|
+    # You should implement this.
+  end
+end
 
-    <span class='id identifier rubyid_command'>command</span> <span class='symbol'>:remove</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='label'>description:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Removes a TODO.</span><span class='tstring_end'>&quot;</span></span><span class='rbrace'>}</span> <span class='kw'>do</span>
-      <span class='id identifier rubyid_action'>action</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_command'>command</span><span class='op'>|</span>
-        <span class='comment'># You should implement this.
-</span>      <span class='kw'>end</span>
-    <span class='kw'>end</span>
-  <span class='kw'>end</span>
-<span class='kw'>end</span>
+command :remove, {description: &quot;Removes a TODO.&quot;} do
+  action do |command|
+    # You should implement this.
+  end
+end   end end ```
 </code></pre>
 
 <p>Will create a complete (at least at the interface model) TODO application which support commands <code>list</code> and <code>manage</code>.</p>
@@ -189,7 +188,7 @@ $ ./test help manage
 </div></div>
 
     <div id="footer">
-  Generated on Thu Feb 28 16:29:29 2013 by
+  Generated on Fri Mar  1 10:08:42 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.5.2 (ruby-1.9.3).
 </div>

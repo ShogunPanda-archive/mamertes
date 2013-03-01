@@ -1,6 +1,6 @@
 # mamertes
 
-[![Gem Version](https://badge.fury.io/rb/bovem.png)](http://badge.fury.io/rb/bovem)
+[![Gem Version](https://badge.fury.io/rb/mamertes.png)](http://badge.fury.io/rb/mamertes)
 [![Dependency Status](https://gemnasium.com/ShogunPanda/mamertes.png?travis)](https://gemnasium.com/ShogunPanda/mamertes)
 [![Build Status](https://secure.travis-ci.org/ShogunPanda/mamertes.png?branch=master)](http://travis-ci.org/ShogunPanda/mamertes)
 [![Code Climate](https://codeclimate.com/github/ShogunPanda/mamertes.png)](https://codeclimate.com/github/ShogunPanda/mamertes)
@@ -16,39 +16,41 @@ http://rdoc.info/gems/mamertes
 As ever, talking by example is always better.
 This application:
 
-    require "rubygems"
-    require "mamertes"
+```ruby
+require "rubygems"
+require "mamertes"
 
-    Mamertes.App(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
-      option(:storage, ["f", "file"], {type: String, help: "The file where store TODOs to.", meta: "FILE"})
+Mamertes.App(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
+  option(:storage, ["f", "file"], {type: String, help: "The file where store TODOs to.", meta: "FILE"})
 
-      command :list do
-        description "List all TODOs."
-        action do |command|
-          # You should implement this.
-        end
-      end
+  command :list do
+    description "List all TODOs."
+    action do |command|
+      # You should implement this.
+    end
+  end
 
-      command :manage, {description: "Manage existing TODO."} do
-        option(:verbose, [], {help: "Be verbose."})
+  command :manage, {description: "Manage existing TODO."} do
+    option(:verbose, [], {help: "Be verbose."})
 
-        action do |command|
-          puts "Please use \"add\" or \"remove\" subcommands."
-        end
+    action do |command|
+      puts "Please use \"add\" or \"remove\" subcommands."
+    end
 
-        command :add, {description: "Add a TODO."} do
-          action do |command|
-            # You should implement this.
-          end
-        end
-
-        command :remove, {description: "Removes a TODO."} do
-          action do |command|
-            # You should implement this.
-          end
-        end
+    command :add, {description: "Add a TODO."} do
+      action do |command|
+        # You should implement this.
       end
     end
+
+    command :remove, {description: "Removes a TODO."} do
+      action do |command|
+        # You should implement this.
+      end
+    end
+  end
+end
+```
 
 Will create a complete (at least at the interface model) TODO application which support commands `list` and `manage`.
 
