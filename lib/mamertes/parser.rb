@@ -137,7 +137,7 @@ module Mamertes
           type = oe.class.to_s.gsub("OptionParser::", "").underscore.to_sym
           opt = oe.args.first
           raise ::Mamertes::Error.new(forms[opt], type, command.i18n.send(type, opt))
-        rescue Exception => e
+        rescue => e
           raise e
         end
 

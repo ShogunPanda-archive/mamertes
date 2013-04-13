@@ -91,7 +91,7 @@ module Mamertes
 
       begin
         create_application(run, args, options, &block)
-      rescue Exception => e
+      rescue => e
         Kernel.puts(e.to_s)
         Kernel.exit(1)
       end
