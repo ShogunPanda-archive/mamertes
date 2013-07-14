@@ -11,7 +11,7 @@ module Mamertes
     module Help
       # Shows a help about this command.
       def show_help
-        console = is_application? ? console : application.console
+        console = is_application? ? self.console : application.console
         is_application? ? show_help_application_summary(console) : show_help_command_summary(console)
         show_help_banner(console) if has_banner?
         show_help_options(console) if has_options?
@@ -243,7 +243,7 @@ module Mamertes
       # @return [HashWithIndifferentAccess] The requested options.
       def get_options(unprovided = false, application = "application_", prefix = "", *whitelist)
         rv = HashWithIndifferentAccess.new
-        rv.merge!(application.get_options(unprovided, nil, application, *whitelist)) if application && !is_application?
+        rv.merge!(self.application.get_options(unprovided, nil, application, *whitelist)) if application && !is_application?
         rv.merge!(get_current_options(unprovided, prefix, whitelist))
         rv
       end

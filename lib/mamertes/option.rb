@@ -62,6 +62,7 @@ module Mamertes
     def initialize(name, forms = [], options = {}, &action)
       @name = name.ensure_string
       @provided = false
+      setup_forms(forms)
       setup_options(options)
       setup_action(action)
     end
@@ -197,6 +198,14 @@ module Mamertes
     end
 
     private
+      # Setups the forms of the this option.
+      #
+      # @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
+      def setup_forms(forms)
+        self.short = forms.length > 0 ? forms[0] : @name[0, 1]
+        self.long = forms.length == 2 ? forms[1] : @name
+      end
+
       # Setups the settings of the this option.
       #
       # @param options [Hash] The settings for this option.
