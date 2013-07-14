@@ -62,7 +62,6 @@ module Mamertes
     def initialize(name, forms = [], options = {}, &action)
       @name = name.ensure_string
       @provided = false
-      setup_forms(forms)
       setup_options(options)
       setup_action(action)
     end
@@ -74,8 +73,7 @@ module Mamertes
       value = @name[0, 1] if !value.present?
 
       # Clean value
-      mo = value.to_s.match(/^-{0,2}([a-z0-9])(.*)$/i)
-      final_value = mo[1]
+      final_value = value.to_s.match(/^-{0,2}([a-z0-9])(.*)$/i)[1]
 
       @short = final_value if final_value.present?
     end
@@ -87,8 +85,7 @@ module Mamertes
       value = @name if !value.present?
 
       # Clean value
-      mo = value.to_s.match(/^-{0,2}(.+)$/)
-      final_value = mo[1]
+      final_value = value.to_s.match(/^-{0,2}(.+)$/)[1]
 
       @long = final_value if final_value.present?
     end
@@ -97,9 +94,8 @@ module Mamertes
     #
     # @param value [String] The validator of this option.
     def validator=(value)
-      value = nil if value.blank?
-      value = nil if value.is_a?(Regexp) && value.source.blank?
-      value = value.ensure_array.collect {|v| v.ensure_string} if !value.nil? && !value.is_a?(Regexp)
+      value = nil if value.blank? || (value.is_a?(Regexp) && value.source.blank?)
+      value = value.ensure_array(nil, false, false, :ensure_string) if !value.nil? && !value.is_a?(Regexp)
       @validator = value
     end
 
@@ -121,14 +117,14 @@ module Mamertes
     #
     # @return [String] A label for this option.
     def label
-      [self.complete_short, self.complete_long].compact.join("/")
+      [complete_short, complete_long].compact.join("/")
     end
 
     # Returns the meta argument for this option.
     #
     # @return [String|NilClass] Returns the current meta argument for this option (the default value is the option name uppercased) or `nil`, if this option doesn't require a meta argument.
     def meta
-      self.requires_argument? ? (@meta.present? ? @meta : @name.upcase) : nil
+      requires_argument? ? (@meta.present? ? @meta : @name.upcase) : nil
     end
 
     # Get the current default value for this option.
@@ -168,7 +164,7 @@ module Mamertes
     def execute_action
       if @action.present? then
         @provided = true
-        @action.call(self.parent, self)
+        @action.call(parent, self)
       end
     end
 
@@ -197,29 +193,16 @@ module Mamertes
     #
     # @return [Object] The current value of this option.
     def value
-      self.provided? ? @value : self.default
+      provided? ? @value : default
     end
 
     private
-      # Setups the forms of the this option.
-      #
-      # @param forms [Array] An array of short and long forms for this option. Missing forms will be inferred by the name.
-      def setup_forms(forms)
-        self.short = forms.length > 0 ? forms[0] : @name[0, 1]
-        self.long = forms.length == 2 ? forms[1] : @name
-
-        # Set options
-
-        # Associate action
-
-      end
-
       # Setups the settings of the this option.
       #
       # @param options [Hash] The settings for this option.
       def setup_options(options)
         (options.is_a?(::Hash) ? options : {}).each_pair do |option, value|
-          self.send("#{option}=", value) if self.respond_to?("#{option}=")
+          send("#{option}=", value) if respond_to?("#{option}=")
         end
       end
 
@@ -235,9 +218,9 @@ module Mamertes
       # @param vs [Symbol] The type of validator.
       def handle_set_failure(vs)
         if vs == :array then
-          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_value(self.label, ::Mamertes::Parser.smart_join(@validator)))
+          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_value(label, ::Mamertes::Parser.smart_join(@validator)))
         else
-          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_for_regexp(self.label, @validator.inspect))
+          raise ::Mamertes::Error.new(self, :validation_failed, @parent.i18n.invalid_for_regexp(label, @validator.inspect))
         end
       end
   end

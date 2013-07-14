@@ -49,7 +49,7 @@ module Mamertes
     # @param args [Array] Optional arguments to localize the message.
     # @return [String|R18n::Untranslated] The localized message.
     def self.localize_on_locale(locale, message, *args)
-      self.new(locale).i18n.send(message, *args)
+      new(locale).i18n.send(message, *args)
     end
   end
 
@@ -130,11 +130,11 @@ module Mamertes
 
     # Adds a help command and a help option to this application.
     def help_option
-      command(:help, description: self.i18n.help_command_description) do
+      command(:help, description: i18n.help_command_description) do
         action { |command| application.command_help(command) }
       end
 
-      option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|application, _| application.show_help }
+      option(:help, [i18n.help_option_short_form, i18n.help_option_long_form], help: i18n.help_message){ |application, _| application.show_help }
     end
 
     # The name of the current executable.
@@ -179,8 +179,7 @@ module Mamertes
       # @param options [Hash] The options to setups.
       # @return [Array] If to run the application, the arguments and the specified options.
       def self.setup_application_option(options)
-        options = {} if !options.is_a?(::Hash)
-        options = {name: ::Mamertes::Localizer.localize_on_locale(options[:locale], :default_application_name), parent: nil, application: nil}.merge(options)
+        options = {name: ::Mamertes::Localizer.localize_on_locale(options[:locale], :default_application_name), parent: nil, application: nil}.merge(options.ensure_hash)
         run = options.delete(:run)
         [(!run.nil? ? run : true).to_boolean, options.delete(:__args__), options]
       end

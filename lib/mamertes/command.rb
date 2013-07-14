@@ -11,11 +11,11 @@ module Mamertes
     module Help
       # Shows a help about this command.
       def show_help
-        console = self.is_application? ? self.console : self.application.console
-        self.is_application? ? show_help_application_summary(console) : show_help_command_summary(console)
-        show_help_banner(console) if self.has_banner?
-        show_help_options(console) if self.has_options?
-        show_help_commands(console) if self.has_commands?
+        console = is_application? ? console : application.console
+        is_application? ? show_help_application_summary(console) : show_help_command_summary(console)
+        show_help_banner(console) if has_banner?
+        show_help_options(console) if has_options?
+        show_help_commands(console) if has_commands?
         Kernel.exit(0)
       end
 
@@ -25,8 +25,8 @@ module Mamertes
         # @param console [Bovem::Console] The console object to use to print.
         def show_help_application_summary(console)
           # Application
-          console.write(self.i18n.help_name)
-          console.write("%s %s%s" % [self.name, self.version, self.has_description? ? " - " + self.description : ""], "\n", 4, true)
+          console.write(i18n.help_name)
+          console.write("%s %s%s" % [name, version, has_description? ? " - " + description : ""], "\n", 4, true)
           show_synopsis(console)
         end
 
@@ -35,16 +35,16 @@ module Mamertes
         # @param console [Bovem::Console] The console object to use to print.
         def show_synopsis(console)
           console.write("")
-          console.write(self.i18n.help_synopsis)
-          console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_application_synopsis % [self.executable_name, self.has_commands? ? self.i18n.help_subcommand_invocation : ""], "\n", 4, true)
+          console.write(i18n.help_synopsis)
+          console.write(synopsis.present? ? synopsis : i18n.help_application_synopsis % [executable_name, has_commands? ? i18n.help_subcommand_invocation : ""], "\n", 4, true)
         end
 
         # Prints a help summary about the command.
         #
         # @param console [Bovem::Console] The console object to use to print.
         def show_help_command_summary(console)
-          console.write(self.i18n.help_synopsis)
-          console.write(self.synopsis.present? ? self.synopsis : self.i18n.help_command_synopsis % [self.application.executable_name, self.full_name(nil, " "), self.has_commands? ? self.i18n.help_subsubcommand_invocation : ""], "\n", 4, true)
+          console.write(i18n.help_synopsis)
+          console.write(synopsis.present? ? synopsis : i18n.help_command_synopsis % [application.executable_name, full_name(nil, " "), has_commands? ? i18n.help_subsubcommand_invocation : ""], "\n", 4, true)
         end
 
         # Prints the description of the command.
@@ -52,8 +52,8 @@ module Mamertes
         # @param console [Bovem::Console] The console object to use to print.
         def show_help_banner(console)
           console.write("")
-          console.write(self.i18n.help_description)
-          console.write(self.banner, "\n", 4, true)
+          console.write(i18n.help_description)
+          console.write(banner, "\n", 4, true)
         end
 
         # Prints information about the command's options.
@@ -61,7 +61,7 @@ module Mamertes
         # @param console [Bovem::Console] The console object to use to print.
         def show_help_options(console)
           console.write("")
-          console.write(self.is_application? ? self.i18n.help_global_options : self.i18n.help_options)
+          console.write(is_application? ? i18n.help_global_options : i18n.help_options)
 
           # First of all, grab all options and construct labels
           lefts = show_help_options_build_labels
@@ -77,10 +77,10 @@ module Mamertes
         #
         # @return [Hash] The adjusted options for printing.
         def show_help_options_build_labels
-          self.options.values.inject({}) do |lefts, option|
+          options.values.inject({}) do |lefts, option|
             left = [option.complete_short, option.complete_long]
             left.collect!{|l| l + " " + option.meta } if option.requires_argument?
-            lefts[left.join(", ")] = option.has_help? ? option.help : self.i18n.help_no_description
+            lefts[left.join(", ")] = option.has_help? ? option.help : i18n.help_no_description
             lefts
           end
         end
@@ -103,7 +103,7 @@ module Mamertes
           alignment = prepare_show_help_commands(console)
 
           console.with_indentation(4) do
-            self.commands.keys.sort.each do |name|
+            commands.keys.sort.each do |name|
               show_help_command(console, name, alignment)
             end
           end
@@ -114,8 +114,8 @@ module Mamertes
         # @param console [Bovem::Console] The console object to use to print.
         def prepare_show_help_commands(console)
           console.write("")
-          console.write(self.is_application? ? self.i18n.help_commands : self.i18n.help_subcommands)
-          self.commands.keys.collect(&:length).max
+          console.write(is_application? ? i18n.help_commands : i18n.help_subcommands)
+          commands.keys.collect(&:length).max
         end
 
         # Prints information about a command's subcommand.
@@ -124,8 +124,8 @@ module Mamertes
         # @param console [Bovem::Console] The console object to use to print.
         def show_help_command(console, name, alignment)
           # Find the maximum length of the commands
-          command = self.commands[name]
-          console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : self.i18n.help_no_description], "\n", true, true)
+          command = commands[name]
+          console.write("%s - %s" % [name.ljust(alignment, " "), command.description.present? ? command.description : i18n.help_no_description], "\n", true, true)
         end
     end
 
@@ -142,8 +142,8 @@ module Mamertes
       def command(name, options = {}, &block)
         @commands ||= HashWithIndifferentAccess.new
 
-        options = {name: name.to_s, parent: self, application: self.application}.merge(!options.is_a?(::Hash) ? {} : options)
-        raise Mamertes::Error.new(self, :duplicate_command, self.i18n.existing_command(self.full_name(name))) if @commands[name.to_s]
+        options = {name: name.to_s, parent: self, application: application}.merge(options.ensure_hash)
+        raise Mamertes::Error.new(self, :duplicate_command, i18n.existing_command(full_name(name))) if @commands[name.to_s]
 
         create_command(name, options, &block)
       end
@@ -162,10 +162,10 @@ module Mamertes
         @options ||= HashWithIndifferentAccess.new
 
         if @options[name] then
-          if self.is_application? then
-            raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option_global(name))
+          if is_application? then
+            raise Mamertes::Error.new(self, :duplicate_option, i18n.existing_option_global(name))
           else
-            raise Mamertes::Error.new(self, :duplicate_option, self.i18n.existing_option(name, self.full_name))
+            raise Mamertes::Error.new(self, :duplicate_option, i18n.existing_option(name, full_name))
           end
         end
 
@@ -193,7 +193,7 @@ module Mamertes
       #
       # @return [Boolean] `true` if this command has subcommands, `false` otherwise.
       def has_commands?
-        self.commands.length > 0
+        commands.length > 0
       end
 
       # Returns the list of options of this command.
@@ -213,7 +213,7 @@ module Mamertes
       #
       # @return [Boolean] `true` if this command has options, `false` otherwise.
       def has_options?
-        self.options.length > 0
+        options.length > 0
       end
 
       # Adds a new argument to this command.
@@ -243,7 +243,7 @@ module Mamertes
       # @return [HashWithIndifferentAccess] The requested options.
       def get_options(unprovided = false, application = "application_", prefix = "", *whitelist)
         rv = HashWithIndifferentAccess.new
-        rv.merge!(self.application.get_options(unprovided, nil, application, *whitelist)) if application && !self.is_application?
+        rv.merge!(application.get_options(unprovided, nil, application, *whitelist)) if application && !is_application?
         rv.merge!(get_current_options(unprovided, prefix, whitelist))
         rv
       end
@@ -256,7 +256,7 @@ module Mamertes
         # @return [Command] The new command.
         def create_command(name, options, &block)
           command = ::Mamertes::Command.new(options, &block)
-          command.option(:help, [self.i18n.help_option_short_form, self.i18n.help_option_long_form], help: self.i18n.help_message){|c, _| c.show_help }
+          command.option(:help, [i18n.help_option_short_form, i18n.help_option_long_form], help: i18n.help_message){|c, _| c.show_help }
           @commands[name.to_s] = command
           command
         end
@@ -268,9 +268,9 @@ module Mamertes
         # @return [HashWithIndifferentAccess] The requested options.
         def get_current_options(unprovided, prefix, whitelist)
           rv = HashWithIndifferentAccess.new
-          whitelist = (whitelist.present? ? whitelist : self.options.keys).collect(&:to_s)
+          whitelist = (whitelist.present? ? whitelist : options.keys).collect(&:to_s)
 
-          self.options.each do |key, option|
+          options.each do |key, option|
             rv["#{prefix}#{key}"] = option.value if include_option?(whitelist, unprovided, key, option)
           end
 
@@ -337,8 +337,8 @@ module Mamertes
     #
     # @param options [Hash] The settings to initialize the command with.
     def initialize(options = {}, &block)
-      self.setup_with(options)
-      self.instance_eval(&block) if block_given?
+      setup_with(options)
+      instance_eval(&block) if block_given?
     end
 
     # Reads and optionally sets the name of this command.
@@ -356,10 +356,10 @@ module Mamertes
     # @param separator [String] The separator to use for components.
     # @return [String] The full name.
     def full_name(suffix = nil, separator = ":")
-      if self.is_application? then
+      if is_application? then
         nil
       else
-        [@parent ? @parent.full_name(nil, separator) : nil, !self.is_application? ? self.name : nil, suffix].compact.join(separator)
+        [@parent ? @parent.full_name(nil, separator) : nil, !is_application? ? name : nil, suffix].compact.join(separator)
       end
     end
 
@@ -424,28 +424,28 @@ module Mamertes
     #
     # @return [Application] The application this command belongs to or `self`, if the command is an Application.
     def application
-      self.is_application? ? self : @application
+      is_application? ? self : @application
     end
 
     # Checks if the command is an application.
     #
     # @return [Boolean] `true` if command is an application, `false` otherwise.
     def is_application?
-      self.is_a?(Mamertes::Application)
+      is_a?(Mamertes::Application)
     end
 
     # Check if this command has a description.
     #
     # @return [Boolean] `true` if this command has a description, `false` otherwise.
     def has_description?
-      self.description.present?
+      description.present?
     end
 
     # Check if this command has a banner.
     #
     # @return [Boolean] `true` if this command has a banner, `false` otherwise.
     def has_banner?
-      self.banner.present?
+      banner.present?
     end
 
     # Setups the command.
@@ -459,10 +459,10 @@ module Mamertes
       options.each_pair do |option, value|
         method = option.to_s
 
-        if self.respond_to?(method) && self.method(method).arity != 0 then
-          self.send(method, value)
-        elsif self.respond_to?(method + "=") then
-          self.send(method + "=", value)
+        if respond_to?(method) && self.method(method).arity != 0 then
+          send(method, value)
+        elsif respond_to?(method + "=") then
+          send(method + "=", value)
         end
       end
 
@@ -476,18 +476,18 @@ module Mamertes
       subcommand = Mamertes::Parser.parse(self, args)
 
       if subcommand.present? then # We have a subcommand to call
-        self.commands[subcommand[:name]].execute(subcommand[:args])
-      elsif self.action then # Run our action
+        commands[subcommand[:name]].execute(subcommand[:args])
+      elsif action then # Run our action
         # Run the before hook
-        self.before.call(self) if self.before
+        before.call(self) if before
 
         # Run the action
-        self.action.call(self) if self.action
+        action.call(self) if action
 
         # Run the after hook
-        self.after.call(self) if self.after
+        after.call(self) if after
       else # Show the help
-        self.show_help
+        show_help
       end
     end
 
@@ -496,7 +496,7 @@ module Mamertes
       #
       # @param options [Hash] The settings for this command.
       def setup_i18n(options)
-        self.i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
+        i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
         self.i18n = (options[:locale]).ensure_string
       end
   end
