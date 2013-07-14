@@ -11,12 +11,10 @@ describe Mamertes::Parser do
     ::Mamertes::Application.new do
       command :abc do
         action do
-          check = 1
         end
 
         command :def do
           action do |command|
-            check = 2
           end
         end
       end
@@ -28,7 +26,7 @@ describe Mamertes::Parser do
       option :array, ["a", "array"], type: Array, help: "ARRAY"
       option :choice, ["c", "choice"], type: String, help: "ARRAY", validator: ["yes", "no"]
       option :regexp, ["r", "regexp"], type: String, help: "REGEXP", validator: /yes|no/i
-      option :action, ["A"] do |option, command|
+      option :action, ["A"] do |_, command|
         p "[OPTION] BLOCK"
       end
     end

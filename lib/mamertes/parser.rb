@@ -23,7 +23,7 @@ module Mamertes
         def smart_join(array, separator = ", ", last_separator = " and ", quote = "\"")
           separator = separator.ensure_string
           last_separator = last_separator.ensure_string
-          array = array.dup.ensure_array {|a| quote.present? ? "#{quote}#{a}#{quote}" : a.ensure_string }
+          array = array.ensure_array {|a| quote.present? ? "#{quote}#{a}#{quote}" : a.ensure_string }
           array.length < 2 ? (array[0] || "") : (array[0, array.length - 1].join(separator) + last_separator + array[-1])
         end
 

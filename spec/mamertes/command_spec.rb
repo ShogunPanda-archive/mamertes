@@ -447,7 +447,7 @@ describe Mamertes::Command do
       Kernel.stub(:exit).and_return(0)
 
       application.console.should_receive(:write).with("[NAME]")
-      application.console.should_receive(:write).at_least(0)
+      application.console.should_receive(:write).at_least(1)
       application.show_help
     end
 
@@ -456,7 +456,7 @@ describe Mamertes::Command do
 
       command.banner = "BANNER"
       application.console.should_receive(:write).with("[DESCRIPTION]")
-      application.console.should_receive(:write).at_least(0)
+      application.console.should_receive(:write).at_least(1)
       command.show_help
     end
 
@@ -468,7 +468,7 @@ describe Mamertes::Command do
 
       application.console.should_receive(:write).with("[GLOBAL OPTIONS]")
       application.console.should_receive(:write).with("[OPTIONS]")
-      application.console.should_receive(:write).at_least(0)
+      application.console.should_receive(:write).at_least(1)
       application.show_help
       command.show_help
     end
@@ -479,7 +479,7 @@ describe Mamertes::Command do
       command.command("subcommand")
       application.console.should_receive(:write).with("[COMMANDS]")
       application.console.should_receive(:write).with("[SUBCOMMANDS]")
-      application.console.should_receive(:write).at_least(0)
+      application.console.should_receive(:write).at_least(1)
       application.show_help
       command.show_help
     end

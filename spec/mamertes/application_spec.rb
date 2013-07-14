@@ -48,8 +48,8 @@ describe Mamertes::Application do
 
   describe "#help_option" do
     it "should add a command and a option" do
-      application.should_receive(:command).with(:help, {:description=>"Shows a help about a command."})
-      application.should_receive(:option).with(:help, ["-h", "--help"], {:help=>"Shows this message."})
+      application.should_receive(:command).with(:help, {description: "Shows a help about a command."})
+      application.should_receive(:option).with(:help, ["-h", "--help"], {help: "Shows this message."})
       application.help_option
     end
 

@@ -205,7 +205,7 @@ describe Mamertes::Option do
   describe "#execute_action" do
     it "should execute action if provided" do
       check = false
-      option = ::Mamertes::Option.new("NAME") { |a,b| check = true }
+      option = ::Mamertes::Option.new("NAME") { |_, _| check = true }
       option.execute_action
 
       expect(check).to be_true
@@ -216,7 +216,7 @@ describe Mamertes::Option do
       option.execute_action
       expect(option.provided?).to be_false
 
-      option = ::Mamertes::Option.new("NAME") { check = true }
+      option = ::Mamertes::Option.new("NAME")
       expect(option.provided?).to be_false
     end
   end
