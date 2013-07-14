@@ -6,13 +6,13 @@
 <title>
   Module: Mamertes::CommandMethods::Help
   
-    &mdash; Documentation by YARD 0.8.5.2
+    &mdash; Documentation by YARD 0.8.6.2
   
 </title>
 
-  <link rel="stylesheet" href="../../css/style.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" charset="utf-8" />
 
-  <link rel="stylesheet" href="../../css/common.css" type="text/css" media="screen" charset="utf-8" />
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
 
 <script type="text/javascript" charset="utf-8">
   hasFrames = window.top.frames.main ? true : false;
@@ -183,11 +183,11 @@
       <pre class="code"><span class="info file"># File 'lib/mamertes/command.rb', line 13</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_show_help'>show_help</span>
-  <span class='id identifier rubyid_console'>console</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_application?'>is_application?</span> <span class='op'>?</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span> <span class='op'>:</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span>
-  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_is_application?'>is_application?</span> <span class='op'>?</span> <span class='id identifier rubyid_show_help_application_summary'>show_help_application_summary</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_show_help_command_summary'>show_help_command_summary</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_show_help_banner'>show_help_banner</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_has_banner?'>has_banner?</span>
-  <span class='id identifier rubyid_show_help_options'>show_help_options</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_has_options?'>has_options?</span>
-  <span class='id identifier rubyid_show_help_commands'>show_help_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_has_commands?'>has_commands?</span>
+  <span class='id identifier rubyid_console'>console</span> <span class='op'>=</span> <span class='id identifier rubyid_is_application?'>is_application?</span> <span class='op'>?</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span> <span class='op'>:</span> <span class='id identifier rubyid_application'>application</span><span class='period'>.</span><span class='id identifier rubyid_console'>console</span>
+  <span class='id identifier rubyid_is_application?'>is_application?</span> <span class='op'>?</span> <span class='id identifier rubyid_show_help_application_summary'>show_help_application_summary</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_show_help_command_summary'>show_help_command_summary</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_show_help_banner'>show_help_banner</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_has_banner?'>has_banner?</span>
+  <span class='id identifier rubyid_show_help_options'>show_help_options</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_has_options?'>has_options?</span>
+  <span class='id identifier rubyid_show_help_commands'>show_help_commands</span><span class='lparen'>(</span><span class='id identifier rubyid_console'>console</span><span class='rparen'>)</span> <span class='kw'>if</span> <span class='id identifier rubyid_has_commands?'>has_commands?</span>
   <span class='const'>Kernel</span><span class='period'>.</span><span class='id identifier rubyid_exit'>exit</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span>
 <span class='kw'>end</span></pre>
     </td>
@@ -200,9 +200,9 @@
 </div>
 
     <div id="footer">
-  Generated on Sat Apr 13 12:11:34 2013 by
+  Generated on Sun Jul 14 16:18:18 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.8.5.2 (ruby-1.9.3).
+  0.8.6.2 (ruby-1.9.3).
 </div>
 
   </body>
