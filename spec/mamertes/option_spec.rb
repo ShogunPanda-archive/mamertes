@@ -103,7 +103,7 @@ describe Mamertes::Option do
       option.validator = "VALUE"
       expect(option.validator).to eq(["VALUE"])
       option.validator = ["VALUE", "VALUE"]
-      expect(option.validator).to eq(["VALUE", "VALUE"])
+      expect(option.validator).to eq(["VALUE"])
       option.validator = /VALUE/
       expect(option.validator).to eq(/VALUE/)
       option.validator = nil

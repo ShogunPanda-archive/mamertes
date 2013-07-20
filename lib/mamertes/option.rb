@@ -96,7 +96,7 @@ module Mamertes
     # @param value [String] The validator of this option.
     def validator=(value)
       value = nil if value.blank? || (value.is_a?(Regexp) && value.source.blank?)
-      value = value.ensure_array(nil, false, false, :ensure_string) if !value.nil? && !value.is_a?(Regexp)
+      value = value.ensure_array(nil, true, true, true, :ensure_string) if !value.nil? && !value.is_a?(Regexp)
       @validator = value
     end
 
