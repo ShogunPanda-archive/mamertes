@@ -25,7 +25,7 @@ describe Mamertes::Application do
       options = {a: :b}
       block = Proc.new {}
 
-      ::Mamertes::Command.should_receive(:new).with(options, &block)
+      expect(::Mamertes::Command).to receive(:new).with(options, &block)
       ::Mamertes::Application.new(options, &block)
     end
 
@@ -48,14 +48,14 @@ describe Mamertes::Application do
 
   describe "#help_option" do
     it "should add a command and a option" do
-      application.should_receive(:command).with(:help, {description: "Shows a help about a command."})
-      application.should_receive(:option).with(:help, ["-h", "--help"], {help: "Shows this message."})
+      expect(application).to receive(:command).with(:help, {description: "Shows a help about a command."})
+      expect(application).to receive(:option).with(:help, ["-h", "--help"], {help: "Shows this message."})
       application.help_option
     end
 
     it "should execute associated actions" do
-      application.should_receive(:show_help).exactly(2)
-      application.should_receive(:command_help)
+      expect(application).to receive(:show_help).exactly(2)
+      expect(application).to receive(:command_help)
 
       application.execute(["help", "command"])
       application.execute("-h")
@@ -73,18 +73,18 @@ describe Mamertes::Application do
       command = application.command "command"
       subcommand = command.command "subcommand"
 
-      application.should_receive(:show_help)
+      expect(application).to receive(:show_help)
       application.command_help(application)
 
-      command.should_receive(:show_help)
+      expect(command).to receive(:show_help)
       application.argument(command.name)
       application.command_help(application)
 
-      subcommand.should_receive(:show_help)
+      expect(subcommand).to receive(:show_help)
       application.argument(subcommand.name)
       application.command_help(application)
 
-      subcommand.should_receive(:show_help)
+      expect(subcommand).to receive(:show_help)
       application.argument("foo")
       application.command_help(application)
     end
@@ -92,13 +92,13 @@ describe Mamertes::Application do
 
   describe "#run" do
     it "should forward to the shell" do
-      application.shell.should_receive(:run).with("COMMAND", "MESSAGE", true, "A", false, false, "B")
+      expect(application.shell).to receive(:run).with("COMMAND", "MESSAGE", true, "A", false, false, "B")
       application.run("COMMAND", "MESSAGE", "A", "B")
 
       application.skip_commands = true
       application.output_commands = true
       application.show_commands = true
-      application.shell.should_receive(:run).with("COMMAND", "MESSAGE", false, "C", true, true, "D")
+      expect(application.shell).to receive(:run).with("COMMAND", "MESSAGE", false, "C", true, true, "D")
       application.run("COMMAND", "MESSAGE", "C", "D")
     end
   end
@@ -109,27 +109,27 @@ describe Mamertes::Application do
     end
 
     it "should print errors" do
-      ::Mamertes::Application.stub(:create_application).and_raise(ArgumentError.new("ERROR"))
-      Kernel.should_receive(:puts).with("ERROR")
-      Kernel.should_receive(:exit).with(1)
+      allow(::Mamertes::Application).to receive(:create_application).and_raise(ArgumentError.new("ERROR"))
+      expect(Kernel).to receive(:puts).with("ERROR")
+      expect(Kernel).to receive(:exit).with(1)
       ::Mamertes.App {}
     end
 
     it "should create a default application" do
-      ::Mamertes::Application.should_receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil, locale: :en})
+      expect(::Mamertes::Application).to receive(:new).with({name: "__APPLICATION__", parent: nil, application: nil, locale: :en})
       ::Mamertes::Application.create({locale: :en}) {}
     end
 
     it "should create an application with given options and block" do
       options = {name: "OK"}
 
-      ::Mamertes::Application.should_receive(:new).with({name: "OK", parent: nil, application: nil})
+      expect(::Mamertes::Application).to receive(:new).with({name: "OK", parent: nil, application: nil})
       application = ::Mamertes::Application.create(options) {}
     end
 
     it "should execute the block" do
-      ::Bovem::Console.any_instance.stub(:write)
-      Kernel.stub(:exit)
+      allow_any_instance_of(::Bovem::Console).to receive(:write)
+      allow(Kernel).to receive(:exit)
       options = {name: "OK"}
       check = false
 
@@ -177,8 +177,8 @@ describe Mamertes::Application do
 end
 
 describe "Mamertes::App" do
-  it("should forward to Mamertes::Application.create") do
-    ::Mamertes::Application.should_receive(:create).with("OPTIONS")
+  it "should forward to Mamertes::Application.create" do
+    expect(::Mamertes::Application).to receive(:create).with("OPTIONS")
     ::Mamertes.App("OPTIONS")
   end
 end

@@ -69,27 +69,27 @@ describe Mamertes::Parser do
 
   describe ".parse" do
     it "should instantiate a parser and then parse" do
-      ::Mamertes::Parser.should_receive(:new).and_call_original
-      ::Mamertes::Parser.any_instance.should_receive(:parse).with("COMMAND", "ARGS")
+      expect(::Mamertes::Parser).to receive(:new).and_call_original
+      expect_any_instance_of(::Mamertes::Parser).to receive(:parse).with("COMMAND", "ARGS")
       ::Mamertes::Parser.parse("COMMAND", "ARGS")
     end
   end
 
   describe "#parse" do
     it "should iterate options" do
-      application.options.should_receive(:each_pair).exactly(2)
+      expect(application.options).to receive(:each_pair).exactly(2)
       ::Mamertes::Parser.parse(application, [])
     end
 
     it "should set good values" do
-      application.options["boolean"].should_receive("set").with(true)
-      application.options["string"].should_receive("set").with("A")
-      application.options["integer"].should_receive("set").with(1)
-      application.options["float"].should_receive("set").with(2.0)
-      application.options["array"].should_receive("set").with(["B", "C"])
-      application.options["choice"].should_receive("set").with("yes")
-      application.options["regexp"].should_receive("set").with("no")
-      application.options["action"].should_receive("execute_action")
+      expect(application.options["boolean"]).to receive("set").with(true)
+      expect(application.options["string"]).to receive("set").with("A")
+      expect(application.options["integer"]).to receive("set").with(1)
+      expect(application.options["float"]).to receive("set").with(2.0)
+      expect(application.options["array"]).to receive("set").with(["B", "C"])
+      expect(application.options["choice"]).to receive("set").with("yes")
+      expect(application.options["regexp"]).to receive("set").with("no")
+      expect(application.options["action"]).to receive("execute_action")
       ::Mamertes::Parser.parse(application, ["-b", "-s", "A", "-i", "1", "-f", "2.0", "-a", "B,C", "-c", "yes", "-r", "no", "-A"])
     end
 

@@ -265,19 +265,19 @@ describe Mamertes::Command do
 
   describe "#setup_with" do
     it "should setup required option by calling proper methods" do
-      command.should_receive("name").with("new-command")
-      command.should_receive("application=").with(nil)
+      expect(command).to receive("name").with("new-command")
+      expect(command).to receive("application=").with(nil)
       command.setup_with({name: "new-command", application: nil, invalid: false})
     end
   end
 
   describe "#execute" do
     it "should parse command line" do
-      Kernel.stub(:exit)
-      ::Bovem::Console.any_instance.stub(:write)
+      allow(Kernel).to receive(:exit)
+      allow_any_instance_of(::Bovem::Console).to receive(:write)
 
       args = ["command"]
-      ::Mamertes::Parser.should_receive(:parse).with(command, args)
+      expect(::Mamertes::Parser).to receive(:parse).with(command, args)
       command.execute(args)
     end
 
@@ -312,7 +312,7 @@ describe Mamertes::Command do
         end
       end
 
-      ::Mamertes::Parser.stub(:parse).and_return(nil)
+      allow(::Mamertes::Parser).to receive(:parse).and_return(nil)
       command.execute(args)
       expect(check).to eq(["A", "B", "C"])
     end
@@ -348,7 +348,7 @@ describe Mamertes::Command do
         end
       end
 
-      ::Mamertes::Parser.stub(:parse) do |cmd, args|
+      allow(::Mamertes::Parser).to receive(:parse) do |cmd, args|
         cmd == command ? {name: "subcommand", args: args} : nil
       end
       command.execute(args)
@@ -374,8 +374,8 @@ describe Mamertes::Command do
         end
       end
 
-      ::Mamertes::Parser.stub(:parse).and_return(nil)
-      command.should_receive(:show_help)
+      allow(::Mamertes::Parser).to receive(:parse).and_return(nil)
+      expect(command).to receive(:show_help)
       command.execute(args)
       expect(check).to eq([])
     end
@@ -444,50 +444,51 @@ describe Mamertes::Command do
 
   describe "#show_help" do
     it "should behave differently for application" do
-      Kernel.stub(:exit).and_return(0)
+      allow(Kernel).to receive(:exit).and_return(0)
 
-      application.console.should_receive(:write).with("[NAME]")
-      application.console.should_receive(:write).at_least(1)
+      expect(application.console).to receive(:write).with("[NAME]")
+      expect(application.console).to receive(:write).at_least(1)
       application.show_help
     end
 
     it "should print a banner" do
-      Kernel.stub(:exit).and_return(0)
+      allow(Kernel).to receive(:exit).and_return(0)
 
       command.banner = "BANNER"
-      application.console.should_receive(:write).with("[DESCRIPTION]")
-      application.console.should_receive(:write).at_least(1)
+      expect(application.console).to receive(:write).with("[DESCRIPTION]")
+      expect(application.console).to receive(:write).at_least(1)
       command.show_help
     end
 
     it "should print options" do
-      Kernel.stub(:exit).and_return(0)
+      allow(Kernel).to receive(:exit).and_return(0)
 
       application.option("global", [], {type: String})
       command.option("local")
 
-      application.console.should_receive(:write).with("[GLOBAL OPTIONS]")
-      application.console.should_receive(:write).with("[OPTIONS]")
-      application.console.should_receive(:write).at_least(1)
+      expect(application.console).to receive(:write).with("[GLOBAL OPTIONS]")
+      expect(application.console).to receive(:write).with("[OPTIONS]")
+      expect(application.console).to receive(:write).at_least(1)
       application.show_help
       command.show_help
     end
 
     it "should print subcommands" do
-      Kernel.stub(:exit).and_return(0)
+      allow(Kernel).to receive(:exit).and_return(0)
 
       command.command("subcommand")
-      application.console.should_receive(:write).with("[COMMANDS]")
-      application.console.should_receive(:write).with("[SUBCOMMANDS]")
-      application.console.should_receive(:write).at_least(1)
+      expect(application.console).to receive(:write).with("[COMMANDS]")
+      expect(application.console).to receive(:write).with("[SUBCOMMANDS]")
+      expect(application.console).to receive(:write).at_least(1)
       application.show_help
       command.show_help
     end
 
     it "should exit" do
-      ::Bovem::Console.any_instance.stub(:write)
+      allow(Kernel).to receive(:puts)
+      allow(::Bovem::Console.any_instance).to receive(:write)
 
-      Kernel.should_receive(:exit).with(0).exactly(1)
+      expect(Kernel).to receive(:exit).with(0).exactly(1)
       application.show_help
     end
   end
