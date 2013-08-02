@@ -203,16 +203,4 @@ module Mamertes
         command.arguments.collect {|c| c.split(":") }.flatten.collect(&:strip).select(&:present?)
       end
   end
-
-  # Initializes a new Mamertes application.
-  #
-  # In options, you can override the command line arguments with `:__args__`, and you can skip execution by specifying `run: false`.
-  #
-  # @see Command#setup_with
-  #
-  # @param options [Hash] The settings to initialize the application with.
-  # @return [Application] The created application.
-  def self.App(options = {}, &block)
-    Mamertes::Application.create(options, &block)
-  end
 end

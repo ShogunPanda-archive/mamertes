@@ -82,9 +82,13 @@ describe Mamertes::Command do
       valid = Proc.new{|a| puts "OK" }
 
       expect(command.before).to be_nil
+      expect(command.before(1)).to be_nil
       expect(command.before { puts "OK" }).to be_nil
       expect(command.before {|a, b| puts "OK" }).to be_nil
+      expect(command.before(:method)).to eq(:method)
+      expect(command.action("METHOD")).to eq("METHOD")
       expect(command.before(&valid)).to eq(valid)
+      expect(command.before("METHOD", &valid)).to eq("METHOD")
     end
   end
 
@@ -93,9 +97,13 @@ describe Mamertes::Command do
       valid = Proc.new{|a| puts "OK" }
 
       expect(command.action).to be_nil
+      expect(command.action(1)).to be_nil
       expect(command.action { puts "OK" }).to be_nil
       expect(command.action {|a, b| puts "OK" }).to be_nil
+      expect(command.action(:method)).to eq(:method)
+      expect(command.action("METHOD")).to eq("METHOD")
       expect(command.action(&valid)).to eq(valid)
+      expect(command.action("METHOD", &valid)).to eq("METHOD")
     end
   end
 
@@ -104,9 +112,13 @@ describe Mamertes::Command do
       valid = Proc.new{|a| puts "OK" }
 
       expect(command.after).to be_nil
+      expect(command.after(1)).to be_nil
       expect(command.after { puts "OK" }).to be_nil
       expect(command.after {|a, b| puts "OK" }).to be_nil
+      expect(command.after(:method)).to eq(:method)
+      expect(command.after("METHOD")).to eq("METHOD")
       expect(command.after(&valid)).to eq(valid)
+      expect(command.after("METHOD", &valid)).to eq("METHOD")
     end
   end 
 
@@ -311,6 +323,25 @@ describe Mamertes::Command do
           check << "F"
         end
       end
+
+      allow(::Mamertes::Parser).to receive(:parse).and_return(nil)
+      command.execute(args)
+      expect(check).to eq(["A", "B", "C"])
+    end
+
+    it "should execute the hooks even they are methods" do
+      check = []
+      child = []
+      args = ["command"]
+
+      allow(command).to receive(:application).and_return(Object.new)
+      allow(command.application).to receive(:action_before) { check << "A" }
+      allow(command.application).to receive("action_perform") { check << "B" }
+      allow(command.application).to receive(:action_after) { check << "C" }
+
+      command.before(:action_before)
+      command.action("action_perform")
+      command.after(:action_after)
 
       allow(::Mamertes::Parser).to receive(:parse).and_return(nil)
       command.execute(args)

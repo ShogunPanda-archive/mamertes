@@ -105,14 +105,14 @@ describe Mamertes::Application do
 
   describe ".create" do
     it "should complain about a missing block" do
-      expect { ::Mamertes.App }.to raise_error(::Mamertes::Error)
+      expect { ::Mamertes::Application.create }.to raise_error(::Mamertes::Error)
     end
 
     it "should print errors" do
       allow(::Mamertes::Application).to receive(:create_application).and_raise(ArgumentError.new("ERROR"))
       expect(Kernel).to receive(:puts).with("ERROR")
       expect(Kernel).to receive(:exit).with(1)
-      ::Mamertes.App {}
+      ::Mamertes::Application.create(__args__: []) {}
     end
 
     it "should create a default application" do
@@ -130,7 +130,7 @@ describe Mamertes::Application do
     it "should execute the block" do
       allow_any_instance_of(::Bovem::Console).to receive(:write)
       allow(Kernel).to receive(:exit)
-      options = {name: "OK"}
+      options = {name: "OK", __args__: []}
       check = false
 
       application = ::Mamertes::Application.create(options) { check = true }
@@ -142,12 +142,16 @@ describe Mamertes::Application do
       args = []
 
       application = ::Mamertes::Application.create do
+        option("require", [], {})
+        option("format", [], {})
+        option("example", [], {})
+
         action do |command|
           args = command.arguments.join("-")
         end
       end
 
-      expect(args).to eq(ARGV.join("-"))
+      expect(args).to eq(ARGV.reject {|a| a =~ /^--/ }.join("-"))
     end
 
     it "can override arguments" do
@@ -173,12 +177,5 @@ describe Mamertes::Application do
 
       expect(args).to eq([])
     end
-  end
-end
-
-describe "Mamertes::App" do
-  it "should forward to Mamertes::Application.create" do
-    expect(::Mamertes::Application).to receive(:create).with("OPTIONS")
-    ::Mamertes.App("OPTIONS")
   end
 end

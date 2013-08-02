@@ -394,9 +394,11 @@ module Mamertes
     #
     # This hook is only executed if no subcommand is executed.
     #
-    # @return [Proc|NilClass] The before hook of this command.
-    def before(&hook)
-      @before = hook if block_given? && hook.arity == 1
+    # @param method [String|Symbol|NilClass] The method of the application to hookup.
+    # @param hook [Proc] The block to hookup if method is not provided.
+    # @return [Proc|Symbol|NilClass] The before hook of this command.
+    def before(method = nil, &hook)
+      @before = assign_hook(method, &hook) if method || hook
       @before
     end
 
@@ -404,9 +406,11 @@ module Mamertes
     #
     # A command action is only executed if no subcommand is executed.
     #
-    # @return [Proc|NilClass] The action of this command.
-    def action(&hook)
-      @action = hook if block_given? && hook.arity == 1
+    # @param method [String|Symbol|NilClass] The method of the application to hookup.
+    # @param hook [Proc] The block to hookup if method is not provided.
+    # @return [Proc|Symbol|NilClass] The action of this command.
+    def action(method = nil, &hook)
+      @action = assign_hook(method, &hook) if method || hook
       @action
     end
 
@@ -414,9 +418,11 @@ module Mamertes
     #
     # This hook is only executed if no subcommand is executed.
     #
-    # @return [Proc|NilClass] The after hook of this command.
-    def after(&hook)
-      @after = hook if block_given? && hook.arity == 1
+    # @param method [String|Symbol|NilClass] The method of the application to hookup.
+    # @param hook [Proc] The block to hookup if method is not provided.
+    # @return [Proc|Symbol|NilClass] The after hook of this command.
+    def after(method = nil, &hook)
+      @after = assign_hook(method, &hook) if method || hook
       @after
     end
 
@@ -469,7 +475,7 @@ module Mamertes
       self
     end
 
-    # Execute this command, running its action or a subcommand.
+    # Executes this command, running its action or a subcommand.
     #
     # @param args [Array] The arguments to pass to the command.
     def execute(args)
@@ -479,25 +485,45 @@ module Mamertes
         commands[subcommand[:name]].execute(subcommand[:args])
       elsif action then # Run our action
         # Run the before hook
-        before.call(self) if before
+        execute_hook(before)
 
         # Run the action
-        action.call(self) if action
+        execute_hook(action)
 
         # Run the after hook
-        after.call(self) if after
+        execute_hook(after)
       else # Show the help
         show_help
       end
     end
 
     private
-      # Setup the application localization.
+      # Setups the application localization.
       #
       # @param options [Hash] The settings for this command.
       def setup_i18n(options)
         i18n_setup(:mamertes, ::File.absolute_path(::Pathname.new(::File.dirname(__FILE__)).to_s + "/../../locales/"))
         self.i18n = (options[:locale]).ensure_string
+      end
+
+      # Assigns a hook to a command.
+      #
+      # @param method [String|Symbol|NilClass] The method of the application to hookup.
+      # @param block [Proc] The block to hookup if method is not provided.
+      def assign_hook(method, &hook)
+        assigned = nil
+        assigned = method if method.is_a?(::String) || method.is_a?(::Symbol)
+        assigned = hook if !assigned && hook && hook.arity == 1
+        assigned
+      end
+
+      # Executes a hook.
+      #
+      # @param hook [String|Symbol|Proc|NilClass] The hook to execute.
+      def execute_hook(hook)
+        if hook then
+          hook.is_a?(::String) || hook.is_a?(::Symbol) ? application.send(hook, self) : hook.call(self)
+        end
       end
   end
 end

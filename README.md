@@ -21,7 +21,7 @@ This application:
 require "rubygems"
 require "mamertes"
 
-Mamertes.App(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
+Mamertes::Application.create(name: "Mamertes Usage Test", version: "1.0.0", description: "An example modelled like a TODO application", banner: "Do you like Mamertes?") do
   option(:storage, ["f", "file"], {type: String, help: "The file where store TODOs to.", meta: "FILE"})
 
   command :list do
