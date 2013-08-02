@@ -84,7 +84,7 @@ This application:</p>
 require &#8220;rubygems&#8221;
 require &#8220;mamertes&#8221;</p>
 
-<p>Mamertes.App(name: &#8220;Mamertes Usage Test&#8221;, version: &#8220;1.0.0&#8221;, description: &#8220;An example modelled like a TODO application&#8221;, banner: &#8220;Do you like Mamertes?&#8221;) do
+<p>Mamertes::Application.create(name: &#8220;Mamertes Usage Test&#8221;, version: &#8220;1.0.0&#8221;, description: &#8220;An example modelled like a TODO application&#8221;, banner: &#8220;Do you like Mamertes?&#8221;) do
   option(:storage, [&#8220;f&#8221;, &#8220;file&#8221;], String, help: &#8220;The file where store TODOs to.&#8221;, meta: &#8220;FILE&#8221;)</p>
 
 <p>command :list do
@@ -189,7 +189,7 @@ $ ./test help manage
 </div></div>
 
     <div id="footer">
-  Generated on Fri Aug  2 12:22:35 2013 by
+  Generated on Fri Aug  2 15:10:29 2013 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.8.6.2 (ruby-1.9.3).
 </div>
