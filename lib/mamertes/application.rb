@@ -191,7 +191,7 @@ module Mamertes
       # @param options [Hash] The options of the application.
       # @return [Application] The new application.
       def self.create_application(run, args, options, &block)
-        application = ::Mamertes::Application.new(options, &block)
+        application = new(options, &block)
         application.execute(args) if application && run
         application
       end
