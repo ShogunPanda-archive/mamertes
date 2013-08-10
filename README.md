@@ -11,7 +11,7 @@ http://sw.cow.tc/mamertes
 
 http://rdoc.info/gems/mamertes
 
-## Important notice.
+## END OF DEVELOPMENT NOTICE
 
 # This gem has been discontinued. 
 
