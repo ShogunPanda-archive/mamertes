@@ -7,8 +7,6 @@
 
 Yet another command line manager.
 
-http://sw.cow.tc/mamertes
-
 http://rdoc.info/gems/mamertes
 
 ## END OF DEVELOPMENT NOTICE
