@@ -13,7 +13,7 @@ http://rdoc.info/gems/mamertes
 
 # This gem has been discontinued. 
 
-### Since version 3.0.0, all its functionalities are merged in [bovem](http://sw.cow.tc/bovem).
+### Since version 3.0.0, all its functionalities are merged in [bovem](http://sw.cowtech.it/bovem).
 
 ## Copyright
 

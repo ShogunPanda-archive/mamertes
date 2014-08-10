@@ -11,7 +11,7 @@ Gem::Specification.new do |gem|
   gem.version = Mamertes::Version::STRING
   gem.authors = ["Shogun"]
   gem.email = ["shogun@cowtech.it"]
-  gem.homepage = "http://sw.cow.tc/mamertes"
+  gem.homepage = "http://sw.cowtech.it/mamertes"
   gem.summary = %q{Yet another command line manager.}
   gem.description = %q{Yet another command line manager.}
 
